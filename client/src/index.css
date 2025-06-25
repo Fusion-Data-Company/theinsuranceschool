@@ -54,7 +54,7 @@
     border-radius: 2rem;
     backdrop-filter: blur(24px) saturate(140%);
     border: 1.5px solid hsla(0, 0%, 100%, 0.10);
-    box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.25), 0 0 36px hsla(355, 100%, 50%, 0.31), 0 1px 64px hsla(0, 0%, 0%, 0.7);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
   }
@@ -71,7 +71,7 @@
   .btn-glass {
     border-radius: 1rem;
     border: 1.5px solid hsl(180, 100%, 50%);
-    box-shadow: 0 0 24px hsla(180, 100%, 50%, 0.67), 0 0 32px hsla(355, 100%, 50%, 0.63);
+    box-shadow: 0 4px 20px rgba(0, 255, 247, 0.2), 0 0 40px rgba(255, 69, 58, 0.15);
     color: hsl(0, 0%, 100%);
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -84,7 +84,7 @@
   
   .btn-glass:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 32px hsla(180, 100%, 50%, 0.67), 0 0 48px hsla(355, 100%, 50%, 0.67);
+    box-shadow: 0 8px 25px rgba(0, 255, 247, 0.3), 0 0 50px rgba(255, 69, 58, 0.2);
   }
   
   .card-glass {
@@ -92,7 +92,7 @@
     border-radius: 1.5rem;
     backdrop-filter: blur(24px) saturate(140%);
     border: 1.5px solid hsla(0, 0%, 100%, 0.10);
-    box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.25), 0 0 36px hsla(355, 100%, 50%, 0.31);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -100,7 +100,7 @@
   
   .card-glass:hover {
     transform: translateY(-4px);
-    box-shadow: 0 0 40px hsla(180, 100%, 50%, 0.67), 0 0 60px hsla(355, 100%, 50%, 0.67);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 255, 247, 0.1);
   }
   
   .navbar-glass {

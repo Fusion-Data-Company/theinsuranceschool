@@ -23,7 +23,7 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/">
             <div className="flex items-center space-x-3 cursor-pointer">
-              <div className="w-10 h-10 bg-gradient-to-r from-electric-cyan to-crimson-red rounded-xl flex items-center justify-center animate-pulse-neon">
+              <div className="w-10 h-10 bg-gradient-to-r from-electric-cyan to-crimson-red rounded-xl flex items-center justify-center">
                 <Shield className="w-6 h-6 text-white" />
               </div>
               <div className="flex flex-col">

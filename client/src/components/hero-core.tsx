@@ -25,17 +25,32 @@ export function HeroCore() {
       {/* Animated Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-deep-indigo via-transparent to-electric-cyan opacity-30"></div>
       
-      {/* Dynamic Mouse-Following Spotlight */}
+      {/* Enhanced Mouse-Following Spotlight */}
       <div 
-        className="fixed pointer-events-none z-10 transition-all duration-300 ease-out"
+        className="fixed pointer-events-none z-20 transition-all duration-500 ease-out"
         style={{
-          left: mousePosition.x - 200,
-          top: mousePosition.y - 200,
-          background: `radial-gradient(400px circle at center, rgba(0, 255, 247, 0.15), transparent 70%)`,
-          width: '400px',
-          height: '400px',
+          left: mousePosition.x - 300,
+          top: mousePosition.y - 300,
+          background: `radial-gradient(600px circle at center, rgba(0, 255, 247, 0.08), rgba(255, 69, 58, 0.04) 40%, transparent 70%)`,
+          width: '600px',
+          height: '600px',
           borderRadius: '50%',
-          opacity: isHovered ? 0.8 : 0.3,
+          opacity: isHovered ? 1 : 0.6,
+          filter: 'blur(2px)',
+        }}
+      />
+      
+      {/* Secondary Spotlight Effect */}
+      <div 
+        className="fixed pointer-events-none z-19 transition-all duration-700 ease-out"
+        style={{
+          left: mousePosition.x - 150,
+          top: mousePosition.y - 150,
+          background: `radial-gradient(300px circle at center, rgba(255, 69, 58, 0.06), transparent 60%)`,
+          width: '300px',
+          height: '300px',
+          borderRadius: '50%',
+          opacity: isHovered ? 0.8 : 0.4,
         }}
       />
       
