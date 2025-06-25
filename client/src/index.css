@@ -185,6 +185,14 @@
     background-color: hsl(355, 100%, 50%);
   }
   
+  .bg-royal-blue {
+    background-color: hsl(220, 90%, 55%);
+  }
+  
+  .bg-neon-blue {
+    background-color: hsl(210, 100%, 62%);
+  }
+  
   .bg-black-glass {
     background-color: hsla(225, 15%, 6%, 0.85);
   }
@@ -193,8 +201,28 @@
     border-color: hsl(180, 100%, 50%);
   }
   
-  .border-fuchsia {
-    border-color: hsl(310, 100%, 50%);
+  .border-crimson-red {
+    border-color: hsl(355, 100%, 50%);
+  }
+  
+  .from-royal-blue {
+    --tw-gradient-from: hsl(220, 90%, 55%);
+  }
+  
+  .from-crimson-red {
+    --tw-gradient-from: hsl(355, 100%, 50%);
+  }
+  
+  .to-royal-blue {
+    --tw-gradient-to: hsl(220, 90%, 55%);
+  }
+  
+  .to-neon-blue {
+    --tw-gradient-to: hsl(210, 100%, 62%);
+  }
+  
+  .to-crimson-red {
+    --tw-gradient-to: hsl(355, 100%, 50%);
   }
 }
 
