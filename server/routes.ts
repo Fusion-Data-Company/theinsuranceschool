@@ -18,7 +18,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         method: "POST",
         payload: req.body,
         responseStatus: 200,
-        responseTimeMs: 0, // Will update below
+        responseTime: 0, // Will update below
       });
 
       const {
@@ -103,7 +103,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         method: "POST",
         payload: req.body,
         responseStatus: 200,
-        responseTimeMs: 0,
+        responseTime: 0,
       });
 
       const { query } = req.body;
@@ -123,7 +123,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           qualified: leads.filter(l => l.status === "qualified").length,
           enrolled: leads.filter(l => l.status === "enrolled").length,
         };
-        response = `You have ${data.totalLeads} total leads, with ${data.qualified} qualified and ${data.enrolled} enrolled.`;
+        response = `You have ${(data as any).totalLeads} total leads, with ${(data as any).qualified} qualified and ${(data as any).enrolled} enrolled.`;
       }
 
       if (query.toLowerCase().includes("performance") || query.toLowerCase().includes("conversion")) {
