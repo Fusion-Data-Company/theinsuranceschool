@@ -1,0 +1,121 @@
+Prompt to Replit:
+
+⸻
+
+Update the entire frontend so that every card, button, modal, section, and primary container uses a true glassmorphic, ultra-realistic metallic effect and a high-contrast, vibrant neon color palette—not the default pastel cyberpunk scheme.
+
+Styling instructions:
+	1.	Cards, Modals, Sections:
+	•	Use layered glassmorphism (blur, semi-transparent backgrounds, strong inner/outer drop shadows).
+	•	Add metallic edges using conic/repeating gradients with a chrome/titanium palette.
+	•	On hover, increase the blur, add edge shimmer (CSS keyframes), and a subtle animated neon border.
+	•	Overlay faint animated noise or reflection for realism.
+	2.	Buttons:
+	•	Always use the .btn-glass class, but upgrade with a real neon animated border (box-shadow: 0 0 30px #00ffff, 0 0 60px #ff00e6).
+	•	Shimmer effect should be bright, moving, and multi-directional—visible even on white backgrounds.
+	•	Add a metallic texture by overlaying a subtle SVG/PNG noise pattern.
+	3.	Backgrounds:
+	•	Default to a deep black glass base (rgba(8,10,14,0.85)), not solid black or flat gray.
+	•	Use multi-layered gradients (top-bottom and diagonal) with electric blue, titanium, and neon fuchsia streaks.
+	•	Overlay with low-opacity animated grid lines or soft moving particles for depth.
+	•	Optional: Use Spline for a 3D animated object or scene, blurred and set to mix-blend-mode: lighten behind content.
+	4.	Typography:
+	•	All headings in pure white (#fff), bold, with neon glow text-shadow (0 0 12px #00fff7).
+	•	Subheadings use high-contrast colors only—no gray or pastel.
+	5.	Neon Palette:
+	•	Electric Cyan: #00fff7
+	•	Fuchsia: #ff00e6
+	•	Titanium: #9ea7b8
+	•	Black Glass: rgba(8,10,14,0.85)
+	•	Vibrant Purple: #8e44ec
+	•	Deep Indigo: #130f40
+	•	Neon Magenta: #ff41a3
+	•	White: #fff
+	6.	Overrides:
+	•	Replace DaisyUI and Tailwind cyberpunk theme colors with above palette.
+	•	Explicitly override pastel background, button, and card classes with the neon + metallic variants.
+
+Example CSS snippets for direct inclusion:
+.glass, .card, .modal, .section {
+  background: linear-gradient(135deg, rgba(8,10,14,0.85) 65%, #130f40 100%);
+  border-radius: 2rem;
+  backdrop-filter: blur(24px) saturate(140%);
+  border: 1.5px solid rgba(255,255,255,0.10);
+  box-shadow: 0 0 20px #00fff740, 0 0 36px #ff00e650, 0 1px 64px #000b;
+  position: relative;
+  overflow: hidden;
+}
+.glass:before, .card:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-conic-gradient(from 10deg, #9ea7b8 0 2%, transparent 2% 4%);
+  opacity: 0.11;
+}
+.btn-glass {
+  border-radius: 1rem;
+  border: 1.5px solid #00fff7;
+  box-shadow: 0 0 24px #00fff7aa, 0 0 32px #ff00e6a0;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, #00fff7 10%, #ff00e6 100%);
+  background-size: 200% 200%;
+  animation: shimmer 2.5s linear infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 0 0; }
+  100% { background-position: 200% 0; }
+}
+h1, h2, h3, h4, h5, h6 {
+  color: #fff;
+  text-shadow: 0 0 16px #00fff7, 0 0 32px #ff00e6a0;
+}
+body {
+  background: linear-gradient(135deg, #130f40 30%, #00fff7 130%);
+  min-height: 100vh;
+  background-blend-mode: lighten;
+}
+
+.glass, .card, .modal, .section {
+  background: linear-gradient(135deg, rgba(8,10,14,0.85) 65%, #130f40 100%);
+  border-radius: 2rem;
+  backdrop-filter: blur(24px) saturate(140%);
+  border: 1.5px solid rgba(255,255,255,0.10);
+  box-shadow: 0 0 20px #00fff740, 0 0 36px #ff00e650, 0 1px 64px #000b;
+  position: relative;
+  overflow: hidden;
+}
+.glass:before, .card:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-conic-gradient(from 10deg, #9ea7b8 0 2%, transparent 2% 4%);
+  opacity: 0.11;
+}
+.btn-glass {
+  border-radius: 1rem;
+  border: 1.5px solid #00fff7;
+  box-shadow: 0 0 24px #00fff7aa, 0 0 32px #ff00e6a0;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, #00fff7 10%, #ff00e6 100%);
+  background-size: 200% 200%;
+  animation: shimmer 2.5s linear infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 0 0; }
+  100% { background-position: 200% 0; }
+}
+h1, h2, h3, h4, h5, h6 {
+  color: #fff;
+  text-shadow: 0 0 16px #00fff7, 0 0 32px #ff00e6a0;
+}
+body {
+  background: linear-gradient(135deg, #130f40 30%, #00fff7 130%);
+  min-height: 100vh;
+  background-blend-mode: lighten;
+}

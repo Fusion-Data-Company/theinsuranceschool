@@ -1,0 +1,77 @@
+Prompt to Replit:
+
+⸻
+
+Bring the entire Insurance School Recruiting Annex application to production-ready, enterprise standards. No placeholders, no mockups, no unfinished features. Every visual, form, card, and dashboard component must be real, fully styled, and 100% functional.
+
+1. Remove ALL Placeholders and Dummy Data
+	•	Inspect all pages and remove every “lorem ipsum,” blank state, “coming soon,” or test content.
+	•	If a data-driven component is present, wire it directly to the Postgres database or the real API endpoint.
+	•	All buttons must be live or hidden—never non-functional.
+	•	Remove dead code, temp files, unused components, and outdated assets.
+
+2. Mobile Optimization
+	•	Audit every screen, component, modal, and navbar for mobile usability—target iPhone SE up through iPad Pro and modern Android.
+	•	All cards, forms, and dashboard views must stack and resize gracefully.
+	•	Use Tailwind responsive classes for all layout, padding, and font sizing (sm:, md:, lg:, xl:).
+	•	Interactive elements (buttons, selects) must be large enough for touch, with no hidden or unreachable UI on mobile.
+	•	No horizontal scrolling or clipped content on mobile—test at 320px width.
+	•	Hamburger menu for nav; collapsible sidebars.
+
+3. Endpoint & API Verification
+	•	Test every API endpoint (/webhooks/elevenlabs-call, /webhooks/internal-query, /leads, /analytics, /enrollment, /payments) for:
+	•	Correct HTTP method and response codes.
+	•	Validation of all incoming payloads—no partial or missing fields allowed.
+	•	Graceful error handling with meaningful error messages and logging.
+	•	Response time under 400ms for all main endpoints.
+	•	Simulate webhook calls with Postman and verify DB persistence and UI updates.
+
+4. Data Integrity & Live Connections
+	•	All database connections must use secure environment variables and reject non-auth connections.
+	•	Sanitize, validate, and securely store every incoming field (especially emails, phone numbers, payment data).
+	•	Enforce schema-level constraints: NOT NULL, unique keys, foreign keys for all relationships.
+	•	Re-run with a seeded database to ensure real live data flows end-to-end from voice agent, through webhook, to dashboard and analytics.
+
+5. Internal Agent & Workflow Audit
+	•	Ensure OpenRouter-powered agent can access all expected data (leads, calls, enrollments, payments, agent metrics).
+	•	Agent must handle natural language queries and provide real answers, not canned responses.
+	•	All agent workflows (add lead, update status, fetch analytics) must complete without error and update UI live.
+
+6. Webhook Reliability
+	•	Both main webhooks (/webhooks/elevenlabs-call, /webhooks/internal-query) must:
+	•	Accept valid JSON and reject invalid/partial data.
+	•	Log every hit to webhook_log with timestamp and payload.
+	•	Retry failed calls (if applicable) or log failure reason.
+	•	Respond with correct HTTP status and success/error JSON.
+
+7. Automated & Manual Testing
+	•	Unit and integration tests (frontend and backend) must be present and passing for all core workflows.
+	•	Smoke test: Simulate a real voice call ➔ webhook ➔ DB ➔ dashboard UI ➔ internal query ➔ analytics dashboard ➔ payment trigger.
+	•	All error states should present user-friendly, actionable messages—not raw stack traces or generic errors.
+	•	Automated linting, type-checking (TypeScript, mypy), and code formatting (Prettier/Black).
+
+8. Security & Production Hygiene
+	•	Use HTTPS for all endpoints (even in staging).
+	•	Remove all dev/test credentials and hardcoded keys—use .env exclusively.
+	•	Rate-limit public endpoints and validate all input data.
+	•	Log sensitive errors to secure files, not to the browser.
+	•	No source maps, error overlays, or unminified JS/CSS in production build.
+
+9. Performance & SEO
+	•	Optimize all images, SVGs, and 3D assets for size and lazy load.
+	•	Use preload, prefetch, and efficient code splitting (dynamic import for heavy modules).
+	•	Test Lighthouse scores: Aim for 95+ performance, accessibility, best practices.
+	•	Page titles, meta tags, and OG tags set dynamically based on content.
+
+10. Deployment Verification
+	•	Build with NODE_ENV=production, confirm zero build errors or warnings.
+	•	Confirm docker-compose deploys cleanly with isolated containers and live health checks.
+	•	Monitor server logs for runtime errors after first production hit.
+	•	Document deployment, rollback, and update process in README.md.
+
+Final Instruction:
+	•	Do a final, systematic walkthrough of the whole application as a user, admin, and voice agent.
+	•	If anything does not work, does not look right, is not mobile friendly, or is not connected, fix it now or remove it.
+	•	No feature or page is allowed to ship in a non-functional or placeholder state.
+
+End of prompt.
