@@ -23,7 +23,7 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/">
             <div className="flex items-center space-x-3 cursor-pointer">
-              <div className="w-10 h-10 bg-gradient-to-r from-electric-cyan to-fuchsia rounded-xl flex items-center justify-center animate-pulse-neon">
+              <div className="w-10 h-10 bg-gradient-to-r from-electric-cyan to-crimson-red rounded-xl flex items-center justify-center animate-pulse-neon">
                 <Shield className="w-6 h-6 text-white" />
               </div>
               <div className="flex flex-col">
@@ -52,7 +52,7 @@ export function Navbar() {
             ))}
             
             {/* CTA Button */}
-            <Button className="btn-glass bg-gradient-to-r from-vibrant-purple to-neon-magenta ml-4">
+            <Button className="btn-glass bg-gradient-to-r from-royal-blue to-neon-blue ml-4">
               <Phone className="w-4 h-4 mr-2" />
               Call Center
             </Button>
@@ -92,7 +92,7 @@ export function Navbar() {
             ))}
             
             {/* Mobile CTA */}
-            <Button className="btn-glass bg-gradient-to-r from-vibrant-purple to-neon-magenta w-full mt-4">
+            <Button className="btn-glass bg-gradient-to-r from-royal-blue to-neon-blue w-full mt-4">
               <Phone className="w-4 h-4 mr-2" />
               Call Center
             </Button>

@@ -5,16 +5,47 @@ import { Card } from "@/components/ui/card"
 import { Spotlight } from "@/components/ui/spotlight"
 import { Button } from "@/components/ui/button"
 import { Phone, Rocket, Shield } from "lucide-react"
+import { useState, useEffect } from "react"
  
 export function HeroCore() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background gradient overlay */}
+      {/* Animated Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-deep-indigo via-transparent to-electric-cyan opacity-30"></div>
       
-      <Card className="glass w-full max-w-7xl mx-4 relative overflow-hidden animate-float">
+      {/* Dynamic Mouse-Following Spotlight */}
+      <div 
+        className="fixed pointer-events-none z-10 transition-all duration-300 ease-out"
+        style={{
+          left: mousePosition.x - 200,
+          top: mousePosition.y - 200,
+          background: `radial-gradient(400px circle at center, rgba(0, 255, 247, 0.15), transparent 70%)`,
+          width: '400px',
+          height: '400px',
+          borderRadius: '50%',
+          opacity: isHovered ? 0.8 : 0.3,
+        }}
+      />
+      
+      <Card 
+        className="glass w-full max-w-7xl mx-4 relative overflow-hidden animate-float"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <Spotlight
-          className="-top-40 left-0 md:left-60 md:-top-20 opacity-100"
+          className="-top-40 left-0 md:left-60 md:-top-20 opacity-100 animate-pulse-neon"
           fill="#00fff7"
         />
         
@@ -22,7 +53,7 @@ export function HeroCore() {
           {/* Left content */}
           <div className="flex-1 p-8 md:p-12 relative z-10 flex flex-col justify-center">
             <div className="space-y-6">
-              <div className="inline-flex items-center px-4 py-2 bg-electric-cyan/20 border border-electric-cyan/30 rounded-full text-electric-cyan text-sm font-medium mb-4">
+              <div className="inline-flex items-center px-4 py-2 bg-electric-cyan/20 border border-electric-cyan/30 rounded-full text-electric-cyan text-sm font-medium mb-4 animate-pulse-neon">
                 <Shield className="w-4 h-4 mr-2" />
                 Enterprise-Grade CRM
               </div>
@@ -30,7 +61,7 @@ export function HeroCore() {
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight animate-glow">
                 <span className="text-electric-cyan">Insurance</span>{" "}
                 <span className="text-white">School</span>{" "}
-                <span className="text-fuchsia">Recruiting</span>{" "}
+                <span className="text-crimson-red">Recruiting</span>{" "}
                 <span className="text-white">Annex</span>
               </h1>
               
@@ -40,40 +71,55 @@ export function HeroCore() {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                <Button className="btn-glass text-lg px-8 py-4">
+                <Button className="btn-glass text-lg px-8 py-4 hover:scale-105 transition-transform">
                   <Rocket className="mr-3 h-6 w-6" />
                   Start Your iPower Move
                 </Button>
-                <Button className="btn-glass bg-gradient-to-r from-vibrant-purple to-neon-magenta text-lg px-8 py-4">
+                <Button className="btn-glass bg-gradient-to-r from-royal-blue to-neon-blue text-lg px-8 py-4 hover:scale-105 transition-transform">
                   <Phone className="mr-3 h-6 w-6" />
                   Call Now: (555) 123-4567
                 </Button>
               </div>
               
               <div className="grid grid-cols-3 gap-6 pt-8">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-electric-cyan">247</div>
+                <div className="text-center p-4 card-glass hover:scale-105 transition-transform">
+                  <div className="text-2xl font-bold text-electric-cyan animate-glow">247</div>
                   <div className="text-sm text-gray-400">Active Leads</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-fuchsia">94.2%</div>
+                <div className="text-center p-4 card-glass hover:scale-105 transition-transform">
+                  <div className="text-2xl font-bold text-crimson-red animate-glow">94.2%</div>
                   <div className="text-sm text-gray-400">AI Success Rate</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-vibrant-purple">$2.4M</div>
+                <div className="text-center p-4 card-glass hover:scale-105 transition-transform">
+                  <div className="text-2xl font-bold text-royal-blue animate-glow">$2.4M</div>
                   <div className="text-sm text-gray-400">Monthly Revenue</div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right content - 3D Scene */}
-          <div className="flex-1 relative">
+          {/* Right content - Interactive 3D Scene */}
+          <div 
+            className="flex-1 relative group cursor-pointer"
+            style={{
+              transform: isHovered ? 'scale(1.02)' : 'scale(1)',
+              transition: 'transform 0.3s ease-out',
+            }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-electric-cyan/20 to-crimson-red/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
             <SplineScene 
               scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full opacity-80"
+              className="w-full h-full opacity-80 group-hover:opacity-100 transition-opacity duration-300"
             />
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-black-glass/50"></div>
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-black-glass/30 group-hover:to-black-glass/10 transition-all duration-300"></div>
+            
+            {/* Interactive Glow Effect */}
+            <div 
+              className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              style={{
+                background: `radial-gradient(circle at ${isHovered ? '50%' : '75%'} 50%, rgba(0, 255, 247, 0.2), transparent 60%)`,
+              }}
+            />
           </div>
         </div>
       </Card>

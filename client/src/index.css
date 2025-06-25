@@ -136,7 +136,7 @@
   
   h1, h2, h3, h4, h5, h6 {
     color: hsl(0, 0%, 100%);
-    text-shadow: 0 0 16px hsl(180, 100%, 50%), 0 0 32px hsla(310, 100%, 50%, 0.63);
+    text-shadow: 0 0 16px hsl(180, 100%, 50%), 0 0 32px hsla(355, 100%, 50%, 0.63);
   }
 }
 
@@ -214,8 +214,8 @@
 }
 
 @keyframes glow {
-  0% { text-shadow: 0 0 16px hsl(180, 100%, 50%), 0 0 32px hsla(310, 100%, 50%, 0.63); }
-  100% { text-shadow: 0 0 24px hsl(180, 100%, 50%), 0 0 48px hsl(310, 100%, 50%); }
+  0% { text-shadow: 0 0 16px hsl(180, 100%, 50%), 0 0 32px hsla(355, 100%, 50%, 0.63); }
+  100% { text-shadow: 0 0 24px hsl(180, 100%, 50%), 0 0 48px hsl(355, 100%, 50%); }
 }
 
 /* Mobile responsiveness */
