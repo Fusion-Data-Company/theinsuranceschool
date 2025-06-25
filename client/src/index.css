@@ -26,12 +26,12 @@
   
   /* Cyberpunk custom colors */
   --electric-cyan: hsl(180, 100%, 50%);
-  --fuchsia: hsl(310, 100%, 50%);
+  --crimson-red: hsl(355, 100%, 50%);
   --titanium: hsl(214, 15%, 66%);
   --black-glass: hsla(225, 15%, 6%, 0.85);
-  --vibrant-purple: hsl(262, 83%, 58%);
+  --royal-blue: hsl(220, 90%, 55%);
   --deep-indigo: hsl(236, 61%, 16%);
-  --neon-magenta: hsl(327, 100%, 62%);
+  --neon-blue: hsl(210, 100%, 62%);
 }
 
 @layer base {
@@ -54,7 +54,7 @@
     border-radius: 2rem;
     backdrop-filter: blur(24px) saturate(140%);
     border: 1.5px solid hsla(0, 0%, 100%, 0.10);
-    box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.25), 0 0 36px hsla(310, 100%, 50%, 0.31), 0 1px 64px hsla(0, 0%, 0%, 0.7);
+    box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.25), 0 0 36px hsla(355, 100%, 50%, 0.31), 0 1px 64px hsla(0, 0%, 0%, 0.7);
     position: relative;
     overflow: hidden;
   }
@@ -71,11 +71,11 @@
   .btn-glass {
     border-radius: 1rem;
     border: 1.5px solid hsl(180, 100%, 50%);
-    box-shadow: 0 0 24px hsla(180, 100%, 50%, 0.67), 0 0 32px hsla(310, 100%, 50%, 0.63);
+    box-shadow: 0 0 24px hsla(180, 100%, 50%, 0.67), 0 0 32px hsla(355, 100%, 50%, 0.63);
     color: hsl(0, 0%, 100%);
     font-weight: 700;
     letter-spacing: 0.06em;
-    background: linear-gradient(135deg, hsl(180, 100%, 50%) 10%, hsl(310, 100%, 50%) 100%);
+    background: linear-gradient(135deg, hsl(180, 100%, 50%) 10%, hsl(355, 100%, 50%) 100%);
     background-size: 200% 200%;
     animation: shimmer 2.5s linear infinite;
     padding: 12px 24px;
@@ -84,7 +84,7 @@
   
   .btn-glass:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 32px hsla(180, 100%, 50%, 0.67), 0 0 48px hsla(310, 100%, 50%, 0.67);
+    box-shadow: 0 0 32px hsla(180, 100%, 50%, 0.67), 0 0 48px hsla(355, 100%, 50%, 0.67);
   }
   
   .card-glass {
@@ -92,7 +92,7 @@
     border-radius: 1.5rem;
     backdrop-filter: blur(24px) saturate(140%);
     border: 1.5px solid hsla(0, 0%, 100%, 0.10);
-    box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.25), 0 0 36px hsla(310, 100%, 50%, 0.31);
+    box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.25), 0 0 36px hsla(355, 100%, 50%, 0.31);
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -100,7 +100,7 @@
   
   .card-glass:hover {
     transform: translateY(-4px);
-    box-shadow: 0 0 40px hsla(180, 100%, 50%, 0.67), 0 0 60px hsla(310, 100%, 50%, 0.67);
+    box-shadow: 0 0 40px hsla(180, 100%, 50%, 0.67), 0 0 60px hsla(355, 100%, 50%, 0.67);
   }
   
   .navbar-glass {
@@ -161,28 +161,28 @@
     color: hsl(180, 100%, 50%);
   }
   
-  .text-fuchsia {
-    color: hsl(310, 100%, 50%);
+  .text-crimson-red {
+    color: hsl(355, 100%, 50%);
   }
   
   .text-titanium {
     color: hsl(214, 15%, 66%);
   }
   
-  .text-vibrant-purple {
-    color: hsl(262, 83%, 58%);
+  .text-royal-blue {
+    color: hsl(220, 90%, 55%);
   }
   
-  .text-neon-magenta {
-    color: hsl(327, 100%, 62%);
+  .text-neon-blue {
+    color: hsl(210, 100%, 62%);
   }
   
   .bg-electric-cyan {
     background-color: hsl(180, 100%, 50%);
   }
   
-  .bg-fuchsia {
-    background-color: hsl(310, 100%, 50%);
+  .bg-crimson-red {
+    background-color: hsl(355, 100%, 50%);
   }
   
   .bg-black-glass {
@@ -204,8 +204,8 @@
 }
 
 @keyframes pulse-neon {
-  0% { box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.25), 0 0 36px hsla(310, 100%, 50%, 0.31); }
-  100% { box-shadow: 0 0 40px hsla(180, 100%, 50%, 0.67), 0 0 60px hsla(310, 100%, 50%, 0.67); }
+  0% { box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.25), 0 0 36px hsla(355, 100%, 50%, 0.31); }
+  100% { box-shadow: 0 0 40px hsla(180, 100%, 50%, 0.67), 0 0 60px hsla(355, 100%, 50%, 0.67); }
 }
 
 @keyframes float {
