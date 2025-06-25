@@ -1,18 +1,28 @@
-import Spline from '@splinetool/react-spline';
+'use client'
+
+import { Suspense, lazy } from 'react'
 import { cn } from '@/lib/utils';
 
+const Spline = lazy(() => import('@splinetool/react-spline'))
+
 interface SplineSceneProps {
-  scene: string;
-  className?: string;
+  scene: string
+  className?: string
 }
 
 export function SplineScene({ scene, className }: SplineSceneProps) {
   return (
-    <div className={cn("w-full h-full", className)}>
-      <Spline 
+    <Suspense 
+      fallback={
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+        </div>
+      }
+    >
+      <Spline
         scene={scene}
-        style={{ width: '100%', height: '100%' }}
+        className={cn("w-full h-full", className)}
       />
-    </div>
-  );
+    </Suspense>
+  )
 }

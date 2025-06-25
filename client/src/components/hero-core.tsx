@@ -25,34 +25,7 @@ export function HeroCore() {
       {/* Animated Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-deep-indigo via-transparent to-electric-cyan opacity-30"></div>
       
-      {/* Enhanced Mouse-Following Spotlight */}
-      <div 
-        className="fixed pointer-events-none z-20 transition-all duration-500 ease-out"
-        style={{
-          left: mousePosition.x - 300,
-          top: mousePosition.y - 300,
-          background: `radial-gradient(600px circle at center, rgba(0, 255, 247, 0.08), rgba(255, 69, 58, 0.04) 40%, transparent 70%)`,
-          width: '600px',
-          height: '600px',
-          borderRadius: '50%',
-          opacity: isHovered ? 1 : 0.6,
-          filter: 'blur(2px)',
-        }}
-      />
-      
-      {/* Secondary Spotlight Effect */}
-      <div 
-        className="fixed pointer-events-none z-19 transition-all duration-700 ease-out"
-        style={{
-          left: mousePosition.x - 150,
-          top: mousePosition.y - 150,
-          background: `radial-gradient(300px circle at center, rgba(255, 69, 58, 0.06), transparent 60%)`,
-          width: '300px',
-          height: '300px',
-          borderRadius: '50%',
-          opacity: isHovered ? 0.8 : 0.4,
-        }}
-      />
+
       
       <Card 
         className="glass w-full max-w-7xl mx-4 relative overflow-hidden animate-float"
@@ -61,7 +34,6 @@ export function HeroCore() {
       >
         <Spotlight
           className="-top-40 left-0 md:left-60 md:-top-20"
-          fill="#00fff7"
         />
         
         <div className="flex flex-col lg:flex-row h-full min-h-[600px]">
@@ -85,16 +57,7 @@ export function HeroCore() {
                 Transform your insurance education business with cutting-edge technology.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                <Button className="btn-glass text-lg px-8 py-4 hover:scale-105 transition-transform">
-                  <Rocket className="mr-3 h-6 w-6" />
-                  Start Your iPower Move
-                </Button>
-                <Button className="btn-glass bg-gradient-to-r from-royal-blue to-neon-blue text-lg px-8 py-4 hover:scale-105 transition-transform">
-                  <Phone className="mr-3 h-6 w-6" />
-                  Call Now: (555) 123-4567
-                </Button>
-              </div>
+
               
               <div className="grid grid-cols-3 gap-6 pt-8">
                 <div className="text-center p-4 card-glass hover:scale-105 transition-transform">

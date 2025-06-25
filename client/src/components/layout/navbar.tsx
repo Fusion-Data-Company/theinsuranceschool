@@ -52,7 +52,7 @@ export function Navbar() {
             ))}
             
             {/* CTA Button */}
-            <Button className="btn-glass bg-gradient-to-r from-royal-blue to-neon-blue ml-4">
+            <Button className="btn-glass ml-4">
               <Phone className="w-4 h-4 mr-2" />
               Call Center
             </Button>
@@ -92,7 +92,7 @@ export function Navbar() {
             ))}
             
             {/* Mobile CTA */}
-            <Button className="btn-glass bg-gradient-to-r from-royal-blue to-neon-blue w-full mt-4">
+            <Button className="btn-glass w-full mt-4">
               <Phone className="w-4 h-4 mr-2" />
               Call Center
             </Button>
