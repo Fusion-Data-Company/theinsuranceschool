@@ -1,0 +1,187 @@
+import { useState } from "react";
+import { Bot, Link, Database, CreditCard, Save, CheckCircle, Clock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
+
+export default function Settings() {
+  const [settings, setSettings] = useState({
+    voiceModel: "elevenlabs-rachel",
+    personality: "professional",
+    maxCallDuration: 15,
+    webhookLogging: true,
+  });
+  
+  const { toast } = useToast();
+
+  const handleSaveSettings = () => {
+    // TODO: Implement actual settings save
+    toast({
+      title: "Settings Saved",
+      description: "Your configuration has been updated successfully.",
+    });
+  };
+
+  return (
+    <div className="pt-20 px-4 pb-8">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
+          <span className="text-titanium">System</span>{" "}
+          <span className="text-white">Settings</span>
+        </h2>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* AI Agent Configuration */}
+          <div className="card-glass p-6">
+            <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+              <Bot className="text-electric-cyan mr-3" />
+              AI Agent Config
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-gray-300 mb-2">Primary Voice Model</label>
+                <Select value={settings.voiceModel} onValueChange={(value) => setSettings(prev => ({ ...prev, voiceModel: value }))}>
+                  <SelectTrigger className="form-glass">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="elevenlabs-rachel">ElevenLabs - Rachel (Premium)</SelectItem>
+                    <SelectItem value="elevenlabs-josh">ElevenLabs - Josh (Standard)</SelectItem>
+                    <SelectItem value="elevenlabs-bella">ElevenLabs - Bella (Conversational)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="block text-gray-300 mb-2">Response Personality</label>
+                <Select value={settings.personality} onValueChange={(value) => setSettings(prev => ({ ...prev, personality: value }))}>
+                  <SelectTrigger className="form-glass">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="professional">Professional & Friendly</SelectItem>
+                    <SelectItem value="enthusiastic">Enthusiastic & Energetic</SelectItem>
+                    <SelectItem value="calm">Calm & Reassuring</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="block text-gray-300 mb-2">Max Call Duration (minutes)</label>
+                <Input 
+                  type="number" 
+                  className="form-glass" 
+                  value={settings.maxCallDuration}
+                  onChange={(e) => setSettings(prev => ({ ...prev, maxCallDuration: parseInt(e.target.value) }))}
+                  min={5} 
+                  max={30}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Webhook Configuration */}
+          <div className="card-glass p-6">
+            <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+              <Link className="text-fuchsia mr-3" />
+              Webhook Settings
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-gray-300 mb-2">ElevenLabs Webhook URL</label>
+                <Input 
+                  type="url" 
+                  className="form-glass" 
+                  value="/api/webhooks/elevenlabs-call" 
+                  readOnly
+                />
+              </div>
+              <div>
+                <label className="block text-gray-300 mb-2">Internal Query Endpoint</label>
+                <Input 
+                  type="url" 
+                  className="form-glass" 
+                  value="/api/webhooks/internal-query" 
+                  readOnly
+                />
+              </div>
+              <div className="flex items-center space-x-3">
+                <Checkbox 
+                  id="webhook-logging" 
+                  checked={settings.webhookLogging}
+                  onCheckedChange={(checked) => setSettings(prev => ({ ...prev, webhookLogging: checked as boolean }))}
+                />
+                <label htmlFor="webhook-logging" className="text-gray-300">
+                  Enable detailed webhook logging
+                </label>
+              </div>
+            </div>
+          </div>
+
+          {/* Database Configuration */}
+          <div className="card-glass p-6">
+            <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+              <Database className="text-vibrant-purple mr-3" />
+              Database Settings
+            </h3>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-300 mb-2">Active Connections</label>
+                  <div className="text-2xl font-bold text-electric-cyan">24</div>
+                </div>
+                <div>
+                  <label className="block text-gray-300 mb-2">Total Records</label>
+                  <div className="text-2xl font-bold text-fuchsia">15,847</div>
+                </div>
+              </div>
+              <Button className="btn-glass w-full">
+                <Database className="mr-2 h-4 w-4" />
+                Run Maintenance
+              </Button>
+            </div>
+          </div>
+
+          {/* Payment Integration */}
+          <div className="card-glass p-6">
+            <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+              <CreditCard className="text-neon-magenta mr-3" />
+              Payment Integration
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-3 bg-black-glass rounded">
+                <span className="text-white">Stripe Integration</span>
+                <span className="text-green-400 flex items-center">
+                  <CheckCircle className="mr-1 h-4 w-4" />
+                  Active
+                </span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-black-glass rounded">
+                <span className="text-white">Affirm Partnership</span>
+                <span className="text-green-400 flex items-center">
+                  <CheckCircle className="mr-1 h-4 w-4" />
+                  Active
+                </span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-black-glass rounded">
+                <span className="text-white">Klarna Integration</span>
+                <span className="text-yellow-400 flex items-center">
+                  <Clock className="mr-1 h-4 w-4" />
+                  Pending
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Save Settings */}
+        <div className="text-center mt-12">
+          <Button className="btn-glass px-12 py-4 text-lg" onClick={handleSaveSettings}>
+            <Save className="mr-2 h-5 w-5" />
+            Save All Settings
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}

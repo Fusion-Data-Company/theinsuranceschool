@@ -1,0 +1,232 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(180, 100%, 50%);
+  --primary-foreground: hsl(240, 10%, 3.9%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+  
+  /* Cyberpunk custom colors */
+  --electric-cyan: hsl(180, 100%, 50%);
+  --fuchsia: hsl(310, 100%, 50%);
+  --titanium: hsl(214, 15%, 66%);
+  --black-glass: hsla(225, 15%, 6%, 0.85);
+  --vibrant-purple: hsl(262, 83%, 58%);
+  --deep-indigo: hsl(236, 61%, 16%);
+  --neon-magenta: hsl(327, 100%, 62%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background: linear-gradient(135deg, hsl(236, 61%, 16%) 30%, hsl(180, 100%, 50%) 130%);
+    min-height: 100vh;
+    background-blend-mode: lighten;
+    color: hsl(0, 0%, 98%);
+  }
+}
+
+@layer components {
+  .glass {
+    background: linear-gradient(135deg, hsla(225, 15%, 6%, 0.85) 65%, hsl(236, 61%, 16%) 100%);
+    border-radius: 2rem;
+    backdrop-filter: blur(24px) saturate(140%);
+    border: 1.5px solid hsla(0, 0%, 100%, 0.10);
+    box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.25), 0 0 36px hsla(310, 100%, 50%, 0.31), 0 1px 64px hsla(0, 0%, 0%, 0.7);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-conic-gradient(from 10deg, hsl(214, 15%, 66%) 0 2%, transparent 2% 4%);
+    opacity: 0.11;
+  }
+  
+  .btn-glass {
+    border-radius: 1rem;
+    border: 1.5px solid hsl(180, 100%, 50%);
+    box-shadow: 0 0 24px hsla(180, 100%, 50%, 0.67), 0 0 32px hsla(310, 100%, 50%, 0.63);
+    color: hsl(0, 0%, 100%);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    background: linear-gradient(135deg, hsl(180, 100%, 50%) 10%, hsl(310, 100%, 50%) 100%);
+    background-size: 200% 200%;
+    animation: shimmer 2.5s linear infinite;
+    padding: 12px 24px;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-glass:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 32px hsla(180, 100%, 50%, 0.67), 0 0 48px hsla(310, 100%, 50%, 0.67);
+  }
+  
+  .card-glass {
+    background: linear-gradient(135deg, hsla(225, 15%, 6%, 0.85) 65%, hsl(236, 61%, 16%) 100%);
+    border-radius: 1.5rem;
+    backdrop-filter: blur(24px) saturate(140%);
+    border: 1.5px solid hsla(0, 0%, 100%, 0.10);
+    box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.25), 0 0 36px hsla(310, 100%, 50%, 0.31);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .card-glass:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 40px hsla(180, 100%, 50%, 0.67), 0 0 60px hsla(310, 100%, 50%, 0.67);
+  }
+  
+  .navbar-glass {
+    background: linear-gradient(135deg, hsla(225, 15%, 6%, 0.95) 65%, hsla(236, 61%, 16%, 0.9) 100%);
+    backdrop-filter: blur(20px) saturate(140%);
+    border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+  }
+  
+  .stat-card {
+    background: linear-gradient(135deg, hsla(225, 15%, 6%, 0.9) 65%, hsla(236, 61%, 16%, 0.8) 100%);
+    border: 1px solid hsla(180, 100%, 50%, 0.3);
+    border-radius: 1rem;
+    backdrop-filter: blur(16px);
+  }
+  
+  .form-glass {
+    background: hsla(225, 15%, 6%, 0.8);
+    border: 1px solid hsla(0, 0%, 100%, 0.2);
+    border-radius: 0.5rem;
+    backdrop-filter: blur(12px);
+    color: hsl(0, 0%, 100%);
+  }
+  
+  .form-glass:focus {
+    border-color: hsl(180, 100%, 50%);
+    box-shadow: 0 0 0 2px hsla(180, 100%, 50%, 0.2);
+    outline: none;
+  }
+  
+  .form-glass::placeholder {
+    color: hsla(0, 0%, 100%, 0.5);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: hsl(0, 0%, 100%);
+    text-shadow: 0 0 16px hsl(180, 100%, 50%), 0 0 32px hsla(310, 100%, 50%, 0.63);
+  }
+}
+
+@layer utilities {
+  .animate-shimmer {
+    animation: shimmer 2.5s linear infinite;
+  }
+  
+  .animate-pulse-neon {
+    animation: pulse-neon 2s ease-in-out infinite alternate;
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  .text-electric-cyan {
+    color: hsl(180, 100%, 50%);
+  }
+  
+  .text-fuchsia {
+    color: hsl(310, 100%, 50%);
+  }
+  
+  .text-titanium {
+    color: hsl(214, 15%, 66%);
+  }
+  
+  .text-vibrant-purple {
+    color: hsl(262, 83%, 58%);
+  }
+  
+  .text-neon-magenta {
+    color: hsl(327, 100%, 62%);
+  }
+  
+  .bg-electric-cyan {
+    background-color: hsl(180, 100%, 50%);
+  }
+  
+  .bg-fuchsia {
+    background-color: hsl(310, 100%, 50%);
+  }
+  
+  .bg-black-glass {
+    background-color: hsla(225, 15%, 6%, 0.85);
+  }
+  
+  .border-electric-cyan {
+    border-color: hsl(180, 100%, 50%);
+  }
+  
+  .border-fuchsia {
+    border-color: hsl(310, 100%, 50%);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: 0 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-neon {
+  0% { box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.25), 0 0 36px hsla(310, 100%, 50%, 0.31); }
+  100% { box-shadow: 0 0 40px hsla(180, 100%, 50%, 0.67), 0 0 60px hsla(310, 100%, 50%, 0.67); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glow {
+  0% { text-shadow: 0 0 16px hsl(180, 100%, 50%), 0 0 32px hsla(310, 100%, 50%, 0.63); }
+  100% { text-shadow: 0 0 24px hsl(180, 100%, 50%), 0 0 48px hsl(310, 100%, 50%); }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .glass {
+    border-radius: 1rem;
+    margin: 0.5rem;
+  }
+  
+  .btn-glass {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
