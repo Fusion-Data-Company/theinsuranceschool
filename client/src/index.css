@@ -136,7 +136,6 @@
   
   h1, h2, h3, h4, h5, h6 {
     color: hsl(0, 0%, 100%);
-    text-shadow: 0 0 16px hsl(180, 100%, 50%), 0 0 32px hsla(355, 100%, 50%, 0.63);
   }
 }
 
@@ -145,16 +144,8 @@
     animation: shimmer 2.5s linear infinite;
   }
   
-  .animate-pulse-neon {
-    animation: pulse-neon 2s ease-in-out infinite alternate;
-  }
-  
   .animate-float {
     animation: float 6s ease-in-out infinite;
-  }
-  
-  .animate-glow {
-    animation: glow 2s ease-in-out infinite alternate;
   }
   
   .text-electric-cyan {
@@ -231,19 +222,9 @@
   100% { background-position: 200% 0; }
 }
 
-@keyframes pulse-neon {
-  0% { box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.25), 0 0 36px hsla(355, 100%, 50%, 0.31); }
-  100% { box-shadow: 0 0 40px hsla(180, 100%, 50%, 0.67), 0 0 60px hsla(355, 100%, 50%, 0.67); }
-}
-
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }
-}
-
-@keyframes glow {
-  0% { text-shadow: 0 0 16px hsl(180, 100%, 50%), 0 0 32px hsla(355, 100%, 50%, 0.63); }
-  100% { text-shadow: 0 0 24px hsl(180, 100%, 50%), 0 0 48px hsl(355, 100%, 50%); }
 }
 
 /* Mobile responsiveness */

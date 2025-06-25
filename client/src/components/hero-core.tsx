@@ -45,7 +45,7 @@ export function HeroCore() {
         onMouseLeave={() => setIsHovered(false)}
       >
         <Spotlight
-          className="-top-40 left-0 md:left-60 md:-top-20 opacity-100 animate-pulse-neon"
+          className="-top-40 left-0 md:left-60 md:-top-20"
           fill="#00fff7"
         />
         
@@ -53,12 +53,12 @@ export function HeroCore() {
           {/* Left content */}
           <div className="flex-1 p-8 md:p-12 relative z-10 flex flex-col justify-center">
             <div className="space-y-6">
-              <div className="inline-flex items-center px-4 py-2 bg-electric-cyan/20 border border-electric-cyan/30 rounded-full text-electric-cyan text-sm font-medium mb-4 animate-pulse-neon">
+              <div className="inline-flex items-center px-4 py-2 bg-electric-cyan/20 border border-electric-cyan/30 rounded-full text-electric-cyan text-sm font-medium mb-4">
                 <Shield className="w-4 h-4 mr-2" />
                 Enterprise-Grade CRM
               </div>
               
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight animate-glow">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
                 <span className="text-electric-cyan">Insurance</span>{" "}
                 <span className="text-white">School</span>{" "}
                 <span className="text-crimson-red">Recruiting</span>{" "}
@@ -83,15 +83,15 @@ export function HeroCore() {
               
               <div className="grid grid-cols-3 gap-6 pt-8">
                 <div className="text-center p-4 card-glass hover:scale-105 transition-transform">
-                  <div className="text-2xl font-bold text-electric-cyan animate-glow">247</div>
+                  <div className="text-2xl font-bold text-electric-cyan">247</div>
                   <div className="text-sm text-gray-400">Active Leads</div>
                 </div>
                 <div className="text-center p-4 card-glass hover:scale-105 transition-transform">
-                  <div className="text-2xl font-bold text-crimson-red animate-glow">94.2%</div>
+                  <div className="text-2xl font-bold text-crimson-red">94.2%</div>
                   <div className="text-sm text-gray-400">AI Success Rate</div>
                 </div>
                 <div className="text-center p-4 card-glass hover:scale-105 transition-transform">
-                  <div className="text-2xl font-bold text-royal-blue animate-glow">$2.4M</div>
+                  <div className="text-2xl font-bold text-royal-blue">$2.4M</div>
                   <div className="text-sm text-gray-400">Monthly Revenue</div>
                 </div>
               </div>
