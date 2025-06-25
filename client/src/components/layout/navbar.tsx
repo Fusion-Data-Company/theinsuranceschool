@@ -1,57 +1,68 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Shield, Phone, Home, BarChart3, Users, GraduationCap, Settings } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { href: "/", label: "Home" },
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/leads", label: "Leads" },
-    { href: "/analytics", label: "Analytics" },
-    { href: "/enrollment", label: "Enrollment" },
-    { href: "/settings", label: "Settings" },
+    { href: "/", label: "Home", icon: Home },
+    { href: "/dashboard", label: "Dashboard", icon: BarChart3 },
+    { href: "/leads", label: "Leads", icon: Users },
+    { href: "/analytics", label: "Analytics", icon: BarChart3 },
+    { href: "/enrollment", label: "Enrollment", icon: GraduationCap },
+    { href: "/settings", label: "Settings", icon: Settings },
   ];
 
   return (
-    <nav className="navbar-glass fixed top-0 left-0 right-0 z-50">
+    <nav className="navbar-glass fixed top-0 left-0 right-0 z-50 border-b border-electric-cyan/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/">
-            <div className="text-2xl font-bold cursor-pointer">
-              <span className="text-electric-cyan">Insurance</span>
-              <span className="text-fuchsia">School</span>
-              <span className="text-titanium">Annex</span>
+            <div className="flex items-center space-x-3 cursor-pointer">
+              <div className="w-10 h-10 bg-gradient-to-r from-electric-cyan to-fuchsia rounded-xl flex items-center justify-center animate-pulse-neon">
+                <Shield className="w-6 h-6 text-white" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-white font-bold text-lg leading-tight">Insurance School</span>
+                <span className="text-electric-cyan font-semibold text-sm leading-tight">Recruiting Annex</span>
+              </div>
             </div>
           </Link>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              {navItems.map((item) => (
-                <Link key={item.href} href={item.href}>
-                  <a
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      location === item.href
-                        ? "text-electric-cyan"
-                        : "text-white hover:text-electric-cyan"
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                </Link>
-              ))}
-            </div>
+          <div className="hidden md:flex items-center space-x-6">
+            {navItems.map(({ href, label, icon: Icon }) => (
+              <Link key={href} href={href}>
+                <Button
+                  variant="ghost"
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
+                    location === href 
+                      ? "bg-electric-cyan/20 text-electric-cyan border border-electric-cyan/30 shadow-lg shadow-electric-cyan/20" 
+                      : "text-gray-300 hover:text-electric-cyan hover:bg-electric-cyan/10"
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="font-medium">{label}</span>
+                </Button>
+              </Link>
+            ))}
+            
+            {/* CTA Button */}
+            <Button className="btn-glass bg-gradient-to-r from-vibrant-purple to-neon-magenta ml-4">
+              <Phone className="w-4 h-4 mr-2" />
+              Call Center
+            </Button>
           </div>
           
           {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-white hover:text-electric-cyan focus:outline-none"
+              className="text-white hover:text-electric-cyan focus:outline-none p-2"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -62,21 +73,29 @@ export function Navbar() {
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
         <div className="md:hidden fixed top-16 left-0 w-full h-screen bg-black-glass backdrop-blur-lg z-40">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            {navItems.map((item) => (
-              <Link key={item.href} href={item.href}>
-                <a
+          <div className="px-4 pt-4 pb-3 space-y-2">
+            {navItems.map(({ href, label, icon: Icon }) => (
+              <Link key={href} href={href}>
+                <Button
+                  variant="ghost"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    location === item.href
-                      ? "text-electric-cyan"
-                      : "text-white hover:text-electric-cyan"
+                  className={`w-full justify-start flex items-center space-x-3 px-4 py-3 rounded-lg ${
+                    location === href 
+                      ? "bg-electric-cyan/20 text-electric-cyan border border-electric-cyan/30" 
+                      : "text-gray-300 hover:text-electric-cyan hover:bg-electric-cyan/10"
                   }`}
                 >
-                  {item.label}
-                </a>
+                  <Icon className="w-5 h-5" />
+                  <span className="font-medium">{label}</span>
+                </Button>
               </Link>
             ))}
+            
+            {/* Mobile CTA */}
+            <Button className="btn-glass bg-gradient-to-r from-vibrant-purple to-neon-magenta w-full mt-4">
+              <Phone className="w-4 h-4 mr-2" />
+              Call Center
+            </Button>
           </div>
         </div>
       )}
