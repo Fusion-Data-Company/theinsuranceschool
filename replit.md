@@ -39,6 +39,7 @@ This is a full-stack web application built for managing educational licensing le
 
 ### Voice Agent Integration
 - **ElevenLabs Integration**: Webhook endpoints for call completion
+- **MCP Server**: Real-time analytics queries for voice agents during calls
 - **Call Analytics**: Transcript analysis, sentiment detection, intent classification
 - **Agent Metrics**: Confidence scoring and performance tracking
 - **Real-time Updates**: Live call status and completion notifications
@@ -124,6 +125,7 @@ This is a full-stack web application built for managing educational licensing le
 Changelog:
 - June 25, 2025. Initial setup
 - June 26, 2025. Fixed interactive robot in hero section - restored original Spline 3D scene implementation
+- June 26, 2025. Added MCP (Model Context Protocol) server for ElevenLabs voice agent integration with real-time analytics capabilities
 ```
 
 ## User Preferences

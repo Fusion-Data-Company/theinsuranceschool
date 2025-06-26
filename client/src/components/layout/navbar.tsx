@@ -13,6 +13,7 @@ export function Navbar() {
     { href: "/leads", label: "Leads", icon: Users },
     { href: "/analytics", label: "Analytics", icon: BarChart3 },
     { href: "/enrollment", label: "Enrollment", icon: GraduationCap },
+    { href: "/mcp-demo", label: "MCP Demo", icon: Database },
     { href: "/settings", label: "Settings", icon: Settings },
   ];
 
