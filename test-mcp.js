@@ -1,9 +1,11 @@
 // Test script for MCP endpoint
+import fetch from 'node-fetch';
+
 const SECRET = process.env.MCP_SECRET_TOKEN || "recruiting-mcp-secret-2024";
 
 async function testMCPEndpoint(query) {
   try {
-    const response = await fetch('http://localhost:3000/api/mcp', {
+    const response = await fetch('http://localhost:5000/api/mcp', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${SECRET}`,

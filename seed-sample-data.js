@@ -1,5 +1,8 @@
 // Script to seed sample data for testing MCP analytics
-const { Pool } = require('@neondatabase/serverless');
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import ws from 'ws';
+
+neonConfig.webSocketConstructor = ws;
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
@@ -60,14 +63,14 @@ async function seedSampleData() {
     // Insert sample payments
     for (const lead of enrolledLeads) {
       await client.query(`
-        INSERT INTO payments (lead_id, amount, payment_type, status, stripe_payment_id, created_at) VALUES
+        INSERT INTO payments (lead_id, amount, plan_chosen, status, transaction_id, created_at) VALUES
         ($1, $2, $3, $4, $5, NOW())
       `, [
         lead.id,
         299.99,
-        'down_payment',
+        '199_down',
         'completed',
-        `pi_${Date.now()}_${lead.id}`
+        `txn_${Date.now()}_${lead.id}`
       ]);
     }
 
@@ -97,8 +100,8 @@ async function seedSampleData() {
 }
 
 // Run if called directly
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   seedSampleData().then(() => process.exit(0));
 }
 
-module.exports = { seedSampleData };
+export { seedSampleData };
