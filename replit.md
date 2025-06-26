@@ -123,6 +123,7 @@ This is a full-stack web application built for managing educational licensing le
 ```
 Changelog:
 - June 25, 2025. Initial setup
+- June 26, 2025. Fixed interactive robot in hero section - restored original Spline 3D scene implementation
 ```
 
 ## User Preferences
