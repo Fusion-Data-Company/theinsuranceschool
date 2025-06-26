@@ -10,15 +10,15 @@ import {
 import { eq, gte, lte, count, avg, sum, and, desc } from "drizzle-orm";
 
 export function registerMCPEndpoint(app: Express) {
-  console.log("Registering SSE MCP server for ElevenLabs integration...");
+  console.log("Registering MCP server for n8n integration...");
 
-  // Add targeted logging middleware for ElevenLabs MCP requests
+  // Add targeted logging middleware for n8n MCP requests
   app.use((req, res, next) => {
     const userAgent = req.get('User-Agent') || '';
-    const isElevenLabs = userAgent.includes('axios') || req.headers.authorization?.includes('Bearer');
+    const isN8n = userAgent.includes('n8n') || userAgent.includes('axios') || req.headers.authorization?.includes('Bearer');
     
-    if (isElevenLabs || req.url.includes('mcp')) {
-      console.log('\n=== ELEVENLABS MCP REQUEST ===');
+    if (isN8n || req.url.includes('mcp')) {
+      console.log('\n=== N8N MCP REQUEST ===');
       console.log('Timestamp:', new Date().toISOString());
       console.log('Method:', req.method);
       console.log('URL:', req.url);
@@ -32,7 +32,7 @@ export function registerMCPEndpoint(app: Express) {
     next();
   });
 
-  // CRITICAL FIX: ElevenLabs hits root URL instead of discovery endpoint
+  // Root URL discovery endpoint for n8n MCP integration
   app.get('/', (req: Request, res: Response) => {
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json({

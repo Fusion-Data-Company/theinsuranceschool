@@ -37,9 +37,9 @@ This is a full-stack web application built for managing educational licensing le
 - **Contact Information**: Name, phone, email with validation
 - **License Goals**: Support for 2-15, 2-40, 2-14 license types
 
-### Voice Agent Integration
-- **ElevenLabs Integration**: Webhook endpoints for call completion
-- **MCP Server**: Real-time analytics queries for voice agents during calls
+### Workflow Automation Integration
+- **n8n Integration**: MCP server for workflow automation and data queries
+- **Real-time Analytics**: Business intelligence queries for automated workflows
 - **Call Analytics**: Transcript analysis, sentiment detection, intent classification
 - **Agent Metrics**: Confidence scoring and performance tracking
 - **Real-time Updates**: Live call status and completion notifications
@@ -87,8 +87,9 @@ This is a full-stack web application built for managing educational licensing le
 - **Drizzle ORM**: Type-safe database operations
 - **WebSocket Support**: Real-time communication capabilities
 
-### Voice & Communication
-- **ElevenLabs**: Voice agent platform integration
+### Workflow Automation & Communication
+- **n8n**: Workflow automation platform integration
+- **MCP Protocol**: Model Context Protocol for real-time data access
 - **Webhook Processing**: Secure endpoint handling for external services
 
 ### UI & Visualization
@@ -136,6 +137,7 @@ Changelog:
 - June 26, 2025. Resolved ElevenLabs HTTP 500 error by updating discovery endpoint to return complete tools array instead of tools_count, enabling proper tool extraction
 - June 26, 2025. Implemented comprehensive MCP mega prompt fixes: standardized discovery endpoint with server_info format, enhanced logging, SSE compliance verification, proxy fallback endpoints, and comprehensive error handling
 - June 26, 2025. Updated MCP discovery endpoint to exact ElevenLabs schema format: replaced server_info wrapper with schema_version root field and proper JSON Schema parameter structure
+- June 26, 2025. Switched from ElevenLabs to n8n integration: updated MCP server configuration for workflow automation platform compatibility
 ```
 
 ## User Preferences
