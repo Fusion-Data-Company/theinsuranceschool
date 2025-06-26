@@ -56,124 +56,144 @@ export function registerMCPEndpoint(app: Express) {
       'X-Accel-Buffering': 'no'
     });
 
-    // ElevenLabs expects immediate tool listing in specific format
-    const toolsResponse = {
-      tools: [
-        {
-          name: "enrollments_today",
-          description: "Get the number of new enrollments today",
-          input_schema: {
-            type: "object",
-            properties: {},
-            required: []
-          }
+    // Send MCP protocol initialization
+    const initMessage = {
+      jsonrpc: "2.0",
+      method: "initialize",
+      params: {
+        protocolVersion: "2024-11-05",
+        capabilities: {
+          tools: {}
         },
-        {
-          name: "leads_today",
-          description: "Get the number of new leads captured today",
-          input_schema: {
-            type: "object",
-            properties: {},
-            required: []
-          }
-        },
-        {
-          name: "qualified_leads",
-          description: "Get the number of qualified leads ready for enrollment",
-          input_schema: {
-            type: "object",
-            properties: {},
-            required: []
-          }
-        },
-        {
-          name: "enrollment_breakdown",
-          description: "Get enrollment statistics broken down by course type",
-          input_schema: {
-            type: "object",
-            properties: {},
-            required: []
-          }
-        },
-        {
-          name: "revenue_today",
-          description: "Get total completed payments revenue for today",
-          input_schema: {
-            type: "object",
-            properties: {},
-            required: []
-          }
-        },
-        {
-          name: "agent_performance",
-          description: "Get average agent confidence score over last 24 hours",
-          input_schema: {
-            type: "object",
-            properties: {},
-            required: []
-          }
-        },
-        {
-          name: "call_summary",
-          description: "Get call activity summary for today",
-          input_schema: {
-            type: "object",
-            properties: {},
-            required: []
-          }
-        },
-        {
-          name: "license_types",
-          description: "Get breakdown of license types leads are interested in",
-          input_schema: {
-            type: "object",
-            properties: {},
-            required: []
-          }
-        },
-        {
-          name: "recent_activity",
-          description: "Get the 5 most recent leads and their status",
-          input_schema: {
-            type: "object",
-            properties: {},
-            required: []
-          }
-        },
-        {
-          name: "conversion_rate",
-          description: "Get lead to enrollment conversion rate",
-          input_schema: {
-            type: "object",
-            properties: {},
-            required: []
-          }
+        clientInfo: {
+          name: "Insurance School Recruiting Analytics",
+          version: "1.0.0"
         }
-      ]
+      }
+    };
+    
+    res.write(`data: ${JSON.stringify(initMessage)}\n\n`);
+
+    // Send tools list response
+    const toolsResponse = {
+      jsonrpc: "2.0",
+      method: "tools/list",
+      result: {
+        tools: [
+          {
+            name: "enrollments_today",
+            description: "Get the number of new enrollments today",
+            inputSchema: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          },
+          {
+            name: "leads_today",
+            description: "Get the number of new leads captured today",
+            inputSchema: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          },
+          {
+            name: "qualified_leads",
+            description: "Get the number of qualified leads ready for enrollment",
+            inputSchema: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          },
+          {
+            name: "enrollment_breakdown",
+            description: "Get enrollment statistics broken down by course type",
+            inputSchema: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          },
+          {
+            name: "revenue_today",
+            description: "Get total completed payments revenue for today",
+            inputSchema: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          },
+          {
+            name: "agent_performance",
+            description: "Get average agent confidence score over last 24 hours",
+            inputSchema: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          },
+          {
+            name: "call_summary",
+            description: "Get call activity summary for today",
+            inputSchema: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          },
+          {
+            name: "license_types",
+            description: "Get breakdown of license types leads are interested in",
+            inputSchema: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          },
+          {
+            name: "recent_activity",
+            description: "Get the 5 most recent leads and their status",
+            inputSchema: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          },
+          {
+            name: "conversion_rate",
+            description: "Get lead to enrollment conversion rate",
+            inputSchema: {
+              type: "object",
+              properties: {},
+              required: []
+            }
+          }
+        ]
+      }
     };
 
     // Send tools discovery message
     res.write(`data: ${JSON.stringify(toolsResponse)}\n\n`);
-    res.flush();
 
-    // Keep connection alive
+    // Keep connection alive with heartbeat
     const keepAlive = setInterval(() => {
       try {
-        res.write(`data: ${JSON.stringify({ type: "keepalive", timestamp: Date.now() })}\n\n`);
-        res.flush();
+        res.write(`data: ${JSON.stringify({ type: "ping", timestamp: Date.now() })}\n\n`);
       } catch (error) {
         clearInterval(keepAlive);
       }
-    }, 25000);
+    }, 30000);
 
     // Handle client disconnect
     req.on('close', () => {
-      console.log("ElevenLabs MCP connection closed");
+      console.log("ElevenLabs MCP SSE connection closed");
       clearInterval(keepAlive);
     });
 
     req.on('error', () => {
-      console.log("ElevenLabs MCP connection error");
+      console.log("ElevenLabs MCP SSE connection error");
       clearInterval(keepAlive);
     });
   });
