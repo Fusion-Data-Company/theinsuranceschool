@@ -12,29 +12,37 @@ import { eq, gte, lte, count, avg, sum, and, desc } from "drizzle-orm";
 
 // MCP endpoint for ElevenLabs voice agents to query database analytics
 export function registerMCPEndpoint(app: Express) {
+  // Handle CORS preflight
+  app.options("/api/mcp", (req: Request, res: Response) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.sendStatus(200);
+  });
+
   app.post("/api/mcp", async (req: Request, res: Response) => {
     const authHeader = req.headers.authorization;
     const SECRET = process.env.MCP_SECRET_TOKEN || "recruiting-mcp-secret-2024";
     
-    if (authHeader !== `Bearer ${SECRET}`) {
+    // More flexible auth check
+    const token = authHeader?.replace('Bearer ', '');
+    if (!token || token !== SECRET) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const { query } = req.body;
+    // Handle different request formats from ElevenLabs
+    const { query, method, params } = req.body;
+    const queryText = query || method || params?.query || "unknown";
     
     try {
       let result = "Unknown query";
 
-      // Set SSE headers
-      res.writeHead(200, {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Cache-Control'
-      });
+      // Set proper headers for ElevenLabs
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-      if (query === "enrollments_today") {
+      if (queryText === "enrollments_today") {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const tomorrow = new Date(today);
@@ -50,7 +58,7 @@ export function registerMCPEndpoint(app: Express) {
 
         result = `${enrollmentCount.count} new enrollments today`;
 
-      } else if (query === "leads_today") {
+      } else if (queryText === "leads_today") {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const tomorrow = new Date(today);
@@ -66,7 +74,7 @@ export function registerMCPEndpoint(app: Express) {
 
         result = `${leadCount.count} new leads captured today`;
 
-      } else if (query === "qualified_leads") {
+      } else if (queryText === "qualified_leads") {
         const [qualifiedCount] = await db
           .select({ count: count() })
           .from(leads)
@@ -74,7 +82,7 @@ export function registerMCPEndpoint(app: Express) {
 
         result = `${qualifiedCount.count} qualified leads ready for enrollment`;
 
-      } else if (query === "enrollment_breakdown") {
+      } else if (queryText === "enrollment_breakdown") {
         const enrollmentStats = await db
           .select({
             course: enrollments.course,
@@ -89,7 +97,7 @@ export function registerMCPEndpoint(app: Express) {
         
         result = `Enrollment breakdown: ${breakdown || "No enrollments yet"}`;
 
-      } else if (query === "revenue_today") {
+      } else if (queryText === "revenue_today") {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const tomorrow = new Date(today);
@@ -107,7 +115,7 @@ export function registerMCPEndpoint(app: Express) {
         const revenue = revenueSum.total || 0;
         result = `$${revenue} in completed payments today`;
 
-      } else if (query === "agent_performance") {
+      } else if (queryText === "agent_performance") {
         const [avgConfidence] = await db
           .select({ avg: avg(agentMetrics.confidence) })
           .from(agentMetrics)
@@ -116,7 +124,7 @@ export function registerMCPEndpoint(app: Express) {
         const confidence = avgConfidence.avg ? Number(avgConfidence.avg).toFixed(2) : "0";
         result = `Average agent confidence score: ${confidence}% over last 24 hours`;
 
-      } else if (query === "call_summary") {
+      } else if (queryText === "call_summary") {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         
@@ -138,7 +146,7 @@ export function registerMCPEndpoint(app: Express) {
 
         result = `${callStats.total} calls today, ${interestedCalls[0].count} showed interest`;
 
-      } else if (query === "license_types") {
+      } else if (queryText === "license_types") {
         const licenseStats = await db
           .select({
             license: leads.licenseGoal,
@@ -153,8 +161,8 @@ export function registerMCPEndpoint(app: Express) {
         
         result = `License interest breakdown: ${breakdown || "No leads yet"}`;
 
-      } else if (query.startsWith("lead:")) {
-        const leadId = parseInt(query.split(":")[1]);
+      } else if (queryText.startsWith("lead:")) {
+        const leadId = parseInt(queryText.split(":")[1]);
         
         if (isNaN(leadId)) {
           result = "Invalid lead ID format";
@@ -173,7 +181,7 @@ export function registerMCPEndpoint(app: Express) {
           }
         }
 
-      } else if (query === "recent_activity") {
+      } else if (queryText === "recent_activity") {
         const recentLeads = await db
           .select({
             firstName: leads.firstName,
@@ -194,7 +202,7 @@ export function registerMCPEndpoint(app: Express) {
           result = "No recent activity";
         }
 
-      } else if (query === "conversion_rate") {
+      } else if (queryText === "conversion_rate") {
         const [totalLeads] = await db
           .select({ count: count() })
           .from(leads);
@@ -211,15 +219,71 @@ export function registerMCPEndpoint(app: Express) {
         result = `Conversion rate: ${rate}% (${enrolledLeads.count}/${totalLeads.count})`;
       }
 
-      // Send SSE response
-      res.write(`data: ${JSON.stringify({ result })}\n\n`);
-      res.end();
+      // Send JSON response for ElevenLabs
+      res.json({ 
+        result,
+        success: true,
+        timestamp: new Date().toISOString()
+      });
 
     } catch (error) {
       console.error("MCP Query Error:", error);
-      res.write(`data: ${JSON.stringify({ result: "Database query failed" })}\n\n`);
-      res.end();
+      res.status(500).json({ 
+        result: "Database query failed", 
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
     }
+  });
+
+  // MCP tools discovery endpoint for ElevenLabs
+  app.get("/api/mcp", (req: Request, res: Response) => {
+    res.json({
+      tools: [
+        {
+          name: "enrollments_today",
+          description: "Get the number of new enrollments today"
+        },
+        {
+          name: "leads_today", 
+          description: "Get the number of new leads captured today"
+        },
+        {
+          name: "qualified_leads",
+          description: "Get the number of qualified leads ready for enrollment"
+        },
+        {
+          name: "enrollment_breakdown",
+          description: "Get enrollment statistics broken down by course type"
+        },
+        {
+          name: "revenue_today",
+          description: "Get total completed payments revenue for today"
+        },
+        {
+          name: "agent_performance",
+          description: "Get average agent confidence score over last 24 hours"
+        },
+        {
+          name: "call_summary",
+          description: "Get call activity summary for today"
+        },
+        {
+          name: "license_types",
+          description: "Get breakdown of license types leads are interested in"
+        },
+        {
+          name: "recent_activity",
+          description: "Get the 5 most recent leads and their status"
+        },
+        {
+          name: "conversion_rate",
+          description: "Get lead to enrollment conversion rate"
+        }
+      ],
+      version: "1.0.0",
+      name: "Insurance Recruiting Analytics"
+    });
   });
 
   // Health check endpoint for MCP server
