@@ -1,0 +1,48 @@
+Hey Replit Agent - here's what Boss needs you to do for this MCP integration debug:
+Step 1: Monitor Server Logs During ElevenLabs Connection
+Add logging middleware to see what ElevenLabs is requesting:
+In your server/mcp.ts file, add this logging code RIGHT AT THE TOP of your MCP route handlers:
+typescript// Add this logging middleware before any MCP endpoints
+app.use('/api/mcp*', (req, res, next) => {
+  console.log('\n=== ELEVENLABS MCP REQUEST ===');
+  console.log('Timestamp:', new Date().toISOString());
+  console.log('Method:', req.method);
+  console.log('URL:', req.url);
+  console.log('Headers:', JSON.stringify(req.headers, null, 2));
+  console.log('Body:', JSON.stringify(req.body, null, 2));
+  console.log('Query:', JSON.stringify(req.query, null, 2));
+  console.log('===============================\n');
+  next();
+});
+Step 2: Check Your Current SSE Endpoint Implementation
+Find and show me your current /api/mcp GET endpoint code. Look for:
+
+How it handles SSE connections
+What it sends when ElevenLabs connects
+If it responds to MCP protocol initialize requests
+The exact format of responses
+
+Step 3: Test and Report Results
+
+Deploy the logging changes
+Watch the console output
+In ElevenLabs, click "Test Connection"
+Copy ALL the log output that appears in console
+Report back the exact logs - don't summarize, give me everything
+
+Step 4: Check Your Current MCP Protocol Handler
+Show me the code that handles these MCP requests:
+
+initialize method calls
+tools/list method calls
+How your server responds to JSON-RPC requests
+
+What I Need You to Report Back:
+
+The exact log output when ElevenLabs tries to connect
+Your current SSE endpoint code (the /api/mcp GET handler)
+Any error messages in the Replit console
+The current MCP protocol implementation - how you handle initialize/tools requests
+
+The goal: Figure out exactly what format ElevenLabs is expecting vs what your server is sending, so we can fix the HTTP 500 "Failed to extract MCP server tools" error.
+Do this step by step and report back the actual results - don't just say "it's working" or "it failed" - give me the specific logs and code.

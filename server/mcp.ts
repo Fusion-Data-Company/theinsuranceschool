@@ -12,6 +12,21 @@ import { eq, gte, lte, count, avg, sum, and, desc } from "drizzle-orm";
 export function registerMCPEndpoint(app: Express) {
   console.log("Registering SSE MCP server for ElevenLabs integration...");
 
+  // Add comprehensive logging middleware for ElevenLabs debugging
+  app.use('/api/mcp*', (req, res, next) => {
+    console.log('\n=== ELEVENLABS MCP REQUEST ===');
+    console.log('Timestamp:', new Date().toISOString());
+    console.log('Method:', req.method);
+    console.log('URL:', req.url);
+    console.log('Headers:', JSON.stringify(req.headers, null, 2));
+    console.log('Body:', JSON.stringify(req.body, null, 2));
+    console.log('Query:', JSON.stringify(req.query, null, 2));
+    console.log('Remote IP:', req.ip || req.connection.remoteAddress);
+    console.log('User-Agent:', req.get('User-Agent'));
+    console.log('===============================\n');
+    next();
+  });
+
   // CORS middleware for all MCP endpoints
   app.use("/api/mcp*", (req: Request, res: Response, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -153,17 +168,25 @@ export function registerMCPEndpoint(app: Express) {
 
   // Authenticated SSE connection endpoint for ElevenLabs
   app.get("/api/mcp", authenticateMCP, (req: Request, res: Response) => {
+    console.log("\n=== SSE CONNECTION ESTABLISHED ===");
     console.log("ElevenLabs MCP SSE connection established");
+    console.log("Request URL:", req.url);
+    console.log("Request method:", req.method);
+    console.log("Accept header:", req.get('Accept'));
+    console.log("Authorization:", req.get('Authorization') ? 'Present' : 'Missing');
     
     // Set up SSE headers for ElevenLabs
-    res.writeHead(200, {
+    const headers = {
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive',
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       'X-Accel-Buffering': 'no'
-    });
+    };
+    
+    console.log("Response headers:", JSON.stringify(headers, null, 2));
+    res.writeHead(200, headers);
 
     // Send MCP protocol initialization
     const initMessage = {
@@ -181,6 +204,7 @@ export function registerMCPEndpoint(app: Express) {
       }
     };
     
+    console.log("Sending init message:", JSON.stringify(initMessage, null, 2));
     res.write(`data: ${JSON.stringify(initMessage)}\n\n`);
 
     // Send tools list response
@@ -284,6 +308,7 @@ export function registerMCPEndpoint(app: Express) {
     };
 
     // Send tools discovery message
+    console.log("Sending tools response:", JSON.stringify(toolsResponse, null, 2));
     res.write(`data: ${JSON.stringify(toolsResponse)}\n\n`);
 
     // Keep connection alive with heartbeat
@@ -310,6 +335,10 @@ export function registerMCPEndpoint(app: Express) {
   // Tool execution endpoint for ElevenLabs POST requests
   app.post("/api/mcp", authenticateMCP, async (req: Request, res: Response) => {
     try {
+      console.log("\n=== TOOL EXECUTION REQUEST ===");
+      console.log("Request body:", JSON.stringify(req.body, null, 2));
+      console.log("Content-Type:", req.get('Content-Type'));
+      
       const { tool_name, arguments: toolArgs = {} } = req.body;
       let result = "No data available";
 
