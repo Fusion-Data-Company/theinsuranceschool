@@ -258,13 +258,8 @@ export function registerMCPEndpoint(app: Express) {
     });
   });
 
-  // N8N Tool Execution Endpoint (GET for n8n compatibility)
+  // N8N Tool Execution Endpoint (GET for n8n compatibility) - No auth required for HTTP requests
   app.get("/api/mcp/execute", async (req: Request, res: Response) => {
-    if (req.headers.authorization !== "Bearer Ry27942001$") {
-      console.log("=== UNAUTHORIZED N8N ACCESS ATTEMPT ===");
-      res.status(401).json({ error: "Unauthorized" });
-      return;
-    }
 
     try {
       console.log("\n=== N8N TOOL EXECUTION REQUEST ===");
