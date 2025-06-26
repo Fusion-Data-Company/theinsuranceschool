@@ -61,35 +61,122 @@ export function registerMCPEndpoint(app: Express) {
   app.get("/api/mcp-discover", (req: Request, res: Response) => {
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json({
-      server_info: {
-        version: "2024-11-05",
-        tools: [
-          {name: "leads_today", description: "Today's new leads count.", parameters: {}},
-          {name: "enrollments_today", description: "Today's enrollments count.", parameters: {}},
-          {name: "qualified_leads", description: "Qualified leads count.", parameters: {}},
-          {name: "revenue_today", description: "Today's revenue.", parameters: {}},
-          {name: "agent_performance", description: "Agent performance metrics.", parameters: {}},
-          {name: "call_summary", description: "Call interactions today.", parameters: {}},
-          {name: "enrollment_breakdown", description: "Enrollment breakdown by course.", parameters: {}},
-          {name: "license_types", description: "License type breakdown.", parameters: {}},
-          {name: "recent_activity", description: "Recent lead activity.", parameters: {}},
-          {name: "conversion_rate", description: "Lead to enrollment conversion rate.", parameters: {}}
-        ]
-      }
+      schema_version: "2024-11-05",
+      tools: [
+        {
+          name: "leads_today",
+          description: "Today's new leads count.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        },
+        {
+          name: "enrollments_today",
+          description: "Today's enrollments count.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        },
+        {
+          name: "qualified_leads",
+          description: "Qualified leads count.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        },
+        {
+          name: "revenue_today",
+          description: "Today's revenue.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        },
+        {
+          name: "agent_performance",
+          description: "Agent performance metrics.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        },
+        {
+          name: "call_summary",
+          description: "Call interactions today.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        },
+        {
+          name: "enrollment_breakdown",
+          description: "Enrollment breakdown by course.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        },
+        {
+          name: "license_types",
+          description: "License type breakdown.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        },
+        {
+          name: "recent_activity",
+          description: "Recent lead activity.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        },
+        {
+          name: "conversion_rate",
+          description: "Lead to enrollment conversion rate.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        }
+      ]
     });
   });
 
   // STEP 4: Proxy Discovery Endpoint (Fallback)
   app.get("/api/mcp-proxy-discover", (req: Request, res: Response) => {
     res.status(200).json({
-      server_info: {
-        version: "2024-11-05",
-        tools: [
-          {name: "leads_today", description: "Today's new leads count.", parameters: {}},
-          {name: "enrollments_today", description: "Today's enrollments count.", parameters: {}},
-          {name: "qualified_leads", description: "Qualified leads count.", parameters: {}}
-        ]
-      }
+      schema_version: "2024-11-05",
+      tools: [
+        {
+          name: "leads_today",
+          description: "Today's new leads count.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        },
+        {
+          name: "enrollments_today",
+          description: "Today's enrollments count.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        },
+        {
+          name: "qualified_leads",
+          description: "Qualified leads count.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        }
+      ]
     });
   });
 
