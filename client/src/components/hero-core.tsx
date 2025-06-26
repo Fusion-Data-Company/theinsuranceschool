@@ -41,11 +41,11 @@ export function HeroCore() {
           {/* Left content */}
           <div className="flex-1 p-8 md:p-12 relative z-10 flex flex-col justify-center">
             <div className="space-y-6">
-              <div className="mb-8 -mx-32 -mt-12 -mr-64 relative overflow-visible h-[500px]">
+              <div className="mb-8 -mx-48 -mt-20 -mr-96 relative overflow-visible h-[700px]">
                 <ParticleTextEffect 
                   words={["INSURANCE SCHOOL", "RECRUITING ANNEX"]}
-                  width={6000}
-                  height={600}
+                  width={8000}
+                  height={800}
                   className="absolute left-48 top-0"
                 />
               </div>

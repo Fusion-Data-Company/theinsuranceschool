@@ -182,8 +182,8 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS, className = "", widt
     offscreenCanvas.height = canvas.height
     const offscreenCtx = offscreenCanvas.getContext("2d")!
 
-    // Draw text with optimized font size for long text
-    const fontSize = Math.min(width / word.length * 1.8, height * 0.7)
+    // Draw text with larger font size for dramatic effect
+    const fontSize = Math.min(width / word.length * 2.2, height * 0.8)
     offscreenCtx.fillStyle = "white"
     offscreenCtx.font = `bold ${fontSize}px Arial`
     offscreenCtx.textAlign = "center"
