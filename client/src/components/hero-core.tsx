@@ -51,8 +51,7 @@ export function HeroCore() {
               </div>
               
               <p className="text-xl md:text-2xl text-gray-300 max-w-2xl leading-relaxed">
-                Futuristic AI-powered voice agents, real-time analytics, and automated enrollment system. 
-                Transform your insurance education business with cutting-edge technology.
+                Welcome Jason and Kelli, my name is Data. You can speak to me by pressing or texting the call button down below to my left (Your Right). Feel free to text or talk to me. I can answer all of your recruitment data from recently collected applicants and a whole lot more. Hit the button and give me a call!
               </p>
               
 

@@ -129,6 +129,8 @@ Changelog:
 - June 26, 2025. Replaced hero section header text with particle text effect displaying "INSURANCE SCHOOL" and "RECRUITING ANNEX"
 - June 26, 2025. Moved Enterprise-Grade CRM badge from hero to leads page, expanded particle text canvas to 1300x280px
 - June 26, 2025. Reverted particle text canvas back to original 1300x280px size for balanced layout with robot element
+- June 26, 2025. Updated particle colors to use only specified colors: blue, red, green, yellow, orange, cyan, violet (removed pink)
+- June 26, 2025. Replaced hero description with personalized Data AI welcome message for Jason and Kelli
 ```
 
 ## User Preferences
