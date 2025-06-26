@@ -128,6 +128,7 @@ Changelog:
 - June 26, 2025. Added MCP (Model Context Protocol) server for ElevenLabs voice agent integration with real-time analytics capabilities
 - June 26, 2025. Replaced hero section header text with particle text effect displaying "INSURANCE SCHOOL" and "RECRUITING ANNEX"
 - June 26, 2025. Moved Enterprise-Grade CRM badge from hero to leads page, expanded particle text canvas to 1300x280px
+- June 26, 2025. Dramatically expanded particle text canvas to 3200x500px with negative margins to break layout constraints and prevent text cutoff
 ```
 
 ## User Preferences
