@@ -55,7 +55,98 @@ export function registerMCPEndpoint(app: Express) {
           type: "bearer"
         }
       },
-      tools_count: 10,
+      tools: [
+        {
+          name: "enrollments_today",
+          description: "Get the number of new enrollments today",
+          inputSchema: {
+            type: "object",
+            properties: {},
+            required: []
+          }
+        },
+        {
+          name: "leads_today",
+          description: "Get the number of new leads captured today",
+          inputSchema: {
+            type: "object",
+            properties: {},
+            required: []
+          }
+        },
+        {
+          name: "qualified_leads",
+          description: "Get the number of qualified leads ready for enrollment",
+          inputSchema: {
+            type: "object",
+            properties: {},
+            required: []
+          }
+        },
+        {
+          name: "enrollment_breakdown",
+          description: "Get enrollment statistics broken down by course type",
+          inputSchema: {
+            type: "object",
+            properties: {},
+            required: []
+          }
+        },
+        {
+          name: "revenue_today",
+          description: "Get total completed payments revenue for today",
+          inputSchema: {
+            type: "object",
+            properties: {},
+            required: []
+          }
+        },
+        {
+          name: "agent_performance",
+          description: "Get average agent confidence score over last 24 hours",
+          inputSchema: {
+            type: "object",
+            properties: {},
+            required: []
+          }
+        },
+        {
+          name: "call_summary",
+          description: "Get call activity summary for today",
+          inputSchema: {
+            type: "object",
+            properties: {},
+            required: []
+          }
+        },
+        {
+          name: "license_types",
+          description: "Get breakdown of license types leads are interested in",
+          inputSchema: {
+            type: "object",
+            properties: {},
+            required: []
+          }
+        },
+        {
+          name: "recent_activity",
+          description: "Get the 5 most recent leads and their status",
+          inputSchema: {
+            type: "object",
+            properties: {},
+            required: []
+          }
+        },
+        {
+          name: "conversion_rate",
+          description: "Get lead to enrollment conversion rate",
+          inputSchema: {
+            type: "object",
+            properties: {},
+            required: []
+          }
+        }
+      ],
       status: "ready"
     });
   });

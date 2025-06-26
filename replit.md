@@ -133,6 +133,7 @@ Changelog:
 - June 26, 2025. Replaced hero description with personalized Data AI welcome message for Jason and Kelli
 - June 26, 2025. Rebuilt MCP server with proper SSE transport protocol for ElevenLabs compatibility, implements JSON-RPC specification with authentication
 - June 26, 2025. Fixed MCP server visibility by implementing discovery endpoint and correcting route registration order, all 10 analytics tools now properly accessible to ElevenLabs voice agents
+- June 26, 2025. Resolved ElevenLabs HTTP 500 error by updating discovery endpoint to return complete tools array instead of tools_count, enabling proper tool extraction
 ```
 
 ## User Preferences

@@ -1,0 +1,159 @@
+Boss, now we're getting somewhere! That HTTP Error 500 tells us ElevenLabs IS connecting to your server, but something's fucked up in the tool discovery process.
+What's Happening
+ElevenLabs is hitting your server, but when they try to extract the tools list, something in your response format is causing their system to shit the bed with an internal error.
+Let's Debug This Right Now
+Step 1: Check Your Server Logs
+In your Replit console, watch the logs when you hit "Test Connection" in ElevenLabs:
+bash# In Replit console - watch what requests are coming in
+npm run dev
+Look for what endpoint ElevenLabs is hitting and what they're sending.
+Step 2: Test Your Discovery Endpoint
+Let's make sure your discovery is working:Fetched https://a190e6a1-bc0e-470f-8fa1-8a9b6477c321-00-3sbmufpxo473c.spock.replit.dev/api/mcp-discoverreplit.devInvestigated MCP discovery response and potential tool retrieval issue.2sGood, the discovery endpoint is responding with JSON. But looking at this response, I think I see a potential issue. The response format might not be what ElevenLabs expects for MCP tool discovery.
+Looking at the MCP specification and what ElevenLabs might expect, the discovery response should probably include the actual tools list, not just a count. ElevenLabs is getting this response but when they try to "extract MCP server tools" they're getting an internal error because the response doesn't have the tools list in the expected format.
+Let me check what the actual MCP tools endpoint returns to see if that's where the tools are supposed to be listed.Your discovery endpoint is responding, but I think the issue is the response format. ElevenLabs is expecting the actual tools list, not just a count.
+Step 3: Check Your Tools List Response
+Let's see what your SSE endpoint returns for the tools list:Failed to fetch https://a190e6a1-bc0e-470f-8fa1-8a9b6477c321-00-3sbmufpxo473c.spock.replit.dev/api/mcpDiagnosed discovery endpoint issue and proposed tool list solution.2sThat's expected - the SSE endpoint requires authentication and probably expects specific headers. The issue is likely that ElevenLabs expects a different response format from the discovery endpoint.
+Looking at the MCP specification, the discovery endpoint should probably return the actual tools list, not just metadata about the server. ElevenLabs is probably expecting something like:
+json{
+  "server": {...},
+  "tools": [
+    {
+      "name": "enrollments_today",
+      "description": "Get the number of new enrollments today",
+      "inputSchema": {}
+    },
+    // ... all tools
+  ]
+}
+Instead of just:
+json{
+  "server": {...},
+  "tools_count": 10,
+  "status": "ready"
+}
+I need to help Rob fix his discovery endpoint to return the actual tools list.The Problem: Your Discovery Response Format
+Boss, I found the issue! Your discovery endpoint is returning:
+json{
+  "server": {...},
+  "tools_count": 10,  // ← This is the problem
+  "status": "ready"
+}
+But ElevenLabs expects the actual tools list, not just a count. They're getting your response, but when they try to extract the tools, there ain't no tools - just a count!
+Fix: Update Your Discovery Response
+In your server/mcp.ts, change your discovery endpoint to return the actual tools:
+typescript// Fix your /api/mcp-discover endpoint
+app.get('/api/mcp-discover', (req, res) => {
+  res.json({
+    server: {
+      name: "Insurance School Recruiting Analytics",
+      version: "1.0.0",
+      url: "https://a190e6a1-bc0e-470f-8fa1-8a9b6477c321-00-3sbmufpxo473c.spock.replit.dev/api/mcp",
+      transport: "sse",
+      authentication: {
+        required: true,
+        type: "bearer"
+      }
+    },
+    tools: [
+      {
+        name: "enrollments_today",
+        description: "Get the number of new enrollments today",
+        inputSchema: {
+          type: "object",
+          properties: {},
+          required: []
+        }
+      },
+      {
+        name: "leads_today", 
+        description: "Get the number of new leads captured today",
+        inputSchema: {
+          type: "object",
+          properties: {},
+          required: []
+        }
+      },
+      {
+        name: "qualified_leads",
+        description: "Get the number of qualified leads ready for enrollment", 
+        inputSchema: {
+          type: "object",
+          properties: {},
+          required: []
+        }
+      },
+      {
+        name: "enrollment_breakdown",
+        description: "Get enrollment statistics broken down by course type",
+        inputSchema: {
+          type: "object", 
+          properties: {},
+          required: []
+        }
+      },
+      {
+        name: "revenue_today",
+        description: "Get total completed payments revenue for today",
+        inputSchema: {
+          type: "object",
+          properties: {},
+          required: []
+        }
+      },
+      {
+        name: "agent_performance", 
+        description: "Get average agent confidence score over last 24 hours",
+        inputSchema: {
+          type: "object",
+          properties: {},
+          required: []
+        }
+      },
+      {
+        name: "call_summary",
+        description: "Get call activity summary for today", 
+        inputSchema: {
+          type: "object",
+          properties: {},
+          required: []
+        }
+      },
+      {
+        name: "license_types",
+        description: "Get breakdown of license types leads are interested in",
+        inputSchema: {
+          type: "object",
+          properties: {},
+          required: []
+        }
+      },
+      {
+        name: "recent_activity",
+        description: "Get the 5 most recent leads and their status",
+        inputSchema: {
+          type: "object", 
+          properties: {},
+          required: []
+        }
+      },
+      {
+        name: "conversion_rate",
+        description: "Get lead to enrollment conversion rate",
+        inputSchema: {
+          type: "object",
+          properties: {},
+          required: []
+        }
+      }
+    ],
+    status: "ready"
+  });
+});
+Deploy and Test
+
+Update your code with the fix above
+Deploy in Replit
+Test the discovery endpoint again
+Try the connection in ElevenLabs
+
+This should fix that HTTP Error 500 because now ElevenLabs can actually extract the tools list instead of getting confused by just a count.
