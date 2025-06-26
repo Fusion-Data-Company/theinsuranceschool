@@ -76,7 +76,7 @@ export function HeroCore() {
             </div>
           </div>
 
-          {/* Right content - Interactive 3D Scene */}
+          {/* Right content - Interactive Robot */}
           <div 
             className="flex-1 relative group cursor-pointer"
             style={{
@@ -85,10 +85,79 @@ export function HeroCore() {
             }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-electric-cyan/20 to-crimson-red/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
-            <SplineScene 
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-            />
+            
+            {/* Interactive Robot Display */}
+            <div className="w-full h-full flex items-center justify-center relative">
+              <div className="text-center space-y-6">
+                {/* Animated Robot Icon */}
+                <div className="relative">
+                  <div className="w-48 h-48 mx-auto relative">
+                    {/* Robot Body */}
+                    <div className="w-32 h-40 bg-gradient-to-b from-electric-cyan to-royal-blue rounded-2xl mx-auto relative shadow-2xl shadow-electric-cyan/50">
+                      {/* Robot Head */}
+                      <div className="w-24 h-24 bg-gradient-to-b from-white to-electric-cyan rounded-xl absolute -top-6 left-4 border-4 border-electric-cyan">
+                        {/* Eyes */}
+                        <div className="flex justify-center items-center h-full space-x-3">
+                          <div className={`w-3 h-3 rounded-full transition-colors duration-300 ${isHovered ? 'bg-crimson-red animate-pulse' : 'bg-royal-blue'}`}></div>
+                          <div className={`w-3 h-3 rounded-full transition-colors duration-300 ${isHovered ? 'bg-crimson-red animate-pulse' : 'bg-royal-blue'}`}></div>
+                        </div>
+                      </div>
+                      
+                      {/* Robot Chest Panel */}
+                      <div className="absolute top-8 left-4 right-4 h-16 bg-black-glass rounded-lg border border-electric-cyan/50">
+                        <div className="grid grid-cols-3 gap-1 p-2">
+                          {[...Array(9)].map((_, i) => (
+                            <div key={i} className={`w-2 h-2 rounded-sm transition-colors duration-500 ${isHovered ? 'bg-crimson-red animate-pulse' : 'bg-electric-cyan/70'}`}></div>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      {/* Robot Arms */}
+                      <div className="absolute top-6 -left-6 w-6 h-20 bg-gradient-to-b from-electric-cyan to-royal-blue rounded-full transform rotate-12"></div>
+                      <div className="absolute top-6 -right-6 w-6 h-20 bg-gradient-to-b from-electric-cyan to-royal-blue rounded-full transform -rotate-12"></div>
+                    </div>
+                    
+                    {/* Robot Legs */}
+                    <div className="flex justify-center space-x-4 mt-2">
+                      <div className="w-6 h-16 bg-gradient-to-b from-royal-blue to-electric-cyan rounded-full"></div>
+                      <div className="w-6 h-16 bg-gradient-to-b from-royal-blue to-electric-cyan rounded-full"></div>
+                    </div>
+                  </div>
+                  
+                  {/* Floating Particles */}
+                  <div className="absolute inset-0 pointer-events-none">
+                    {[...Array(6)].map((_, i) => (
+                      <div
+                        key={i}
+                        className={`absolute w-1 h-1 rounded-full transition-all duration-1000 ${isHovered ? 'bg-crimson-red' : 'bg-electric-cyan'}`}
+                        style={{
+                          left: `${20 + i * 15}%`,
+                          top: `${30 + (i % 3) * 20}%`,
+                          animationDelay: `${i * 0.2}s`,
+                          animation: isHovered ? 'float 2s ease-in-out infinite' : 'float 3s ease-in-out infinite',
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Interactive Text */}
+                <div className="space-y-3">
+                  <h3 className={`text-2xl font-bold transition-colors duration-300 ${isHovered ? 'text-crimson-red' : 'text-electric-cyan'}`}>
+                    Jason AI Agent
+                  </h3>
+                  <p className="text-gray-300 text-sm max-w-xs mx-auto">
+                    {isHovered ? 'Analyzing lead data and optimizing conversions...' : 'Hover to activate AI voice assistant'}
+                  </p>
+                  <div className={`flex justify-center space-x-2 ${isHovered ? 'animate-pulse' : ''}`}>
+                    <div className={`w-2 h-2 rounded-full transition-colors duration-300 ${isHovered ? 'bg-crimson-red' : 'bg-electric-cyan/50'}`}></div>
+                    <div className={`w-2 h-2 rounded-full transition-colors duration-300 ${isHovered ? 'bg-crimson-red' : 'bg-electric-cyan/50'}`} style={{ animationDelay: '0.1s' }}></div>
+                    <div className={`w-2 h-2 rounded-full transition-colors duration-300 ${isHovered ? 'bg-crimson-red' : 'bg-electric-cyan/50'}`} style={{ animationDelay: '0.2s' }}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
             <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-black-glass/30 group-hover:to-black-glass/10 transition-all duration-300"></div>
             
             {/* Interactive Glow Effect */}
