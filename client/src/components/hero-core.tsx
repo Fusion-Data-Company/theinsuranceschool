@@ -41,12 +41,12 @@ export function HeroCore() {
           {/* Left content */}
           <div className="flex-1 p-8 md:p-12 relative z-10 flex flex-col justify-center">
             <div className="space-y-6">
-              <div className="mb-8 -mx-48 -mt-20 -mr-96 relative overflow-visible h-[700px]">
+              <div className="mb-8">
                 <ParticleTextEffect 
                   words={["INSURANCE SCHOOL", "RECRUITING ANNEX"]}
-                  width={8000}
-                  height={800}
-                  className="absolute left-48 top-0"
+                  width={1300}
+                  height={280}
+                  className="mx-auto"
                 />
               </div>
               
@@ -75,7 +75,7 @@ export function HeroCore() {
           </div>
 
           {/* Right content */}
-          <div className="flex-1 relative">
+          <div className="flex-1 relative scale-125 origin-center">
             <SplineScene 
               scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
               className="w-full h-full"
