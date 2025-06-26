@@ -12,19 +12,84 @@ import { eq, gte, lte, count, avg, sum, and, desc } from "drizzle-orm";
 export function registerMCPEndpoint(app: Express) {
   console.log("Registering SSE MCP server for ElevenLabs integration...");
 
-  // Add comprehensive logging middleware for ElevenLabs debugging
-  app.use('/api/mcp*', (req, res, next) => {
-    console.log('\n=== ELEVENLABS MCP REQUEST ===');
-    console.log('Timestamp:', new Date().toISOString());
-    console.log('Method:', req.method);
-    console.log('URL:', req.url);
-    console.log('Headers:', JSON.stringify(req.headers, null, 2));
-    console.log('Body:', JSON.stringify(req.body, null, 2));
-    console.log('Query:', JSON.stringify(req.query, null, 2));
-    console.log('Remote IP:', req.ip || req.connection.remoteAddress);
-    console.log('User-Agent:', req.get('User-Agent'));
-    console.log('===============================\n');
+  // Add targeted logging middleware for ElevenLabs MCP requests
+  app.use((req, res, next) => {
+    const userAgent = req.get('User-Agent') || '';
+    const isElevenLabs = userAgent.includes('axios') || req.headers.authorization?.includes('Bearer');
+    
+    if (isElevenLabs || req.url.includes('mcp')) {
+      console.log('\n=== ELEVENLABS MCP REQUEST ===');
+      console.log('Timestamp:', new Date().toISOString());
+      console.log('Method:', req.method);
+      console.log('URL:', req.url);
+      console.log('Headers:', JSON.stringify(req.headers, null, 2));
+      console.log('Body:', JSON.stringify(req.body, null, 2));
+      console.log('Query:', JSON.stringify(req.query, null, 2));
+      console.log('Remote IP:', req.ip || req.connection.remoteAddress);
+      console.log('User-Agent:', req.get('User-Agent'));
+      console.log('===============================\n');
+    }
     next();
+  });
+
+  // CRITICAL FIX: ElevenLabs hits root URL instead of discovery endpoint
+  app.get('/', (req: Request, res: Response) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({
+      schema_version: "2024-11-05",
+      tools: [
+        {
+          name: "leads_today",
+          description: "Today's new leads count.",
+          parameters: { type: "object", properties: {} }
+        },
+        {
+          name: "enrollments_today",
+          description: "Today's enrollments count.",
+          parameters: { type: "object", properties: {} }
+        },
+        {
+          name: "qualified_leads",
+          description: "Qualified leads count.",
+          parameters: { type: "object", properties: {} }
+        },
+        {
+          name: "revenue_today",
+          description: "Today's revenue.",
+          parameters: { type: "object", properties: {} }
+        },
+        {
+          name: "agent_performance",
+          description: "Agent performance metrics.",
+          parameters: { type: "object", properties: {} }
+        },
+        {
+          name: "call_summary",
+          description: "Call interactions today.",
+          parameters: { type: "object", properties: {} }
+        },
+        {
+          name: "enrollment_breakdown",
+          description: "Enrollment breakdown by course.",
+          parameters: { type: "object", properties: {} }
+        },
+        {
+          name: "license_types",
+          description: "License type breakdown.",
+          parameters: { type: "object", properties: {} }
+        },
+        {
+          name: "recent_activity",
+          description: "Recent lead activity.",
+          parameters: { type: "object", properties: {} }
+        },
+        {
+          name: "conversion_rate",
+          description: "Lead to enrollment conversion rate.",
+          parameters: { type: "object", properties: {} }
+        }
+      ]
+    });
   });
 
   // CORS middleware for all MCP endpoints
