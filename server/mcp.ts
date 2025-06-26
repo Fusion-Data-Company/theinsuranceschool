@@ -53,16 +53,79 @@ export function registerMCPEndpoint(app: Express) {
     const expectedToken = "Ry27942001$";
     
     if (!authHeader) {
-      return res.status(401).json({ error: "Authorization required" });
+      console.log("=== UNAUTHORIZED N8N ACCESS ATTEMPT ===");
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const token = authHeader.replace("Bearer ", "");
+    // Handle double Bearer prefix issue
+    let token = authHeader.replace("Bearer Bearer ", "").replace("Bearer ", "");
     if (token !== expectedToken) {
-      return res.status(401).json({ error: "Invalid authentication" });
+      console.log("=== UNAUTHORIZED N8N ACCESS ATTEMPT ===");
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
     next();
   };
+
+  // MCP SSE Transport for n8n MCP Lient node
+  app.get("/api/mcp-sse", authenticateMCP, (req: Request, res: Response) => {
+    // Set up SSE connection
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Authorization, Content-Type'
+    });
+
+    // Send discovery information
+    const capabilities = {
+      schema_version: "2024-11-05",
+      server_info: {
+        name: "Insurance School Recruiting CRM",
+        version: "1.0.0"
+      },
+      tools: [
+        {
+          name: "leads_today",
+          description: "Today's new leads count.",
+          parameters: { type: "object", properties: {} }
+        },
+        {
+          name: "enrollments_today", 
+          description: "Today's enrollments count.",
+          parameters: { type: "object", properties: {} }
+        },
+        {
+          name: "qualified_leads",
+          description: "Qualified leads count.", 
+          parameters: { type: "object", properties: {} }
+        },
+        {
+          name: "revenue_today",
+          description: "Today's revenue.",
+          parameters: { type: "object", properties: {} }
+        },
+        {
+          name: "dashboard_data",
+          description: "Complete database dump with all leads, enrollments, payments, calls, and analytics.",
+          parameters: { type: "object", properties: {} }
+        }
+      ]
+    };
+
+    res.write(`data: ${JSON.stringify(capabilities)}\n\n`);
+
+    // Keep connection alive with periodic pings
+    const pingInterval = setInterval(() => {
+      res.write(`data: {"type":"ping","timestamp":"${new Date().toISOString()}"}\n\n`);
+    }, 30000);
+
+    // Cleanup on disconnect
+    req.on('close', () => {
+      clearInterval(pingInterval);
+    });
+  });
 
   // STEP 1: Standardized MCP Discovery Endpoint (ElevenLabs Compatible)
   app.get("/api/mcp-discover", (req: Request, res: Response) => {
