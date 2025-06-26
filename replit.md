@@ -126,6 +126,7 @@ Changelog:
 - June 25, 2025. Initial setup
 - June 26, 2025. Fixed interactive robot in hero section - restored original Spline 3D scene implementation
 - June 26, 2025. Added MCP (Model Context Protocol) server for ElevenLabs voice agent integration with real-time analytics capabilities
+- June 26, 2025. Replaced hero section header text with particle text effect displaying "INSURANCE SCHOOL" and "RECRUITING ANNEX"
 ```
 
 ## User Preferences

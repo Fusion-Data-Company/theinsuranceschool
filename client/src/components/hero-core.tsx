@@ -41,16 +41,11 @@ export function HeroCore() {
           {/* Left content */}
           <div className="flex-1 p-8 md:p-12 relative z-10 flex flex-col justify-center">
             <div className="space-y-6">
-              <div className="inline-flex items-center px-4 py-2 bg-electric-cyan/20 border border-electric-cyan/30 rounded-full text-electric-cyan text-sm font-medium mb-4">
-                <Shield className="w-4 h-4 mr-2" />
-                Enterprise-Grade CRM
-              </div>
-              
               <div className="mb-8">
                 <ParticleTextEffect 
                   words={["INSURANCE SCHOOL", "RECRUITING ANNEX"]}
-                  width={1000}
-                  height={200}
+                  width={1100}
+                  height={240}
                   className="mx-auto"
                 />
               </div>
