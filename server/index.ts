@@ -39,11 +39,21 @@ app.use((req, res, next) => {
 (async () => {
   const server = await registerRoutes(app);
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  // STEP 5: Comprehensive Error Handling for MCP Integration
+  app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
+    console.error(`[SERVER ERROR] ${new Date().toISOString()} - ${err.stack}`);
+    console.error(`Request URL: ${req.url}, Method: ${req.method}`);
+    console.error(`Request Headers: ${JSON.stringify(req.headers)}`);
+    
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
 
-    res.status(status).json({ message });
+    res.status(status).json({ 
+      success: false, 
+      error: message,
+      timestamp: new Date().toISOString(),
+      request_id: req.get('x-request-id') || 'unknown'
+    });
     throw err;
   });
 
