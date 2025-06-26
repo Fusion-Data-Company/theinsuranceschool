@@ -77,18 +77,19 @@ Configure an HTTP Request node in n8n:
 
 ```json
 {
-  "method": "POST",
-  "url": "https://your-replit-domain.dev/api/mcp",
+  "method": "GET",
+  "url": "https://your-replit-domain.dev/api/mcp/execute?tool_name=leads_today",
   "headers": {
-    "Authorization": "Bearer Ry27942001$",
-    "Content-Type": "application/json"
-  },
-  "body": {
-    "tool_name": "leads_today",
-    "arguments": {}
+    "Authorization": "Bearer Ry27942001$"
   }
 }
 ```
+
+**Alternative tools (change the tool_name parameter)**:
+- `enrollments_today` - Today's enrollments count
+- `qualified_leads` - Qualified leads count  
+- `revenue_today` - Today's revenue
+- `agent_performance` - Agent performance metrics
 
 ### Step 2: Response Processing
 

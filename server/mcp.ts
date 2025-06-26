@@ -245,7 +245,107 @@ export function registerMCPEndpoint(app: Express) {
     });
   });
 
-  // STEP 3: Enhanced MCP SSE Endpoint with Compliance Verification
+  // N8N Tool Execution Endpoint (GET for n8n compatibility)
+  app.get("/api/mcp/execute", async (req: Request, res: Response) => {
+    if (req.headers.authorization !== "Bearer Ry27942001$") {
+      console.log("=== UNAUTHORIZED N8N ACCESS ATTEMPT ===");
+      res.status(401).json({ error: "Unauthorized" });
+      return;
+    }
+
+    try {
+      console.log("\n=== N8N TOOL EXECUTION REQUEST ===");
+      console.log("Query params:", JSON.stringify(req.query, null, 2));
+      
+      const { tool_name } = req.query;
+      let result = "No data available";
+
+      console.log(`N8N Tool execution: ${tool_name}`);
+
+      switch (tool_name) {
+        case "leads_today": {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const tomorrow = new Date(today);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+
+          const [leadCount] = await db
+            .select({ count: count() })
+            .from(leads)
+            .where(and(
+              gte(leads.createdAt, today),
+              lte(leads.createdAt, tomorrow)
+            ));
+
+          result = `${leadCount.count} new leads captured today`;
+          break;
+        }
+        case "enrollments_today": {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const tomorrow = new Date(today);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+
+          const [enrollmentCount] = await db
+            .select({ count: count() })
+            .from(enrollments)
+            .where(and(
+              gte(enrollments.createdAt, today),
+              lte(enrollments.createdAt, tomorrow)
+            ));
+
+          result = `${enrollmentCount.count} new enrollments today`;
+          break;
+        }
+        case "qualified_leads": {
+          const [qualifiedCount] = await db
+            .select({ count: count() })
+            .from(leads)
+            .where(eq(leads.status, 'qualified'));
+
+          result = `${qualifiedCount.count} qualified leads in pipeline`;
+          break;
+        }
+        case "revenue_today": {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const tomorrow = new Date(today);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+
+          const [revenueSum] = await db
+            .select({ total: sum(payments.amount) })
+            .from(payments)
+            .where(and(
+              eq(payments.status, 'completed'),
+              gte(payments.createdAt, today),
+              lte(payments.createdAt, tomorrow)
+            ));
+
+          const revenue = revenueSum.total || 0;
+          result = `$${revenue} revenue generated today`;
+          break;
+        }
+        default:
+          result = `Tool ${tool_name} not implemented`;
+      }
+
+      res.json({
+        result,
+        success: true,
+        timestamp: new Date().toISOString()
+      });
+
+    } catch (error) {
+      console.error("N8N tool execution error:", error);
+      res.status(500).json({
+        error: "Tool execution failed",
+        success: false,
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
+  // STEP 3: Enhanced MCP SSE Endpoint with Compliance Verification  
   app.get("/api/mcp", (req: Request, res: Response) => {
     if (req.headers.authorization !== "Bearer Ry27942001$") {
       console.log("=== UNAUTHORIZED MCP ACCESS ATTEMPT ===");

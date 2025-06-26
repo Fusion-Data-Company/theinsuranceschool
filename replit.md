@@ -138,6 +138,7 @@ Changelog:
 - June 26, 2025. Implemented comprehensive MCP mega prompt fixes: standardized discovery endpoint with server_info format, enhanced logging, SSE compliance verification, proxy fallback endpoints, and comprehensive error handling
 - June 26, 2025. Updated MCP discovery endpoint to exact ElevenLabs schema format: replaced server_info wrapper with schema_version root field and proper JSON Schema parameter structure
 - June 26, 2025. Switched from ElevenLabs to n8n integration: updated MCP server configuration for workflow automation platform compatibility
+- June 26, 2025. Fixed n8n spinning/timeout issue by creating dedicated GET endpoint at /api/mcp/execute for immediate JSON responses instead of SSE streaming
 ```
 
 ## User Preferences
