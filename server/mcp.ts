@@ -618,6 +618,139 @@ export function registerMCPEndpoint(app: Express) {
     }
   });
 
+  // Tool manifest endpoint for ElevenLabs discovery (no auth required)
+  app.get("/api/mcp-manifest", (req: Request, res: Response) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.json({
+      name: "Insurance School Recruiting Analytics",
+      version: "1.0.0",
+      description: "Real-time analytics MCP server for insurance school recruitment operations, providing enrollment metrics, lead tracking, and performance insights",
+      server: {
+        type: "sse",
+        url: "https://a190e6a1-bc0e-470f-8fa1-8a9b6477c321-00-3sbmufpxo473c.spock.replit.dev/api/mcp",
+        authentication: {
+          type: "bearer",
+          token_header: "Authorization"
+        }
+      },
+      tools: [
+        {
+          name: "enrollments_today",
+          description: "Get the number of new student enrollments today across all insurance courses",
+          input_schema: {
+            type: "object",
+            properties: {},
+            required: []
+          },
+          category: "enrollment_metrics"
+        },
+        {
+          name: "leads_today", 
+          description: "Get the total number of new leads captured today from all sources",
+          input_schema: {
+            type: "object",
+            properties: {},
+            required: []
+          },
+          category: "lead_metrics"
+        },
+        {
+          name: "qualified_leads",
+          description: "Get count of qualified leads ready for enrollment consultation",
+          input_schema: {
+            type: "object", 
+            properties: {},
+            required: []
+          },
+          category: "lead_metrics"
+        },
+        {
+          name: "enrollment_breakdown",
+          description: "Get detailed enrollment statistics broken down by course type (2-15, 2-40, 2-14)",
+          input_schema: {
+            type: "object",
+            properties: {},
+            required: []
+          },
+          category: "enrollment_metrics"
+        },
+        {
+          name: "revenue_today",
+          description: "Get total completed payment revenue for today across all payment plans",
+          input_schema: {
+            type: "object",
+            properties: {},
+            required: []
+          },
+          category: "financial_metrics"
+        },
+        {
+          name: "agent_performance",
+          description: "Get average AI agent confidence score over the last 24 hours",
+          input_schema: {
+            type: "object",
+            properties: {},
+            required: []
+          },
+          category: "performance_metrics"
+        },
+        {
+          name: "call_summary",
+          description: "Get call activity summary for today including total calls and interest level",
+          input_schema: {
+            type: "object",
+            properties: {},
+            required: []
+          },
+          category: "call_metrics"
+        },
+        {
+          name: "license_types",
+          description: "Get breakdown of license types that leads are interested in pursuing",
+          input_schema: {
+            type: "object",
+            properties: {},
+            required: []
+          },
+          category: "lead_metrics"
+        },
+        {
+          name: "recent_activity",
+          description: "Get the 5 most recent leads and their current status in the pipeline",
+          input_schema: {
+            type: "object",
+            properties: {},
+            required: []
+          },
+          category: "activity_metrics"
+        },
+        {
+          name: "conversion_rate",
+          description: "Get lead to enrollment conversion rate percentage and totals",
+          input_schema: {
+            type: "object",
+            properties: {},
+            required: []
+          },
+          category: "performance_metrics"
+        }
+      ],
+      capabilities: {
+        real_time: true,
+        database_queries: true,
+        analytics: true,
+        reporting: true
+      },
+      metadata: {
+        provider: "Insurance School Recruiting",
+        contact: "analytics@insuranceschool.com",
+        documentation: "https://a190e6a1-bc0e-470f-8fa1-8a9b6477c321-00-3sbmufpxo473c.spock.replit.dev/api/mcp/health",
+        created: "2025-06-26",
+        last_updated: "2025-06-26"
+      }
+    });
+  });
+
   // Health check endpoint
   app.get("/api/mcp/health", (req: Request, res: Response) => {
     res.json({ 
