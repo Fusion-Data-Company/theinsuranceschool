@@ -6,6 +6,9 @@ import { insertLeadSchema, insertCallRecordSchema, insertPaymentSchema, insertEn
 import { registerMCPEndpoint } from "./mcp";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Register MCP endpoint FIRST to ensure it's not intercepted by frontend routing
+  registerMCPEndpoint(app);
+  
   // Webhook endpoints
   
   // ElevenLabs voice call webhook
@@ -252,9 +255,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to fetch payments" });
     }
   });
-
-  // Register MCP endpoint for ElevenLabs integration
-  registerMCPEndpoint(app);
 
   const httpServer = createServer(app);
   return httpServer;

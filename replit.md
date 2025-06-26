@@ -132,6 +132,7 @@ Changelog:
 - June 26, 2025. Updated particle colors to use only specified colors: blue, red, green, yellow, orange, cyan, violet (removed pink)
 - June 26, 2025. Replaced hero description with personalized Data AI welcome message for Jason and Kelli
 - June 26, 2025. Rebuilt MCP server with proper SSE transport protocol for ElevenLabs compatibility, implements JSON-RPC specification with authentication
+- June 26, 2025. Fixed MCP server visibility by implementing discovery endpoint and correcting route registration order, all 10 analytics tools now properly accessible to ElevenLabs voice agents
 ```
 
 ## User Preferences

@@ -42,7 +42,25 @@ export function registerMCPEndpoint(app: Express) {
     next();
   };
 
-  // SSE connection endpoint (ElevenLabs MCP format)
+  // Public MCP discovery endpoint (bypasses CORS auth)
+  app.get("/api/mcp-discover", (req: Request, res: Response) => {
+    res.json({
+      server: {
+        name: "Insurance School Recruiting Analytics", 
+        version: "1.0.0",
+        url: "https://a190e6a1-bc0e-470f-8fa1-8a9b6477c321-00-3sbmufpxo473c.spock.replit.dev/api/mcp",
+        transport: "sse",
+        authentication: {
+          required: true,
+          type: "bearer"
+        }
+      },
+      tools_count: 10,
+      status: "ready"
+    });
+  });
+
+  // Authenticated SSE connection endpoint for ElevenLabs
   app.get("/api/mcp", authenticateMCP, (req: Request, res: Response) => {
     console.log("ElevenLabs MCP SSE connection established");
     
