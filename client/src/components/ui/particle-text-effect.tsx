@@ -83,7 +83,7 @@ class Particle {
 
     if (drawAsPoints) {
       ctx.fillStyle = `rgb(${currentColor.r}, ${currentColor.g}, ${currentColor.b})`
-      ctx.fillRect(this.pos.x, this.pos.y, 2, 2)
+      ctx.fillRect(this.pos.x, this.pos.y, 3, 3)
     } else {
       ctx.fillStyle = `rgb(${currentColor.r}, ${currentColor.g}, ${currentColor.b})`
       ctx.beginPath()
@@ -151,8 +151,8 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS, className = "", widt
   const wordIndexRef = useRef(0)
   const mouseRef = useRef({ x: 0, y: 0, isPressed: false, isRightClick: false })
 
-  const pixelSteps = 2
-  const drawAsPoints = false
+  const pixelSteps = 4
+  const drawAsPoints = true
 
   const generateRandomPos = (x: number, y: number, mag: number): Vector2D => {
     const randomX = Math.random() * width
@@ -182,15 +182,12 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS, className = "", widt
     offscreenCanvas.height = canvas.height
     const offscreenCtx = offscreenCanvas.getContext("2d")!
 
-    // Draw text with much larger, clearer font
-    const fontSize = Math.min(width / word.length * 2.2, height * 0.8)
+    // Draw text exactly like the demo
+    const fontSize = Math.min(width / word.length * 1.5, height * 0.6)
     offscreenCtx.fillStyle = "white"
-    offscreenCtx.font = `900 ${fontSize}px Impact, Arial Black, sans-serif`
+    offscreenCtx.font = `bold ${fontSize}px Arial`
     offscreenCtx.textAlign = "center"
     offscreenCtx.textBaseline = "middle"
-    offscreenCtx.strokeStyle = "white"
-    offscreenCtx.lineWidth = 2
-    offscreenCtx.strokeText(word, canvas.width / 2, canvas.height / 2)
     offscreenCtx.fillText(word, canvas.width / 2, canvas.height / 2)
 
     const imageData = offscreenCtx.getImageData(0, 0, canvas.width, canvas.height)
@@ -241,10 +238,10 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS, className = "", widt
           particle.pos.x = randomPos.x
           particle.pos.y = randomPos.y
 
-          particle.maxSpeed = Math.random() * 4 + 3
-          particle.maxForce = particle.maxSpeed * 0.08
-          particle.particleSize = Math.random() * 4 + 4
-          particle.colorBlendRate = Math.random() * 0.02 + 0.01
+          particle.maxSpeed = Math.random() * 6 + 4
+          particle.maxForce = particle.maxSpeed * 0.05
+          particle.particleSize = Math.random() * 6 + 6
+          particle.colorBlendRate = Math.random() * 0.0275 + 0.0025
 
           particles.push(particle)
         }
@@ -276,8 +273,8 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS, className = "", widt
     const ctx = canvas.getContext("2d")!
     const particles = particlesRef.current
 
-    // Background with reduced motion blur for clarity
-    ctx.fillStyle = "rgba(0, 0, 0, 0.05)"
+    // Background with motion blur like demo
+    ctx.fillStyle = "rgba(0, 0, 0, 0.1)"
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
     // Update and draw particles
