@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { insertLeadSchema, insertCallRecordSchema, insertPaymentSchema, insertEnrollmentSchema, insertWebhookLogSchema } from "@shared/schema";
+import { registerMCPEndpoint } from "./mcp";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Webhook endpoints
@@ -251,6 +252,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to fetch payments" });
     }
   });
+
+  // Register MCP endpoint for ElevenLabs integration
+  registerMCPEndpoint(app);
 
   const httpServer = createServer(app);
   return httpServer;
