@@ -1,0 +1,142 @@
+# Insurance School Recruiting Annex – ElevenLabs MCP Server Integration
+
+## GOAL
+Add a FastAPI MCP (Model Context Protocol) SSE endpoint to the existing Replit app so ElevenLabs agents can request and receive real-time data from the Postgres database. This enables agents to answer questions like “How many enrollments today?” live on the call.
+
+---
+
+## 1. DEPENDENCIES
+
+Add to requirements.txt (or install with pip):
+fastapi
+sse-starlette
+sqlalchemy[asyncio]
+asyncpg
+
+Install:
+pip install fastapi sse-starlette sqlalchemy[asyncio] asyncpg
+
+---
+
+## 2. CREATE THE MCP ENDPOINT
+
+Add a new file at /backend/app/api/v1/endpoints/mcp.py
+
+Paste this code:
+
+import json
+from fastapi import APIRouter, Request, Header, HTTPException
+from sse_starlette.sse import EventSourceResponse
+from app.core.database import async_session
+from sqlalchemy import text
+
+router = APIRouter()
+
+@router.post("/mcp")
+async def mcp_entry(request: Request, authorization: str = Header(None)):
+    SECRET = "YOUR_SUPER_SECRET_TOKEN"
+    if authorization != f"Bearer {SECRET}":
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    data = await request.json()
+    mcp_query = data.get("query", "")
+
+    async def event_publisher():
+        async with async_session() as session:
+            if mcp_query == "enrollments_today":
+                result = await session.execute(
+                    text("SELECT COUNT(*) FROM enrollment WHERE start_date = CURRENT_DATE")
+                )
+                count = result.scalar()
+                yield {"event": "message", "data": json.dumps({"result": f"{count} enrollments today."})}
+            elif mcp_query.startswith("lead:"):
+                lead_id = mcp_query.split(":")[1]
+                result = await session.execute(
+                    text("SELECT first_name, last_name, status FROM lead WHERE id = :id"),
+                    {"id": lead_id}
+                )
+                lead = result.first()
+                if lead:
+                    msg = f"Lead {lead.first_name} {lead.last_name}, Status: {lead.status}"
+                else:
+                    msg = "Lead not found."
+                yield {"event": "message", "data": json.dumps({"result": msg})}
+            else:
+                yield {"event": "message", "data": json.dumps({"result": "Unknown query."})}
+    return EventSourceResponse(event_publisher())
+
+---
+
+## 3. REGISTER THE ENDPOINT
+
+In /backend/app/main.py, add:
+
+from app.api.v1.endpoints import mcp
+app.include_router(mcp.router, prefix="/api/v1", tags=["MCP"])
+
+---
+
+## 4. VERIFY DATABASE CONNECTION
+
+Your /backend/app/core/database.py should be:
+
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.orm import sessionmaker
+
+DATABASE_URL = "postgresql+asyncpg://user:password@localhost:5432/your_db"
+engine = create_async_engine(DATABASE_URL)
+async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+
+Update DATABASE_URL for your app.
+
+---
+
+## 5. TEST THE ENDPOINT
+
+Start your app on Replit.
+
+Test the MCP endpoint with:
+
+curl -X POST https://YOUR_REPL_URL/api/v1/mcp \
+  -H "Authorization: Bearer YOUR_SUPER_SECRET_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "enrollments_today"}'
+
+You should get an SSE response with the result, e.g. {"result": "4 enrollments today."}
+
+---
+
+## 6. REGISTER MCP SERVER IN ELEVENLABS
+
+Go to ElevenLabs > Custom MCP Servers  
+Name: Recruiting Annex MCP  
+Type: SSE  
+URL: https://YOUR_REPL_URL/api/v1/mcp  
+Secret: YOUR_SUPER_SECRET_TOKEN  
+Header: Authorization: Bearer YOUR_SUPER_SECRET_TOKEN  
+Set tool approval as you need
+
+---
+
+## 7. EXTEND SUPPORTED QUERIES
+
+Add more elif branches in the MCP endpoint for queries like:
+"query": "lead:123"
+"query": "enrollments_this_week"
+Any business logic you want
+
+---
+
+## 8. SECURITY / PRODUCTION
+
+Store YOUR_SUPER_SECRET_TOKEN in .env and load it using os.environ for safety.  
+Always use HTTPS in production.  
+Log all requests and errors for troubleshooting.
+
+---
+
+## 9. DONE
+
+This file contains every step, code, and config needed.  
+No placeholders, no windows, nothing left out.
+
+END OF FILE
