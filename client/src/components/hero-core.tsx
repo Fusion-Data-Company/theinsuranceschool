@@ -4,6 +4,7 @@ import { SplineScene } from "@/components/ui/spline";
 import { Card } from "@/components/ui/card"
 import { Spotlight } from "@/components/ui/spotlight"
 import { Button } from "@/components/ui/button"
+import { ParticleTextEffect } from "@/components/ui/particle-text-effect"
 import { Phone, Rocket, Shield } from "lucide-react"
 import { useState, useEffect } from "react"
  
@@ -45,12 +46,14 @@ export function HeroCore() {
                 Enterprise-Grade CRM
               </div>
               
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                <span className="text-electric-cyan">Insurance</span>{" "}
-                <span className="text-white">School</span>{" "}
-                <span className="text-crimson-red">Recruiting</span>{" "}
-                <span className="text-white">Annex</span>
-              </h1>
+              <div className="mb-8">
+                <ParticleTextEffect 
+                  words={["INSURANCE", "SCHOOL", "RECRUITING", "ANNEX"]}
+                  width={600}
+                  height={120}
+                  className="mx-auto"
+                />
+              </div>
               
               <p className="text-xl md:text-2xl text-gray-300 max-w-2xl leading-relaxed">
                 Futuristic AI-powered voice agents, real-time analytics, and automated enrollment system. 
