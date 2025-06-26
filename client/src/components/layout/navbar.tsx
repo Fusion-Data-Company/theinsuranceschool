@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Shield, Phone, Home, BarChart3, Users, GraduationCap, Settings } from "lucide-react";
+import { Menu, X, Shield, Phone, Home, BarChart3, Users, GraduationCap, Settings, Database } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Navbar() {

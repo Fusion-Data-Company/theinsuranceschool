@@ -18,18 +18,20 @@ async function testMCPEndpoint(query) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
 
-    const reader = response.body?.getReader();
-    if (!reader) {
-      throw new Error('No response body');
-    }
-
+    const text = await response.text();
+    const lines = text.split('\n');
     let result = '';
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      
-      const chunk = new TextDecoder().decode(value);
-      result += chunk;
+    
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        const data = line.substring(6);
+        try {
+          const parsed = JSON.parse(data);
+          result = parsed.result;
+        } catch (e) {
+          // Ignore malformed JSON
+        }
+      }
     }
 
     console.log(`Query: ${query}`);
@@ -66,8 +68,8 @@ async function runTests() {
 }
 
 // Run if called directly
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   runTests();
 }
 
-module.exports = { testMCPEndpoint };
+export { testMCPEndpoint };

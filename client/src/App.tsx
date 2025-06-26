@@ -10,6 +10,7 @@ import Leads from "@/pages/leads";
 import Analytics from "@/pages/analytics";
 import EnrollmentPage from "@/pages/enrollment";
 import Settings from "@/pages/settings";
+import MCPDemo from "@/pages/mcp-demo";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -21,6 +22,7 @@ function Router() {
       <Route path="/analytics" component={Analytics} />
       <Route path="/enrollment" component={EnrollmentPage} />
       <Route path="/settings" component={Settings} />
+      <Route path="/mcp-demo" component={MCPDemo} />
       <Route component={NotFound} />
     </Switch>
   );
