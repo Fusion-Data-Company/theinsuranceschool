@@ -193,12 +193,15 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS, className = "", widt
     const imageData = offscreenCtx.getImageData(0, 0, canvas.width, canvas.height)
     const pixels = imageData.data
 
-    // Generate cyberpunk colors (cyan, red, purple)
+    // Generate specified colors only: blue, red, green, yellow, orange, cyan, violet
     const colors = [
-      { r: 0, g: 255, b: 255 },   // Electric cyan
-      { r: 255, g: 0, b: 100 },   // Crimson red
-      { r: 138, g: 43, b: 226 },  // Purple
-      { r: 255, g: 20, b: 147 },  // Deep pink
+      { r: 0, g: 0, b: 255 },     // Blue
+      { r: 255, g: 0, b: 0 },     // Red  
+      { r: 0, g: 255, b: 0 },     // Green
+      { r: 255, g: 255, b: 0 },   // Yellow
+      { r: 255, g: 165, b: 0 },   // Orange
+      { r: 0, g: 255, b: 255 },   // Cyan
+      { r: 138, g: 43, b: 226 },  // Violet
     ]
     const newColor = colors[Math.floor(Math.random() * colors.length)]
 

@@ -75,7 +75,7 @@ export function HeroCore() {
           </div>
 
           {/* Right content */}
-          <div className="flex-1 relative scale-125 origin-center">
+          <div className="flex-1 relative">
             <SplineScene 
               scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
               className="w-full h-full"
