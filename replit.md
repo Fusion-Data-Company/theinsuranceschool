@@ -135,6 +135,7 @@ Changelog:
 - June 26, 2025. Fixed MCP server visibility by implementing discovery endpoint and correcting route registration order, all 10 analytics tools now properly accessible to ElevenLabs voice agents
 - June 26, 2025. Resolved ElevenLabs HTTP 500 error by updating discovery endpoint to return complete tools array instead of tools_count, enabling proper tool extraction
 - June 26, 2025. Implemented comprehensive MCP mega prompt fixes: standardized discovery endpoint with server_info format, enhanced logging, SSE compliance verification, proxy fallback endpoints, and comprehensive error handling
+- June 26, 2025. Updated MCP discovery endpoint to exact ElevenLabs schema format: replaced server_info wrapper with schema_version root field and proper JSON Schema parameter structure
 ```
 
 ## User Preferences
