@@ -131,6 +131,7 @@ Changelog:
 - June 26, 2025. Reverted particle text canvas back to original 1300x280px size for balanced layout with robot element
 - June 26, 2025. Updated particle colors to use only specified colors: blue, red, green, yellow, orange, cyan, violet (removed pink)
 - June 26, 2025. Replaced hero description with personalized Data AI welcome message for Jason and Kelli
+- June 26, 2025. Rebuilt MCP server with proper SSE transport protocol for ElevenLabs compatibility, implements JSON-RPC specification with authentication
 ```
 
 ## User Preferences
