@@ -149,6 +149,14 @@ export function registerMCPEndpoint(app: Express) {
             type: "object",
             properties: {}
           }
+        },
+        {
+          name: "dashboard_data",
+          description: "Complete database dump with all leads, enrollments, payments, calls, and analytics.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
         }
       ]
     });
@@ -265,6 +273,117 @@ export function registerMCPEndpoint(app: Express) {
 
           const revenue = revenueSum.total || 0;
           result = `$${revenue} revenue generated today`;
+          break;
+        }
+        case "dashboard_data": {
+          // Get comprehensive dashboard data in one call
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const tomorrow = new Date(today);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+
+          // Get all leads with related data
+          const allLeads = await db
+            .select({
+              id: leads.id,
+              firstName: leads.firstName,
+              lastName: leads.lastName,
+              phone: leads.phone,
+              email: leads.email,
+              status: leads.status,
+              licenseGoal: leads.licenseGoal,
+              source: leads.source,
+              createdAt: leads.createdAt
+            })
+            .from(leads)
+            .orderBy(desc(leads.createdAt));
+
+          // Get all enrollments
+          const allEnrollments = await db
+            .select({
+              id: enrollments.id,
+              leadId: enrollments.leadId,
+              course: enrollments.course,
+              cohort: enrollments.cohort,
+              status: enrollments.status,
+              startDate: enrollments.startDate,
+              createdAt: enrollments.createdAt
+            })
+            .from(enrollments)
+            .orderBy(desc(enrollments.createdAt));
+
+          // Get all payments
+          const allPayments = await db
+            .select({
+              id: payments.id,
+              leadId: payments.leadId,
+              amount: payments.amount,
+              status: payments.status,
+              planChosen: payments.planChosen,
+              createdAt: payments.createdAt
+            })
+            .from(payments)
+            .orderBy(desc(payments.createdAt));
+
+          // Get all call records
+          const allCallRecords = await db
+            .select({
+              id: callRecords.id,
+              leadId: callRecords.leadId,
+              callSid: callRecords.callSid,
+              durationSeconds: callRecords.durationSeconds,
+              transcript: callRecords.transcript,
+              sentiment: callRecords.sentiment,
+              intent: callRecords.intent,
+              createdAt: callRecords.createdAt
+            })
+            .from(callRecords)
+            .orderBy(desc(callRecords.createdAt));
+
+          // Calculate analytics
+          const [leadsToday] = await db
+            .select({ count: count() })
+            .from(leads)
+            .where(and(gte(leads.createdAt, today), lte(leads.createdAt, tomorrow)));
+
+          const [enrollmentsToday] = await db
+            .select({ count: count() })
+            .from(enrollments)
+            .where(and(gte(enrollments.createdAt, today), lte(enrollments.createdAt, tomorrow)));
+
+          const [revenueToday] = await db
+            .select({ total: sum(payments.amount) })
+            .from(payments)
+            .where(and(
+              eq(payments.status, 'completed'),
+              gte(payments.createdAt, today),
+              lte(payments.createdAt, tomorrow)
+            ));
+
+          const [qualifiedLeads] = await db
+            .select({ count: count() })
+            .from(leads)
+            .where(eq(leads.status, 'qualified'));
+
+          const dashboardData = {
+            summary: {
+              leadsToday: leadsToday.count,
+              enrollmentsToday: enrollmentsToday.count,
+              revenueToday: revenueToday.total || 0,
+              qualifiedLeads: qualifiedLeads.count,
+              totalLeads: allLeads.length,
+              totalEnrollments: allEnrollments.length,
+              totalPayments: allPayments.length,
+              totalCallRecords: allCallRecords.length
+            },
+            leads: allLeads,
+            enrollments: allEnrollments,
+            payments: allPayments,
+            callRecords: allCallRecords,
+            lastUpdated: new Date().toISOString()
+          };
+
+          result = JSON.stringify(dashboardData, null, 2);
           break;
         }
         default:
