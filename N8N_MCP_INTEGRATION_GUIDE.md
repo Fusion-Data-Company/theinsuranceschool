@@ -8,9 +8,9 @@ This guide provides step-by-step instructions for integrating the Insurance Scho
 
 ### Available Endpoints
 
-1. **Root Discovery**: `https://your-replit-domain.dev/`
-2. **Standard Discovery**: `https://your-replit-domain.dev/api/mcp-discover`
-3. **Tool Execution**: `https://your-replit-domain.dev/api/mcp`
+1. **Discovery**: `https://your-replit-domain.dev/api/mcp-discover`
+2. **Tool Execution**: `https://your-replit-domain.dev/api/mcp/execute`
+3. **Legacy SSE**: `https://your-replit-domain.dev/api/mcp` (for streaming clients)
 
 ### Authentication
 

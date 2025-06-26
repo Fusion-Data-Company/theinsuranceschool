@@ -32,65 +32,7 @@ export function registerMCPEndpoint(app: Express) {
     next();
   });
 
-  // Root URL discovery endpoint for n8n MCP integration
-  app.get('/', (req: Request, res: Response) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).json({
-      schema_version: "2024-11-05",
-      tools: [
-        {
-          name: "leads_today",
-          description: "Today's new leads count.",
-          parameters: { type: "object", properties: {} }
-        },
-        {
-          name: "enrollments_today",
-          description: "Today's enrollments count.",
-          parameters: { type: "object", properties: {} }
-        },
-        {
-          name: "qualified_leads",
-          description: "Qualified leads count.",
-          parameters: { type: "object", properties: {} }
-        },
-        {
-          name: "revenue_today",
-          description: "Today's revenue.",
-          parameters: { type: "object", properties: {} }
-        },
-        {
-          name: "agent_performance",
-          description: "Agent performance metrics.",
-          parameters: { type: "object", properties: {} }
-        },
-        {
-          name: "call_summary",
-          description: "Call interactions today.",
-          parameters: { type: "object", properties: {} }
-        },
-        {
-          name: "enrollment_breakdown",
-          description: "Enrollment breakdown by course.",
-          parameters: { type: "object", properties: {} }
-        },
-        {
-          name: "license_types",
-          description: "License type breakdown.",
-          parameters: { type: "object", properties: {} }
-        },
-        {
-          name: "recent_activity",
-          description: "Recent lead activity.",
-          parameters: { type: "object", properties: {} }
-        },
-        {
-          name: "conversion_rate",
-          description: "Lead to enrollment conversion rate.",
-          parameters: { type: "object", properties: {} }
-        }
-      ]
-    });
-  });
+
 
   // CORS middleware for all MCP endpoints
   app.use("/api/mcp*", (req: Request, res: Response, next) => {
