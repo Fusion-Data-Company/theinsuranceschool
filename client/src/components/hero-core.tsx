@@ -44,8 +44,8 @@ export function HeroCore() {
               <div className="mb-8">
                 <ParticleTextEffect 
                   words={["INSURANCE SCHOOL", "RECRUITING ANNEX"]}
-                  width={1100}
-                  height={240}
+                  width={1300}
+                  height={280}
                   className="mx-auto"
                 />
               </div>
