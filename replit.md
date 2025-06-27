@@ -150,6 +150,8 @@ Changelog:
 - June 27, 2025. Simplified ElevenLabs ConvAI widget to display directly on main page without custom popup wrapper
 - June 27, 2025. Cleaned HTML implementation to place ElevenLabs widget directly in body without any wrappers or interference
 - June 27, 2025. Fixed ElevenLabs widget positioning with CSS styling in HTML head, widget now appears in bottom right corner on all pages
+- June 27, 2025. Fixed database WebSocket connection issue with Neon PostgreSQL, added proper timeout configurations and WebSocket setup
+- June 27, 2025. Added message column to n8n_chat_histories table for enhanced chat logging capabilities
 ```
 
 ## User Preferences

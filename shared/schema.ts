@@ -109,6 +109,7 @@ export const n8nChatHistories = pgTable("n8n_chat_histories", {
   id: serial("id").primaryKey(),
   sessionId: text("session_id").notNull(),
   messages: jsonb("messages").notNull(),
+  message: text("message"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 }, (table) => ({
