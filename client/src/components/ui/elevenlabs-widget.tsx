@@ -59,7 +59,7 @@ export function ElevenLabsWidget({
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 right-6 z-[9999]">
       {/* Expanded Widget */}
       {isOpen && !isConnected && (
         <div className="mb-4 card-glass p-6 w-80 animate-in slide-in-from-bottom-2">
@@ -71,13 +71,21 @@ export function ElevenLabsWidget({
             <p className="text-gray-300 text-sm mb-4">
               Get instant answers about our insurance licensing programs
             </p>
-            <div className="w-full flex justify-center">
-              <div 
-                dangerouslySetInnerHTML={{
-                  __html: '<elevenlabs-convai agent-id="agent_01jym82zjnfykactsvevyt6bra"></elevenlabs-convai>'
-                }}
-              />
+            <div className="w-full flex justify-center mb-4">
+              {/* Fallback button while ElevenLabs widget loads */}
+              <button
+                onClick={handleCallStart}
+                className="w-full bg-gradient-to-r from-electric-cyan to-fuchsia hover:from-fuchsia hover:to-electric-cyan text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
+              >
+                Start Voice Call with Bandit
+              </button>
             </div>
+            <div 
+              className="w-full flex justify-center"
+              dangerouslySetInnerHTML={{
+                __html: '<elevenlabs-convai agent-id="agent_01jym82zjnfykactsvevyt6bra"></elevenlabs-convai>'
+              }}
+            />
             <p className="text-xs text-gray-400 mt-2">
               Powered by ElevenLabs AI
             </p>
@@ -119,18 +127,19 @@ export function ElevenLabsWidget({
       {/* Floating Action Button */}
       <button
         onClick={toggleWidget}
-        className={`w-16 h-16 rounded-full shadow-lg transform transition-all duration-300 hover:scale-110 ${
+        className={`w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transform transition-all duration-300 hover:scale-110 ${
           isConnected
             ? 'bg-gradient-to-r from-red-500 to-red-600 animate-pulse'
             : isOpen
             ? 'bg-gradient-to-r from-gray-600 to-gray-700'
             : 'bg-gradient-to-r from-electric-cyan to-fuchsia hover:from-fuchsia hover:to-electric-cyan'
         }`}
+        style={{ boxShadow: '0 8px 32px rgba(59, 130, 246, 0.3)' }}
       >
         {isConnected ? (
-          <PhoneCall className="w-8 h-8 text-white mx-auto" />
+          <PhoneCall className="w-8 h-8 text-white" />
         ) : (
-          <Phone className="w-8 h-8 text-white mx-auto" />
+          <Phone className="w-8 h-8 text-white" />
         )}
       </button>
 
