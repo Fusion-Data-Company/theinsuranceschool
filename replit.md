@@ -149,6 +149,7 @@ Changelog:
 - June 27, 2025. Connected hero section analytics to live PostgreSQL data replacing placeholder values with real-time metrics
 - June 27, 2025. Simplified ElevenLabs ConvAI widget to display directly on main page without custom popup wrapper
 - June 27, 2025. Cleaned HTML implementation to place ElevenLabs widget directly in body without any wrappers or interference
+- June 27, 2025. Fixed ElevenLabs widget positioning with CSS styling in HTML head, widget now appears in bottom right corner on all pages
 ```
 
 ## User Preferences
