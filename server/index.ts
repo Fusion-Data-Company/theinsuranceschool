@@ -1,5 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
+import { registerN8nDirectEndpoints } from "./n8n-direct";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
@@ -37,6 +38,9 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Register N8N direct endpoints first
+  registerN8nDirectEndpoints(app);
+  
   const server = await registerRoutes(app);
 
   // STEP 5: Comprehensive Error Handling for MCP Integration
