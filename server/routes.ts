@@ -174,9 +174,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const analytics = await storage.getAnalytics();
 
+      // Extract UUID fields for direct PostgreSQL access
+      const uuidFields = allChatHistories.map(chat => ({
+        uuid: chat.uuid,
+        sessionId: chat.sessionId,
+        message: chat.message,
+        messages: chat.messages,
+        createdAt: chat.createdAt,
+        updatedAt: chat.updatedAt
+      }));
+
       const responseData = {
         success: true,
         timestamp: new Date().toISOString(),
+        // Direct UUID access for PostgreSQL node
+        uuid: allChatHistories[0]?.uuid || null,
+        sessionId: allChatHistories[0]?.sessionId || null,
+        uuids: uuidFields,
+        chat_memory: uuidFields,
+        // Complete dataset
         summary: {
           totalLeads: allLeads.length,
           totalEnrollments: allEnrollments.length,
