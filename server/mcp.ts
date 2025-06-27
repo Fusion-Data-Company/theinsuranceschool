@@ -1,5 +1,6 @@
 import { Express, Request, Response } from "express";
 import { db } from "./db";
+import { CacheManager } from "./cache";
 import { 
   leads, 
   enrollments, 
@@ -267,6 +268,23 @@ export function registerMCPEndpoint(app: Express) {
       console.log("Query params:", JSON.stringify(req.query, null, 2));
       
       const { tool_name } = req.query;
+      
+      // Check cache first for non-dashboard data tools
+      if (tool_name !== 'dashboard_data') {
+        const cacheKey = `mcp_tool_${tool_name}`;
+        const cachedResult = CacheManager.getMCP(cacheKey);
+        
+        if (cachedResult) {
+          console.log(`Cache hit for tool: ${tool_name}`);
+          return res.json({
+            result: cachedResult,
+            success: true,
+            timestamp: new Date().toISOString(),
+            cached: true
+          });
+        }
+      }
+      
       let result = "No data available";
 
       console.log(`N8N Tool execution: ${tool_name}`);
@@ -546,6 +564,12 @@ export function registerMCPEndpoint(app: Express) {
         }
         default:
           result = `Tool ${tool_name} not implemented`;
+      }
+
+      // Cache the result for future requests (except dashboard_data which is too large)
+      if (tool_name !== 'dashboard_data' && result !== `Tool ${tool_name} not implemented`) {
+        const cacheKey = `mcp_tool_${tool_name}`;
+        CacheManager.setMCP(cacheKey, result);
       }
 
       res.json({
