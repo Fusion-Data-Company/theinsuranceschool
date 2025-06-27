@@ -451,6 +451,19 @@ export function registerMCPEndpoint(app: Express) {
             .from(leads)
             .where(eq(leads.status, 'qualified'));
 
+          // Get all chat histories with UUIDs for learning agent
+          const allChatHistories = await db
+            .select({
+              uuid: n8nChatHistories.uuid,
+              sessionId: n8nChatHistories.sessionId,
+              messages: n8nChatHistories.messages,
+              message: n8nChatHistories.message,
+              createdAt: n8nChatHistories.createdAt,
+              updatedAt: n8nChatHistories.updatedAt
+            })
+            .from(n8nChatHistories)
+            .orderBy(desc(n8nChatHistories.createdAt));
+
           const dashboardData = {
             summary: {
               leadsToday: leadsToday.count,
@@ -460,12 +473,20 @@ export function registerMCPEndpoint(app: Express) {
               totalLeads: allLeads.length,
               totalEnrollments: allEnrollments.length,
               totalPayments: allPayments.length,
-              totalCallRecords: allCallRecords.length
+              totalCallRecords: allCallRecords.length,
+              totalChatHistories: allChatHistories.length
             },
             leads: allLeads,
             enrollments: allEnrollments,
             payments: allPayments,
             callRecords: allCallRecords,
+            chatHistories: allChatHistories,
+            uuid_schema: {
+              primary_key: "uuid",
+              chat_table: "n8n_chat_histories",
+              unique_identifier_field: "uuid",
+              session_grouping_field: "sessionId"
+            },
             lastUpdated: new Date().toISOString()
           };
 
