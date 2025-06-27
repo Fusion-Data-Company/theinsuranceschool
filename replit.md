@@ -148,6 +148,7 @@ Changelog:
 - June 27, 2025. Updated AI agent name from "Data" to "Bandit" with revised call flow instructions
 - June 27, 2025. Connected hero section analytics to live PostgreSQL data replacing placeholder values with real-time metrics
 - June 27, 2025. Simplified ElevenLabs ConvAI widget to display directly on main page without custom popup wrapper
+- June 27, 2025. Cleaned HTML implementation to place ElevenLabs widget directly in body without any wrappers or interference
 ```
 
 ## User Preferences
