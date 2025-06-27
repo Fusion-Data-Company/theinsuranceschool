@@ -19,9 +19,39 @@
   <body>
     <div id="root"></div>
     
-    <elevenlabs-convai agent-id="agent_01jym82zjnfykactsvevyt6bra"></elevenlabs-convai>
+    <!-- ElevenLabs Widget - Bottom Right Corner -->
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+      <elevenlabs-convai agent-id="agent_01jym82zjnfykactsvevyt6bra"></elevenlabs-convai>
+    </div>
     
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Force ElevenLabs Widget to Load -->
+    <script>
+      // Multiple approaches to ensure widget loads
+      function forceWidgetLoad() {
+        // Remove any existing widgets first
+        const existing = document.querySelectorAll('elevenlabs-convai');
+        existing.forEach(el => el.remove());
+        
+        // Create new container with widget
+        const container = document.createElement('div');
+        container.id = 'elevenlabs-widget-container';
+        container.style.cssText = 'position: fixed !important; bottom: 20px !important; right: 20px !important; z-index: 999999 !important; pointer-events: auto !important;';
+        container.innerHTML = '<elevenlabs-convai agent-id="agent_01jym82zjnfykactsvevyt6bra"></elevenlabs-convai>';
+        document.body.appendChild(container);
+        
+        console.log('ElevenLabs widget forced to load');
+      }
+      
+      // Try multiple times
+      document.addEventListener('DOMContentLoaded', forceWidgetLoad);
+      window.addEventListener('load', forceWidgetLoad);
+      setTimeout(forceWidgetLoad, 500);
+      setTimeout(forceWidgetLoad, 1500);
+      setTimeout(forceWidgetLoad, 3000);
+    </script>
+    
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
   </body>
