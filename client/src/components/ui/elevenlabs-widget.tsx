@@ -1,6 +1,27 @@
 import { useState, useRef, useEffect } from "react";
 import { Mic, MicOff, Phone, PhoneCall } from "lucide-react";
 
+// Declare custom element for TypeScript
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'elevenlabs-convai': {
+        'agent-id': string;
+        children?: React.ReactNode;
+      };
+    }
+  }
+}
+
+// Load ElevenLabs ConvAI widget script
+if (typeof window !== 'undefined' && !document.querySelector('script[src="https://unpkg.com/@elevenlabs/convai-widget-embed"]')) {
+  const script = document.createElement('script');
+  script.src = 'https://unpkg.com/@elevenlabs/convai-widget-embed';
+  script.async = true;
+  script.type = 'text/javascript';
+  document.head.appendChild(script);
+}
+
 interface ElevenLabsWidgetProps {
   agentId?: string;
   onCallStart?: () => void;
@@ -50,12 +71,13 @@ export function ElevenLabsWidget({
             <p className="text-gray-300 text-sm mb-4">
               Get instant answers about our insurance licensing programs
             </p>
-            <button
-              onClick={handleCallStart}
-              className="w-full bg-gradient-to-r from-electric-cyan to-fuchsia hover:from-fuchsia hover:to-electric-cyan text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
-            >
-              Start Voice Call
-            </button>
+            <div className="w-full flex justify-center">
+              <div 
+                dangerouslySetInnerHTML={{
+                  __html: '<elevenlabs-convai agent-id="agent_01jym82zjnfykactsvevyt6bra"></elevenlabs-convai>'
+                }}
+              />
+            </div>
             <p className="text-xs text-gray-400 mt-2">
               Powered by ElevenLabs AI
             </p>
