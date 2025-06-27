@@ -7,10 +7,21 @@ import { Button } from "@/components/ui/button"
 import { ParticleTextEffect } from "@/components/ui/particle-text-effect"
 import { Phone, Rocket, Shield } from "lucide-react"
 import { useState, useEffect } from "react"
+import { useQuery } from "@tanstack/react-query"
  
+interface AnalyticsData {
+  activeLeads: number;
+  agentPerformance: number;
+  monthlyRevenue: number;
+}
+
 export function HeroCore() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+
+  const { data: analytics, isLoading } = useQuery<AnalyticsData>({
+    queryKey: ["/api/analytics"],
+  });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -58,15 +69,21 @@ export function HeroCore() {
               
               <div className="grid grid-cols-3 gap-6 pt-8">
                 <div className="text-center p-4 card-glass hover:scale-105 transition-transform">
-                  <div className="text-2xl font-bold text-electric-cyan">247</div>
+                  <div className="text-2xl font-bold text-electric-cyan">
+                    {isLoading ? "..." : analytics?.activeLeads || 0}
+                  </div>
                   <div className="text-sm text-gray-400">Active Leads</div>
                 </div>
                 <div className="text-center p-4 card-glass hover:scale-105 transition-transform">
-                  <div className="text-2xl font-bold text-crimson-red">94.2%</div>
+                  <div className="text-2xl font-bold text-crimson-red">
+                    {isLoading ? "..." : `${analytics?.agentPerformance || 0}%`}
+                  </div>
                   <div className="text-sm text-gray-400">AI Success Rate</div>
                 </div>
                 <div className="text-center p-4 card-glass hover:scale-105 transition-transform">
-                  <div className="text-2xl font-bold text-royal-blue">$2.4M</div>
+                  <div className="text-2xl font-bold text-royal-blue">
+                    {isLoading ? "..." : `$${((analytics?.monthlyRevenue || 0) / 1000).toFixed(1)}K`}
+                  </div>
                   <div className="text-sm text-gray-400">Monthly Revenue</div>
                 </div>
               </div>
