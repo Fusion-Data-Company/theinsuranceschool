@@ -588,7 +588,10 @@ export function registerMCPEndpoint(app: Express) {
           const memoryData = {
             chat_histories: chatHistory,
             total_records: chatHistory.length,
-            unique_sessions: [...new Set(chatHistory.map(ch => ch.sessionId))].length,
+            unique_sessions: chatHistory.reduce((acc, ch) => {
+              if (!acc.includes(ch.sessionId)) acc.push(ch.sessionId);
+              return acc;
+            }, [] as string[]).length,
             schema_info: {
               primary_key: "uuid",
               unique_identifier: "uuid",
