@@ -3,9 +3,13 @@ import { Users, TrendingUp, DollarSign, Mic } from "lucide-react";
 
 interface AnalyticsData {
   activeLeads: number;
+  activeLeadsChange: number;
   conversionRate: number;
+  conversionRateChange: number;
   revenueToday: number;
+  revenueTodayChange: number;
   agentPerformance: number;
+  agentPerformanceChange: number;
 }
 
 export function StatsGrid() {
@@ -35,32 +39,47 @@ export function StatsGrid() {
     );
   }
 
+  const formatChange = (value: number, label: string) => {
+    const sign = value >= 0 ? "+" : "";
+    const color = value >= 0 ? "text-green-400" : "text-red-400";
+    return { text: `${sign}${value}% ${label}`, color };
+  };
+
+  const activeLeadsChange = formatChange(analytics.activeLeadsChange, "from yesterday");
+  const conversionRateChange = formatChange(analytics.conversionRateChange, "this week");
+  const revenueTodayChange = formatChange(analytics.revenueTodayChange, "vs yesterday");
+  const agentPerformanceChange = formatChange(analytics.agentPerformanceChange, "this week");
+
   const stats = [
     {
       title: "Active Leads",
       value: analytics.activeLeads.toString(),
-      change: "+12% from yesterday",
+      change: activeLeadsChange.text,
+      changeColor: activeLeadsChange.color,
       icon: Users,
       color: "text-electric-cyan",
     },
     {
       title: "Conversion Rate",
       value: `${analytics.conversionRate}%`,
-      change: "+2.3% this week",
+      change: conversionRateChange.text,
+      changeColor: conversionRateChange.color,
       icon: TrendingUp,
       color: "text-fuchsia",
     },
     {
       title: "Revenue Today",
       value: `$${analytics.revenueToday.toLocaleString()}`,
-      change: "+8.5% vs target",
+      change: revenueTodayChange.text,
+      changeColor: revenueTodayChange.color,
       icon: DollarSign,
       color: "text-vibrant-purple",
     },
     {
       title: "Agent Success Rate",
       value: `${analytics.agentPerformance}%`,
-      change: "Excellent performance",
+      change: agentPerformanceChange.text,
+      changeColor: agentPerformanceChange.color,
       icon: Mic,
       color: "text-neon-magenta",
     },
@@ -77,7 +96,7 @@ export function StatsGrid() {
             </div>
             <div className="text-2xl font-bold text-white">{stat.value}</div>
             <div className="text-sm text-gray-400">{stat.title}</div>
-            <div className="text-xs text-green-400 mt-1">{stat.change}</div>
+            <div className={`text-xs mt-1 ${stat.changeColor}`}>{stat.change}</div>
           </div>
         );
       })}

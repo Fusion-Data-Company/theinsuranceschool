@@ -6,7 +6,7 @@ import {
   type AgentMetric, type InsertAgentMetric 
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, count, avg, sum, and, gte, lte } from "drizzle-orm";
+import { eq, desc, count, avg, sum, and, gte, lte, or } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -49,9 +49,13 @@ export interface IStorage {
   // Analytics
   getAnalytics(): Promise<{
     activeLeads: number;
+    activeLeadsChange: number;
     conversionRate: number;
+    conversionRateChange: number;
     revenueToday: number;
+    revenueTodayChange: number;
     agentPerformance: number;
+    agentPerformanceChange: number;
     totalLeads: number;
     qualified: number;
     enrolled: number;
@@ -220,9 +224,13 @@ export class DatabaseStorage implements IStorage {
   // Analytics
   async getAnalytics(): Promise<{
     activeLeads: number;
+    activeLeadsChange: number;
     conversionRate: number;
+    conversionRateChange: number;
     revenueToday: number;
+    revenueTodayChange: number;
     agentPerformance: number;
+    agentPerformanceChange: number;
     totalLeads: number;
     qualified: number;
     enrolled: number;
@@ -238,6 +246,16 @@ export class DatabaseStorage implements IStorage {
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const dayBeforeYesterday = new Date(yesterday);
+    dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 1);
+
+    const weekAgo = new Date(today);
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    const twoWeeksAgo = new Date(weekAgo);
+    twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 7);
+
     const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
 
     // Get lead counts
@@ -249,10 +267,22 @@ export class DatabaseStorage implements IStorage {
 
     // Get active leads (new, contacted, qualified)
     const [activeLeadsResult] = await db.select({ count: count() }).from(leads)
-      .where(and(
+      .where(or(
         eq(leads.status, 'new'),
         eq(leads.status, 'contacted'),
         eq(leads.status, 'qualified')
+      ));
+
+    // Get yesterday's active leads for comparison
+    const [yesterdayActiveLeadsResult] = await db.select({ count: count() }).from(leads)
+      .where(and(
+        or(
+          eq(leads.status, 'new'),
+          eq(leads.status, 'contacted'),
+          eq(leads.status, 'qualified')
+        ),
+        gte(leads.createdAt, dayBeforeYesterday),
+        lte(leads.createdAt, yesterday)
       ));
 
     // Get today's revenue
@@ -263,6 +293,38 @@ export class DatabaseStorage implements IStorage {
         eq(payments.status, 'completed'),
         gte(payments.createdAt, today),
         lte(payments.createdAt, tomorrow)
+      ));
+
+    // Get yesterday's revenue for comparison
+    const [yesterdayRevenueResult] = await db.select({ 
+      total: sum(payments.amount) 
+    }).from(payments)
+      .where(and(
+        eq(payments.status, 'completed'),
+        gte(payments.createdAt, yesterday),
+        lte(payments.createdAt, today)
+      ));
+
+    // Get this week's conversion rate data
+    const [thisWeekLeadsResult] = await db.select({ count: count() }).from(leads)
+      .where(gte(leads.createdAt, weekAgo));
+    const [thisWeekEnrolledResult] = await db.select({ count: count() }).from(leads)
+      .where(and(
+        eq(leads.status, 'enrolled'),
+        gte(leads.createdAt, weekAgo)
+      ));
+
+    // Get last week's conversion rate data
+    const [lastWeekLeadsResult] = await db.select({ count: count() }).from(leads)
+      .where(and(
+        gte(leads.createdAt, twoWeeksAgo),
+        lte(leads.createdAt, weekAgo)
+      ));
+    const [lastWeekEnrolledResult] = await db.select({ count: count() }).from(leads)
+      .where(and(
+        eq(leads.status, 'enrolled'),
+        gte(leads.createdAt, twoWeeksAgo),
+        lte(leads.createdAt, weekAgo)
       ));
 
     // Get monthly revenue
@@ -289,22 +351,73 @@ export class DatabaseStorage implements IStorage {
       avg: avg(agentMetrics.responseTimeMs)
     }).from(agentMetrics);
 
+    // Get agent performance from this week vs last week
+    const [thisWeekConfidenceResult] = await db.select({
+      avg: avg(agentMetrics.confidence)
+    }).from(agentMetrics)
+      .innerJoin(callRecords, eq(agentMetrics.callRecordId, callRecords.id))
+      .where(gte(callRecords.createdAt, weekAgo));
+
+    const [lastWeekConfidenceResult] = await db.select({
+      avg: avg(agentMetrics.confidence)
+    }).from(agentMetrics)
+      .innerJoin(callRecords, eq(agentMetrics.callRecordId, callRecords.id))
+      .where(and(
+        gte(callRecords.createdAt, twoWeeksAgo),
+        lte(callRecords.createdAt, weekAgo)
+      ));
+
+    // Calculate current metrics
     const totalLeads = totalLeadsResult?.count || 0;
     const qualified = qualifiedResult?.count || 0;
     const enrolled = enrolledResult?.count || 0;
     const totalCalls = callCountResult?.count || 0;
+    const activeLeads = activeLeadsResult?.count || 0;
+    const revenueToday = Number(revenueResult?.total || 0);
+
+    // Calculate historical comparisons
+    const yesterdayActiveLeads = yesterdayActiveLeadsResult?.count || 0;
+    const yesterdayRevenue = Number(yesterdayRevenueResult?.total || 0);
+    
+    const thisWeekLeads = thisWeekLeadsResult?.count || 0;
+    const thisWeekEnrolled = thisWeekEnrolledResult?.count || 0;
+    const lastWeekLeads = lastWeekLeadsResult?.count || 0;
+    const lastWeekEnrolled = lastWeekEnrolledResult?.count || 0;
+
+    const thisWeekConversionRate = thisWeekLeads > 0 ? (thisWeekEnrolled / thisWeekLeads) * 100 : 0;
+    const lastWeekConversionRate = lastWeekLeads > 0 ? (lastWeekEnrolled / lastWeekLeads) * 100 : 0;
+
+    const thisWeekConfidence = Number(thisWeekConfidenceResult?.avg || 0) * 100;
+    const lastWeekConfidence = Number(lastWeekConfidenceResult?.avg || 0) * 100;
+
+    // Calculate percentage changes
+    const activeLeadsChange = yesterdayActiveLeads > 0 ? 
+      ((activeLeads - yesterdayActiveLeads) / yesterdayActiveLeads) * 100 : 0;
+    
+    const revenueTodayChange = yesterdayRevenue > 0 ? 
+      ((revenueToday - yesterdayRevenue) / yesterdayRevenue) * 100 : 0;
+    
+    const conversionRateChange = lastWeekConversionRate > 0 ? 
+      thisWeekConversionRate - lastWeekConversionRate : 0;
+    
+    const agentPerformanceChange = lastWeekConfidence > 0 ? 
+      thisWeekConfidence - lastWeekConfidence : 0;
 
     const conversionRate = totalLeads > 0 ? (enrolled / totalLeads) * 100 : 0;
     const enrollmentRate = qualified > 0 ? (enrolled / qualified) * 100 : 0;
     const agentPerformance = Number(avgConfidenceResult?.avg || 0) * 100;
     const aiPerformance = agentPerformance;
-    const responseTime = Number(avgResponseTimeResult?.avg || 1300) / 1000; // Convert to seconds
+    const responseTime = Number(avgResponseTimeResult?.avg || 1300) / 1000;
 
     return {
-      activeLeads: activeLeadsResult?.count || totalLeads,
+      activeLeads,
+      activeLeadsChange: Number(activeLeadsChange.toFixed(1)),
       conversionRate: Number(conversionRate.toFixed(1)),
-      revenueToday: Number(revenueResult?.total || 0),
+      conversionRateChange: Number(conversionRateChange.toFixed(1)),
+      revenueToday,
+      revenueTodayChange: Number(revenueTodayChange.toFixed(1)),
       agentPerformance: Number(agentPerformance.toFixed(1)),
+      agentPerformanceChange: Number(agentPerformanceChange.toFixed(1)),
       totalLeads,
       qualified,
       enrolled,
