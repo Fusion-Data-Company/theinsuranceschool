@@ -1,9 +1,9 @@
 import { 
-  users, leads, callRecords, payments, enrollments, webhookLogs, agentMetrics,
+  users, leads, callRecords, payments, enrollments, webhookLogs, agentMetrics, n8nChatHistories,
   type User, type InsertUser, type Lead, type InsertLead, type CallRecord, 
   type InsertCallRecord, type Payment, type InsertPayment, type Enrollment, 
   type InsertEnrollment, type WebhookLog, type InsertWebhookLog, 
-  type AgentMetric, type InsertAgentMetric 
+  type AgentMetric, type InsertAgentMetric, type N8nChatHistory, type InsertN8nChatHistory
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, count, avg, sum, and, gte, lte, or } from "drizzle-orm";
@@ -45,6 +45,9 @@ export interface IStorage {
   // Agent Metrics
   createAgentMetric(metric: InsertAgentMetric): Promise<AgentMetric>;
   getAgentMetricsByCallId(callRecordId: number): Promise<AgentMetric[]>;
+
+  // N8n Chat Histories
+  getAllN8nChatHistories(): Promise<N8nChatHistory[]>;
 
   // Analytics
   getAnalytics(): Promise<{
@@ -219,6 +222,11 @@ export class DatabaseStorage implements IStorage {
   async getAgentMetricsByCallId(callRecordId: number): Promise<AgentMetric[]> {
     return await db.select().from(agentMetrics)
       .where(eq(agentMetrics.callRecordId, callRecordId));
+  }
+
+  async getAllN8nChatHistories(): Promise<N8nChatHistory[]> {
+    return await db.select().from(n8nChatHistories)
+      .orderBy(desc(n8nChatHistories.createdAt));
   }
 
   // Analytics

@@ -80,12 +80,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.log(`Should send payment link to ${lead.email}`);
       }
 
+      // Get all data for n8n PostgreSQL node
+      const [allLeads, allEnrollments, allPayments, allCallRecords, allChatHistories] = await Promise.all([
+        storage.getAllLeads(),
+        storage.getAllEnrollments(),
+        storage.getAllPayments(),
+        storage.getAllCallRecords(),
+        storage.getAllN8nChatHistories()
+      ]);
+
+      const analytics = await storage.getAnalytics();
+
       const responseTime = Date.now() - startTime;
       res.json({ 
         success: true, 
         leadId: lead?.id,
         message: "Webhook processed successfully",
-        responseTime 
+        responseTime,
+        // Complete UUID dataset for n8n PostgreSQL node
+        timestamp: new Date().toISOString(),
+        summary: {
+          totalLeads: allLeads.length,
+          totalEnrollments: allEnrollments.length,
+          totalPayments: allPayments.length,
+          totalCallRecords: allCallRecords.length,
+          totalChatHistories: allChatHistories.length,
+          activeLeads: analytics.activeLeads,
+          conversionRate: analytics.conversionRate,
+          monthlyRevenue: analytics.monthlyRevenue
+        },
+        leads: allLeads,
+        enrollments: allEnrollments,
+        payments: allPayments,
+        callRecords: allCallRecords,
+        chatHistories: allChatHistories,
+        uuid_schema: {
+          primary_key: "uuid",
+          chat_table: "n8n_chat_histories",
+          unique_identifier_field: "uuid",
+          session_grouping_field: "sessionId",
+          postgres_node_instructions: "Use uuid field as unique identifier for learning agent memory"
+        },
+        analytics: analytics
       });
 
     } catch (error) {
