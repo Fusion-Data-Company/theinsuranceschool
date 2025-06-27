@@ -8,6 +8,7 @@ import {
   agentMetrics 
 } from "@shared/schema";
 import { eq, gte, lte, count, avg, sum, and, desc } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 
 export function registerMCPEndpoint(app: Express) {
   console.log("Registering MCP server for n8n integration...");
@@ -442,6 +443,105 @@ export function registerMCPEndpoint(app: Express) {
           };
 
           result = JSON.stringify(dashboardData, null, 2);
+          break;
+        }
+        case "agent_performance": {
+          const [avgConfidence] = await db
+            .select({ avg: avg(agentMetrics.confidence) })
+            .from(agentMetrics);
+
+          const [avgResponseTime] = await db
+            .select({ avg: avg(agentMetrics.responseTimeMs) })
+            .from(agentMetrics);
+
+          const confidence = Number(avgConfidence.avg || 0).toFixed(1);
+          const responseTime = Number(avgResponseTime.avg || 0).toFixed(0);
+
+          result = `Agent performance: ${confidence}% confidence, ${responseTime}ms avg response time`;
+          break;
+        }
+        case "call_summary": {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const tomorrow = new Date(today);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+
+          const [callsToday] = await db
+            .select({ count: count() })
+            .from(callRecords)
+            .where(and(
+              gte(callRecords.createdAt, today),
+              lte(callRecords.createdAt, tomorrow)
+            ));
+
+          result = `${callsToday.count} calls handled today`;
+          break;
+        }
+        case "enrollment_breakdown": {
+          const enrollmentsByLicense = await db
+            .select({
+              course: enrollments.course,
+              count: count()
+            })
+            .from(enrollments)
+            .groupBy(enrollments.course);
+
+          const breakdown = enrollmentsByLicense
+            .map(item => `${item.course}: ${item.count}`)
+            .join(", ");
+
+          result = `Enrollment breakdown - ${breakdown}`;
+          break;
+        }
+        case "license_types": {
+          const licenseBreakdown = await db
+            .select({
+              license: leads.licenseGoal,
+              count: count()
+            })
+            .from(leads)
+            .groupBy(leads.licenseGoal);
+
+          const breakdown = licenseBreakdown
+            .map(item => `${item.license}: ${item.count}`)
+            .join(", ");
+
+          result = `License type breakdown - ${breakdown}`;
+          break;
+        }
+        case "recent_activity": {
+          const recentLeads = await db
+            .select({
+              name: sql<string>`${leads.firstName} || ' ' || ${leads.lastName}`,
+              status: leads.status,
+              createdAt: leads.createdAt
+            })
+            .from(leads)
+            .orderBy(desc(leads.createdAt))
+            .limit(5);
+
+          const activity = recentLeads
+            .map(lead => `${lead.name}: ${lead.status}`)
+            .join(", ");
+
+          result = `Recent activity - ${activity}`;
+          break;
+        }
+        case "conversion_rate": {
+          const [totalLeads] = await db
+            .select({ count: count() })
+            .from(leads);
+
+          const [enrolledLeads] = await db
+            .select({ count: count() })
+            .from(leads)
+            .where(eq(leads.status, 'enrolled'));
+
+          const rate = totalLeads.count > 0 
+            ? ((enrolledLeads.count / totalLeads.count) * 100).toFixed(1)
+            : "0.0";
+
+          result = `Conversion rate: ${rate}% (${enrolledLeads.count}/${totalLeads.count})`;
           break;
         }
         default:
