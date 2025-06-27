@@ -104,6 +104,18 @@ export const agentMetrics = pgTable("agent_metrics", {
   callRecordIdIdx: index("agent_metrics_call_id_idx").on(table.callRecordId),
 }));
 
+// n8n Chat Histories for long-term memory
+export const n8nChatHistories = pgTable("n8n_chat_histories", {
+  id: serial("id").primaryKey(),
+  sessionId: text("session_id").notNull(),
+  messages: jsonb("messages").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+}, (table) => ({
+  sessionIdIdx: index("n8n_session_id_idx").on(table.sessionId),
+  createdAtIdx: index("n8n_created_at_idx").on(table.createdAt),
+}));
+
 // Define relations
 export const leadsRelations = relations(leads, ({ many }) => ({
   callRecords: many(callRecords),
@@ -179,6 +191,12 @@ export const insertAgentMetricSchema = createInsertSchema(agentMetrics).omit({
   createdAt: true,
 });
 
+export const insertN8nChatHistorySchema = createInsertSchema(n8nChatHistories).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -200,3 +218,6 @@ export type InsertWebhookLog = z.infer<typeof insertWebhookLogSchema>;
 
 export type AgentMetric = typeof agentMetrics.$inferSelect;
 export type InsertAgentMetric = z.infer<typeof insertAgentMetricSchema>;
+
+export type N8nChatHistory = typeof n8nChatHistories.$inferSelect;
+export type InsertN8nChatHistory = z.infer<typeof insertN8nChatHistorySchema>;

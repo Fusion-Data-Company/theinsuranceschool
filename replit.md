@@ -142,6 +142,7 @@ Changelog:
 - June 26, 2025. Resolved bad gateway error by removing conflicting root URL route that blocked frontend access, n8n MCP integration fully operational
 - June 26, 2025. Added comprehensive dashboard_data tool providing complete database access in single API call with all leads, enrollments, payments, call records, and analytics
 - June 26, 2025. Removed authorization requirement for HTTP requests while maintaining MCP Lient authentication, enabling dual workflow access patterns
+- June 27, 2025. Added n8n_chat_histories table for persistent agent memory with JSONB message storage and session management
 ```
 
 ## User Preferences
