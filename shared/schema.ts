@@ -107,6 +107,7 @@ export const agentMetrics = pgTable("agent_metrics", {
 // n8n Chat Histories for long-term memory
 export const n8nChatHistories = pgTable("n8n_chat_histories", {
   id: serial("id").primaryKey(),
+  uuid: text("uuid").notNull().unique(),
   sessionId: text("session_id").notNull(),
   messages: jsonb("messages").notNull(),
   message: text("message"),
@@ -115,6 +116,7 @@ export const n8nChatHistories = pgTable("n8n_chat_histories", {
 }, (table) => ({
   sessionIdIdx: index("n8n_session_id_idx").on(table.sessionId),
   createdAtIdx: index("n8n_created_at_idx").on(table.createdAt),
+  uuidIdx: index("n8n_chat_histories_uuid_idx").on(table.uuid),
 }));
 
 // Define relations

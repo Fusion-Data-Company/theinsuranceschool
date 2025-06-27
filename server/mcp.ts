@@ -6,7 +6,8 @@ import {
   enrollments, 
   callRecords, 
   payments, 
-  agentMetrics 
+  agentMetrics,
+  n8nChatHistories 
 } from "@shared/schema";
 import { eq, gte, lte, count, avg, sum, and, desc } from "drizzle-orm";
 import { sql } from "drizzle-orm";
@@ -218,6 +219,14 @@ export function registerMCPEndpoint(app: Express) {
         {
           name: "dashboard_data",
           description: "Complete database dump with all leads, enrollments, payments, calls, and analytics.",
+          parameters: {
+            type: "object",
+            properties: {}
+          }
+        },
+        {
+          name: "chat_memory",
+          description: "Chat history data with UUID keys for learning agent integration.",
           parameters: {
             type: "object",
             properties: {}
@@ -560,6 +569,37 @@ export function registerMCPEndpoint(app: Express) {
             : "0.0";
 
           result = `Conversion rate: ${rate}% (${enrolledLeads.count}/${totalLeads.count})`;
+          break;
+        }
+        case "chat_memory": {
+          const chatHistory = await db
+            .select({
+              uuid: n8nChatHistories.uuid,
+              sessionId: n8nChatHistories.sessionId,
+              messages: n8nChatHistories.messages,
+              message: n8nChatHistories.message,
+              createdAt: n8nChatHistories.createdAt,
+              updatedAt: n8nChatHistories.updatedAt
+            })
+            .from(n8nChatHistories)
+            .orderBy(desc(n8nChatHistories.createdAt))
+            .limit(100);
+
+          const memoryData = {
+            chat_histories: chatHistory,
+            total_records: chatHistory.length,
+            unique_sessions: [...new Set(chatHistory.map(ch => ch.sessionId))].length,
+            schema_info: {
+              primary_key: "uuid",
+              unique_identifier: "uuid",
+              session_grouping: "sessionId",
+              message_content: ["messages", "message"],
+              timestamps: ["createdAt", "updatedAt"]
+            },
+            last_updated: new Date().toISOString()
+          };
+
+          result = JSON.stringify(memoryData, null, 2);
           break;
         }
         default:
