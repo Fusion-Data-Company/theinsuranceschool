@@ -143,6 +143,9 @@ Changelog:
 - June 26, 2025. Added comprehensive dashboard_data tool providing complete database access in single API call with all leads, enrollments, payments, call records, and analytics
 - June 26, 2025. Removed authorization requirement for HTTP requests while maintaining MCP Lient authentication, enabling dual workflow access patterns
 - June 27, 2025. Added n8n_chat_histories table for persistent agent memory with JSONB message storage and session management
+- June 27, 2025. Replaced placeholder analytics with production-ready database calculations including historical comparisons and agent performance metrics
+- June 27, 2025. Restored ElevenLabs voice widget in bottom right corner with interactive call interface
+- June 27, 2025. Updated AI agent name from "Data" to "Bandit" with revised call flow instructions
 ```
 
 ## User Preferences
