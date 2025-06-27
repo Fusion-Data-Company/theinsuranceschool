@@ -1,5 +1,5 @@
 import { pgTable, text, serial, integer, boolean, timestamp, jsonb, decimal, varchar, index } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -107,9 +107,9 @@ export const agentMetrics = pgTable("agent_metrics", {
 // n8n Chat Histories for long-term memory
 export const n8nChatHistories = pgTable("n8n_chat_histories", {
   id: serial("id").primaryKey(),
-  uuid: text("uuid").notNull().unique(),
-  sessionId: text("session_id").notNull(),
-  messages: jsonb("messages").notNull(),
+  uuid: text("uuid").unique(),
+  sessionId: text("session_id"),
+  messages: jsonb("messages"),
   message: text("message"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
