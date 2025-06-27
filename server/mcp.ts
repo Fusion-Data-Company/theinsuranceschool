@@ -485,7 +485,8 @@ export function registerMCPEndpoint(app: Express) {
               primary_key: "uuid",
               chat_table: "n8n_chat_histories",
               unique_identifier_field: "uuid",
-              session_grouping_field: "sessionId"
+              session_grouping_field: "sessionId",
+              postgres_node_instructions: "Use uuid field as unique identifier for learning agent memory"
             },
             lastUpdated: new Date().toISOString()
           };
@@ -888,40 +889,11 @@ export function registerMCPEndpoint(app: Express) {
           });
       }
 
-      // Get UUID data for n8n agent if this is dashboard_data tool
-      let uuidData = {};
-      if (tool_name === 'dashboard_data') {
-        const allChatHistories = await db
-          .select({
-            uuid: n8nChatHistories.uuid,
-            sessionId: n8nChatHistories.sessionId,
-            messages: n8nChatHistories.messages,
-            message: n8nChatHistories.message,
-            createdAt: n8nChatHistories.createdAt,
-            updatedAt: n8nChatHistories.updatedAt
-          })
-          .from(n8nChatHistories)
-          .orderBy(desc(n8nChatHistories.createdAt));
-
-        uuidData = {
-          chatHistories: allChatHistories,
-          uuid_schema: {
-            primary_key: "uuid",
-            chat_table: "n8n_chat_histories",
-            unique_identifier_field: "uuid",
-            session_grouping_field: "sessionId",
-            postgres_node_instructions: "Use uuid field as unique identifier for learning agent memory"
-          },
-          totalChatHistories: allChatHistories.length
-        };
-      }
-
-      // Return ElevenLabs-compatible response with UUID data
+      // Return ElevenLabs-compatible response
       res.json({
         result,
         success: true,
-        timestamp: new Date().toISOString(),
-        ...uuidData
+        timestamp: new Date().toISOString()
       });
 
     } catch (error) {
