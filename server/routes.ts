@@ -164,6 +164,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
           postgres_node_instructions: "Use uuid field as unique identifier for learning agent memory"
         },
         analytics: analytics,
+        webhook_data: req.body,
+        headers: req.headers,
+        params: req.params,
+        query: req.query,
+        body: req.body,
+        webhookUrl: req.body.webhookUrl,
+        executionMode: req.body.executionMode,
         responseTime: Date.now() - startTime
       };
 
