@@ -147,6 +147,7 @@ Changelog:
 - June 27, 2025. Restored ElevenLabs voice widget in bottom right corner with interactive call interface
 - June 27, 2025. Updated AI agent name from "Data" to "Bandit" with revised call flow instructions
 - June 27, 2025. Connected hero section analytics to live PostgreSQL data replacing placeholder values with real-time metrics
+- June 27, 2025. Simplified ElevenLabs ConvAI widget to display directly on main page without custom popup wrapper
 ```
 
 ## User Preferences
