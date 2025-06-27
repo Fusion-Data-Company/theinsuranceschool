@@ -156,6 +156,7 @@ Changelog:
 - June 27, 2025. Added comprehensive MCP tool implementations with caching system for optimized performance
 - June 27, 2025. Created chat_memory tool providing UUID-keyed data for n8n workflow automation and agent memory persistence
 - June 27, 2025. Fixed n8n PostgreSQL integration by making messages and sessionId columns nullable with proper UUID defaults
+- June 27, 2025. Created dedicated webhook endpoint (/webhook/:webhookId) for n8n workflow with UUID chat history data, resolving HTTP header errors and PostgreSQL node spinning issues
 ```
 
 ## User Preferences

@@ -97,6 +97,88 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // n8n Analytics webhook - handles UUID data requests
+  app.post("/webhook/:webhookId", async (req, res) => {
+    try {
+      const startTime = Date.now();
+      
+      await storage.logWebhook({
+        endpoint: `/webhook/${req.params.webhookId}`,
+        method: "POST",
+        payload: req.body,
+        responseStatus: 200,
+        responseTime: 0,
+      });
+
+      // Get comprehensive dashboard data with UUIDs for n8n workflow
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      const { db } = await import("./db");
+      const { leads, enrollments, payments, callRecords, n8nChatHistories } = await import("@shared/schema");
+      const { desc, eq, gte, lte, and, count, sum, avg } = await import("drizzle-orm");
+
+      // Get all data including chat histories with UUIDs
+      const [allLeads, allEnrollments, allPayments, allCallRecords, allChatHistories] = await Promise.all([
+        db.select().from(leads).orderBy(desc(leads.createdAt)),
+        db.select().from(enrollments).orderBy(desc(enrollments.createdAt)),
+        db.select().from(payments).orderBy(desc(payments.createdAt)),
+        db.select().from(callRecords).orderBy(desc(callRecords.createdAt)),
+        db.select({
+          uuid: n8nChatHistories.uuid,
+          sessionId: n8nChatHistories.sessionId,
+          messages: n8nChatHistories.messages,
+          message: n8nChatHistories.message,
+          createdAt: n8nChatHistories.createdAt,
+          updatedAt: n8nChatHistories.updatedAt
+        }).from(n8nChatHistories).orderBy(desc(n8nChatHistories.createdAt))
+      ]);
+
+      const analytics = await storage.getAnalytics();
+
+      const responseData = {
+        success: true,
+        timestamp: new Date().toISOString(),
+        summary: {
+          totalLeads: allLeads.length,
+          totalEnrollments: allEnrollments.length,
+          totalPayments: allPayments.length,
+          totalCallRecords: allCallRecords.length,
+          totalChatHistories: allChatHistories.length,
+          activeLeads: analytics.activeLeads,
+          conversionRate: analytics.conversionRate,
+          monthlyRevenue: analytics.monthlyRevenue
+        },
+        leads: allLeads,
+        enrollments: allEnrollments,
+        payments: allPayments,
+        callRecords: allCallRecords,
+        chatHistories: allChatHistories,
+        uuid_schema: {
+          primary_key: "uuid",
+          chat_table: "n8n_chat_histories",
+          unique_identifier_field: "uuid",
+          session_grouping_field: "sessionId",
+          postgres_node_instructions: "Use uuid field as unique identifier for learning agent memory"
+        },
+        analytics: analytics,
+        responseTime: Date.now() - startTime
+      };
+
+      res.json(responseData);
+
+    } catch (error) {
+      console.error("n8n webhook error:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Webhook processing failed",
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
   // Internal AI query webhook
   app.post("/api/webhooks/internal-query", async (req, res) => {
     try {
