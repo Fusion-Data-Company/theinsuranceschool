@@ -68,10 +68,4 @@
     opacity: 0.11;
   }
   
-  /* Unified Glass Morphism Button System - Export Data Style */
-  @keyframes rotateGlow {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  /* Unified Export Data Button System */
+
