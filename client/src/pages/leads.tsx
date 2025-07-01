@@ -47,11 +47,11 @@ export default function Leads() {
 
             <div className="mt-8 lg:mt-0 lg:ml-8">
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button className="bg-gradient-to-r from-electric-cyan to-fuchsia hover:from-electric-cyan/80 hover:to-fuchsia/80 text-white shadow-lg font-medium">
+                <Button className="btn-glass-primary">
                   <Plus className="w-4 h-4 mr-2" />
                   Add Prospect
                 </Button>
-                <Button className="btn-glass border-slate-600 text-slate-300 hover:text-white hover:border-electric-cyan/50">
+                <Button className="btn-glass">
                   <Download className="w-4 h-4 mr-2" />
                   Export Data
                 </Button>

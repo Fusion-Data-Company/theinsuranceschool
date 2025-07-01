@@ -157,7 +157,7 @@ export function LeadsTable() {
               </SelectContent>
             </Select>
 
-            <Button className="bg-gradient-to-r from-electric-cyan to-fuchsia hover:from-electric-cyan/80 hover:to-fuchsia/80 text-white font-medium">
+            <Button className="btn-glass-primary">
               <Filter className="mr-2 h-4 w-4" />
               Apply Filters
             </Button>
@@ -235,21 +235,21 @@ export function LeadsTable() {
                         <Button 
                           variant="ghost" 
                           size="sm"
-                          className="h-9 w-9 p-0 text-slate-400 hover:text-electric-cyan hover:bg-electric-cyan/10 border border-transparent hover:border-electric-cyan/30"
+                          className="btn-glass-icon h-9 w-9 p-0 text-slate-300"
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
                         <Button 
                           variant="ghost" 
                           size="sm"
-                          className="h-9 w-9 p-0 text-slate-400 hover:text-green-400 hover:bg-green-500/10 border border-transparent hover:border-green-500/30"
+                          className="btn-glass-icon btn-glass-icon-green h-9 w-9 p-0 text-slate-300"
                         >
                           <Phone className="h-4 w-4" />
                         </Button>
                         <Button 
                           variant="ghost" 
                           size="sm"
-                          className="h-9 w-9 p-0 text-slate-400 hover:text-fuchsia hover:bg-fuchsia/10 border border-transparent hover:border-fuchsia/30"
+                          className="btn-glass-icon btn-glass-icon-purple h-9 w-9 p-0 text-slate-300"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
