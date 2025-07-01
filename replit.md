@@ -158,6 +158,9 @@ Changelog:
 - June 27, 2025. Fixed n8n PostgreSQL integration by making messages and sessionId columns nullable with proper UUID defaults
 - June 27, 2025. Created dedicated webhook endpoint (/webhook/:webhookId) for n8n workflow with UUID chat history data, resolving HTTP header errors and PostgreSQL node spinning issues
 - June 27, 2025. Implemented live analytics system with 5-second auto-refresh across hero section and dashboard, ensuring real-time updates when database changes occur
+- June 28, 2025. Redesigned header with FANG-level enterprise styling, clean white backdrop with professional blue branding, removed non-functional Connect button
+- June 28, 2025. Removed "Ask Jason AI" component from dashboard quick actions, streamlined interface to focus on core functionality
+- June 28, 2025. Updated demo data: 5 leads scheduled for July 1st (Emma Rodriguez, Marcus Thompson, Sarah Chen, David Park, Ashley Williams) and 4 leads for July 2nd (Michael Johnson, Lisa Garcia, James Wilson, Rachel Brown) for presentation demonstrations
 ```
 
 ## User Preferences
