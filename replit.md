@@ -171,4 +171,5 @@ Changelog:
 
 ```
 Preferred communication style: Simple, everyday language.
+Button styling preferences: Avoid dark shade effects on dark backgrounds. Keep buttons light and readable on hover. No dark overlays that make text hard to read.
 ```
