@@ -50,13 +50,34 @@
 
 @layer components {
   .glass {
-    background: linear-gradient(135deg, hsla(225, 15%, 6%, 0.85) 65%, hsl(236, 61%, 16%) 100%);
+    background: 
+      linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.12) 0%, 
+        rgba(255, 255, 255, 0.06) 30%, 
+        rgba(255, 255, 255, 0.03) 50%, 
+        rgba(255, 255, 255, 0.06) 70%, 
+        rgba(255, 255, 255, 0.12) 100%
+      ),
+      linear-gradient(45deg, 
+        hsla(225, 15%, 6%, 0.5) 0%, 
+        hsla(236, 61%, 16%, 0.6) 30%, 
+        hsla(225, 15%, 6%, 0.7) 50%, 
+        hsla(236, 61%, 16%, 0.6) 70%, 
+        hsla(225, 15%, 6%, 0.5) 100%
+      );
     border-radius: 2rem;
-    backdrop-filter: blur(24px) saturate(140%);
-    border: 1.5px solid hsla(0, 0%, 100%, 0.10);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(40px) saturate(200%) brightness(1.08) contrast(1.03);
+    -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.08) contrast(1.03);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.4), 
+      0 2px 4px rgba(255, 255, 255, 0.15) inset,
+      0 -2px 4px rgba(0, 0, 0, 0.1) inset,
+      0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 1px 2px rgba(255, 255, 255, 0.25) inset;
     position: relative;
     overflow: hidden;
+    transition: all 0.3s ease;
   }
   
   .glass:before {
@@ -297,19 +318,54 @@
   }
 
   .card-glass {
-    background: linear-gradient(135deg, hsla(225, 15%, 6%, 0.85) 65%, hsl(236, 61%, 16%) 100%);
+    background: 
+      linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.08) 0%, 
+        rgba(255, 255, 255, 0.03) 50%, 
+        rgba(255, 255, 255, 0.08) 100%
+      ),
+      linear-gradient(45deg, 
+        hsla(225, 15%, 6%, 0.6) 0%, 
+        hsla(236, 61%, 16%, 0.7) 50%, 
+        hsla(225, 15%, 6%, 0.6) 100%
+      );
     border-radius: 1.5rem;
-    backdrop-filter: blur(24px) saturate(140%);
-    border: 1.5px solid hsla(0, 0%, 100%, 0.10);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(40px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: blur(40px) saturate(180%) brightness(1.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3), 
+      0 2px 4px rgba(255, 255, 255, 0.1) inset,
+      0 -2px 4px rgba(0, 0, 0, 0.1) inset,
+      0 0 0 1px rgba(255, 255, 255, 0.05);
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   .card-glass:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 255, 247, 0.1);
+    transform: translateY(-6px) scale(1.01);
+    background: 
+      linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.12) 0%, 
+        rgba(255, 255, 255, 0.06) 50%, 
+        rgba(255, 255, 255, 0.12) 100%
+      ),
+      linear-gradient(45deg, 
+        hsla(225, 15%, 6%, 0.5) 0%, 
+        hsla(236, 61%, 16%, 0.6) 50%, 
+        hsla(225, 15%, 6%, 0.5) 100%
+      );
+    backdrop-filter: blur(50px) saturate(220%) brightness(1.1);
+    -webkit-backdrop-filter: blur(50px) saturate(220%) brightness(1.1);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 
+      0 16px 48px rgba(0, 0, 0, 0.4), 
+      0 8px 16px rgba(0, 255, 247, 0.15),
+      0 3px 6px rgba(255, 255, 255, 0.15) inset,
+      0 -3px 6px rgba(0, 0, 0, 0.1) inset,
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      0 0 24px rgba(0, 255, 247, 0.1);
   }
 
   .navbar-glass {
