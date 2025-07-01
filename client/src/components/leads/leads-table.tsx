@@ -1,9 +1,14 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Eye, Phone, Edit, Filter, Users } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Eye, Phone, Edit, Filter, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import type { Lead } from "@shared/schema";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+import type { Lead, InsertLead } from "@shared/schema";
 
 interface LeadsTableProps {
   filters: {
@@ -18,6 +23,22 @@ export function LeadsTable({ filters, onFiltersChange }: LeadsTableProps) {
   const [sourceFilter, setSourceFilter] = useState(filters.source);
   const [statusFilter, setStatusFilter] = useState(filters.status);
   const [licenseFilter, setLicenseFilter] = useState(filters.license);
+  
+  // Modal states for action buttons
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [editFormData, setEditFormData] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+    licenseGoal: "",
+    status: ""
+  });
+
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const { data: leads = [], isLoading } = useQuery<Lead[]>({
     queryKey: ["/api/leads"],
@@ -29,6 +50,65 @@ export function LeadsTable({ filters, onFiltersChange }: LeadsTableProps) {
     if (filters.license !== "all" && lead.licenseGoal !== filters.license) return false;
     return true;
   });
+
+  // Action button handlers
+  const handleViewLead = (lead: Lead) => {
+    setSelectedLead(lead);
+    setViewModalOpen(true);
+  };
+
+  const handleCallLead = (lead: Lead) => {
+    // Simulate call initiation
+    toast({
+      title: "Call Initiated",
+      description: `Calling ${lead.firstName} ${lead.lastName} at ${lead.phone}`,
+    });
+    // In a real app, this would integrate with a phone system
+  };
+
+  const handleEditLead = (lead: Lead) => {
+    setSelectedLead(lead);
+    setEditFormData({
+      firstName: lead.firstName,
+      lastName: lead.lastName,
+      phone: lead.phone,
+      email: lead.email || "",
+      licenseGoal: lead.licenseGoal,
+      status: lead.status
+    });
+    setEditModalOpen(true);
+  };
+
+  // Update lead mutation
+  const updateLeadMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: Partial<InsertLead> }) => {
+      return apiRequest("PATCH", `/api/leads/${id}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/leads"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/analytics"] });
+      toast({
+        title: "Success",
+        description: "Lead updated successfully",
+      });
+      setEditModalOpen(false);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update lead",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleSaveEdit = () => {
+    if (!selectedLead) return;
+    updateLeadMutation.mutate({
+      id: selectedLead.id,
+      data: editFormData
+    });
+  };
 
   const handleApplyFilters = () => {
     onFiltersChange({
@@ -253,6 +333,7 @@ export function LeadsTable({ filters, onFiltersChange }: LeadsTableProps) {
                           variant="ghost" 
                           size="sm"
                           className="btn-glass-icon h-9 w-9 p-0 text-slate-300"
+                          onClick={() => handleViewLead(lead)}
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
@@ -260,6 +341,7 @@ export function LeadsTable({ filters, onFiltersChange }: LeadsTableProps) {
                           variant="ghost" 
                           size="sm"
                           className="btn-glass-icon btn-glass-icon-green h-9 w-9 p-0 text-slate-300"
+                          onClick={() => handleCallLead(lead)}
                         >
                           <Phone className="h-4 w-4" />
                         </Button>
@@ -267,6 +349,7 @@ export function LeadsTable({ filters, onFiltersChange }: LeadsTableProps) {
                           variant="ghost" 
                           size="sm"
                           className="btn-glass-icon btn-glass-icon-purple h-9 w-9 p-0 text-slate-300"
+                          onClick={() => handleEditLead(lead)}
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -279,6 +362,146 @@ export function LeadsTable({ filters, onFiltersChange }: LeadsTableProps) {
           </table>
         </div>
       </div>
+
+      {/* View Lead Modal */}
+      <Dialog open={viewModalOpen} onOpenChange={setViewModalOpen}>
+        <DialogContent className="bg-slate-900/95 backdrop-blur-md border border-slate-700/50 max-w-md text-white">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-white flex items-center">
+              <Eye className="w-5 h-5 mr-2 text-slate-400" />
+              Lead Details
+            </DialogTitle>
+          </DialogHeader>
+          {selectedLead && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-sm font-medium text-slate-300">Name</Label>
+                  <p className="text-white">{selectedLead.firstName} {selectedLead.lastName}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-slate-300">Phone</Label>
+                  <p className="text-white">{selectedLead.phone}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-slate-300">Email</Label>
+                  <p className="text-white">{selectedLead.email || "Not provided"}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-slate-300">Status</Label>
+                  <p className="text-white capitalize">{selectedLead.status}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-slate-300">License Goal</Label>
+                  <p className="text-white">{selectedLead.licenseGoal}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-slate-300">Source</Label>
+                  <p className="text-white capitalize">{selectedLead.source}</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Lead Modal */}
+      <Dialog open={editModalOpen} onOpenChange={setEditModalOpen}>
+        <DialogContent className="bg-slate-900/95 backdrop-blur-md border border-slate-700/50 max-w-md text-white">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-white flex items-center">
+              <Edit className="w-5 h-5 mr-2 text-slate-400" />
+              Edit Lead
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="editFirstName" className="text-sm font-medium text-slate-300">First Name</Label>
+                <Input
+                  id="editFirstName"
+                  value={editFormData.firstName}
+                  onChange={(e) => setEditFormData({...editFormData, firstName: e.target.value})}
+                  className="bg-slate-800/50 border-slate-600 text-white"
+                />
+              </div>
+              <div>
+                <Label htmlFor="editLastName" className="text-sm font-medium text-slate-300">Last Name</Label>
+                <Input
+                  id="editLastName"
+                  value={editFormData.lastName}
+                  onChange={(e) => setEditFormData({...editFormData, lastName: e.target.value})}
+                  className="bg-slate-800/50 border-slate-600 text-white"
+                />
+              </div>
+              <div>
+                <Label htmlFor="editPhone" className="text-sm font-medium text-slate-300">Phone</Label>
+                <Input
+                  id="editPhone"
+                  value={editFormData.phone}
+                  onChange={(e) => setEditFormData({...editFormData, phone: e.target.value})}
+                  className="bg-slate-800/50 border-slate-600 text-white"
+                />
+              </div>
+              <div>
+                <Label htmlFor="editEmail" className="text-sm font-medium text-slate-300">Email</Label>
+                <Input
+                  id="editEmail"
+                  value={editFormData.email}
+                  onChange={(e) => setEditFormData({...editFormData, email: e.target.value})}
+                  className="bg-slate-800/50 border-slate-600 text-white"
+                />
+              </div>
+              <div>
+                <Label htmlFor="editLicense" className="text-sm font-medium text-slate-300">License Goal</Label>
+                <Select value={editFormData.licenseGoal} onValueChange={(value) => setEditFormData({...editFormData, licenseGoal: value})}>
+                  <SelectTrigger className="bg-slate-800/50 border-slate-600 text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-800 border-slate-700">
+                    <SelectItem value="2-15">2-15 License</SelectItem>
+                    <SelectItem value="2-40">2-40 License</SelectItem>
+                    <SelectItem value="2-14">2-14 License</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="editStatus" className="text-sm font-medium text-slate-300">Status</Label>
+                <Select value={editFormData.status} onValueChange={(value) => setEditFormData({...editFormData, status: value})}>
+                  <SelectTrigger className="bg-slate-800/50 border-slate-600 text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-800 border-slate-700">
+                    <SelectItem value="new">New</SelectItem>
+                    <SelectItem value="contacted">Contacted</SelectItem>
+                    <SelectItem value="qualified">Qualified</SelectItem>
+                    <SelectItem value="enrolled">Enrolled</SelectItem>
+                    <SelectItem value="opt_out">Opt Out</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="flex gap-3 pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setEditModalOpen(false)}
+                className="btn-glass-icon flex-1"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                className="btn-glass-icon flex-1"
+                onClick={handleSaveEdit}
+                disabled={updateLeadMutation.isPending}
+              >
+                {updateLeadMutation.isPending ? "Saving..." : "Save Changes"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
