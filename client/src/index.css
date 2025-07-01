@@ -214,8 +214,10 @@
   }
 
   .btn-glass-secondary {
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(15, 23, 42, 0.8));
-    border-color: rgba(236, 72, 153, 0.4);
+    background: 
+      linear-gradient(135deg, rgba(236, 72, 153, 0.25) 0%, rgba(15, 23, 42, 0.95) 100%),
+      linear-gradient(45deg, rgba(236, 72, 153, 0.2) 0%, transparent 50%, rgba(236, 72, 153, 0.1) 100%);
+    border-color: rgba(236, 72, 153, 0.5);
   }
 
   .btn-glass-secondary:hover {
@@ -259,15 +261,45 @@
 
   .btn-glass-icon {
     position: relative;
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.6));
-    backdrop-filter: blur(20px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
+    background: 
+      linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%),
+      linear-gradient(45deg, rgba(255, 255, 255, 0.15) 0%, transparent 50%, rgba(255, 255, 255, 0.08) 100%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
     padding: 8px;
+    border-radius: 8px;
     box-shadow: 
-      0 4px 16px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      0 4px 16px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-glass-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 30%,
+      rgba(255, 255, 255, 0.6) 50%,
+      rgba(255, 255, 255, 0.4) 70%,
+      transparent 100%
+    );
+    transform: skewX(-15deg);
+    transition: left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .btn-glass-icon:hover::before {
+    left: 100%;
   }
 
   .btn-glass-icon:after {
@@ -281,13 +313,16 @@
   }
 
   .btn-glass-icon:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.4);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.12));
+    transform: translateY(-2px) scale(1.05);
+    border-color: rgba(255, 255, 255, 0.5);
+    background: 
+      linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.95) 100%),
+      linear-gradient(45deg, rgba(255, 255, 255, 0.25) 0%, transparent 50%, rgba(255, 255, 255, 0.15) 100%);
     box-shadow: 
-      0 8px 25px rgba(6, 182, 212, 0.25),
-      0 0 20px rgba(6, 182, 212, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      0 8px 24px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
   .btn-glass-icon:hover:after {
