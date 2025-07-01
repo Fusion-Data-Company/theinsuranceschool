@@ -202,7 +202,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
             </Button>
             <Button
               type="submit"
-              className="btn-glass-primary flex-1"
+              className="btn-glass-icon flex-1"
               disabled={createProspectMutation.isPending}
             >
               {createProspectMutation.isPending ? "Adding..." : "Add Prospect"}
