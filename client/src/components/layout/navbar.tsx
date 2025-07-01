@@ -54,11 +54,7 @@ export function Navbar() {
               </Link>
             ))}
             
-            {/* Professional CTA */}
-            <Button className="ml-6 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-sm border border-blue-700 hover:border-blue-800 transition-all duration-200">
-              <Phone className="w-4 h-4 mr-2" />
-              Connect
-            </Button>
+
           </div>
           
           {/* Mobile menu button */}
@@ -93,11 +89,7 @@ export function Navbar() {
               </Link>
             ))}
             
-            {/* Mobile CTA */}
-            <Button className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium">
-              <Phone className="w-4 h-4 mr-2" />
-              Connect
-            </Button>
+
           </div>
         </div>
       )}
