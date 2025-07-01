@@ -71,9 +71,9 @@
   .btn-glass {
     position: relative;
     border-radius: 12px;
-    border: 1px solid rgba(148, 163, 184, 0.3);
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.6));
-    backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(24px) saturate(140%);
     color: hsl(0, 0%, 100%);
     font-weight: 600;
     letter-spacing: 0.025em;
@@ -81,11 +81,11 @@
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
     cursor: pointer;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     box-shadow: 
-      0 4px 20px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   }
   
   .btn-glass:before {
@@ -95,7 +95,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
     transition: left 0.6s ease;
     z-index: 1;
   }
@@ -113,12 +113,12 @@
   
   .btn-glass:hover {
     transform: translateY(-3px);
-    border-color: rgba(6, 182, 212, 0.5);
-    background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(15, 23, 42, 0.8));
+    border-color: rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
     box-shadow: 
       0 12px 40px rgba(6, 182, 212, 0.3),
       0 0 30px rgba(6, 182, 212, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
       inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   }
 
@@ -140,31 +140,31 @@
 
   /* Glass button variants */
   .btn-glass-primary {
-    background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(15, 23, 42, 0.8));
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(255, 255, 255, 0.05));
     border-color: rgba(6, 182, 212, 0.4);
   }
 
   .btn-glass-primary:hover {
-    background: linear-gradient(135deg, rgba(6, 182, 212, 0.4), rgba(15, 23, 42, 0.9));
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(255, 255, 255, 0.1));
     border-color: rgba(6, 182, 212, 0.6);
     box-shadow: 
       0 12px 40px rgba(6, 182, 212, 0.4),
       0 0 35px rgba(6, 182, 212, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 
   .btn-glass-secondary {
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(15, 23, 42, 0.8));
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(255, 255, 255, 0.05));
     border-color: rgba(236, 72, 153, 0.4);
   }
 
   .btn-glass-secondary:hover {
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.4), rgba(15, 23, 42, 0.9));
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(255, 255, 255, 0.1));
     border-color: rgba(236, 72, 153, 0.6);
     box-shadow: 
       0 12px 40px rgba(236, 72, 153, 0.4),
       0 0 35px rgba(236, 72, 153, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 
   .btn-glass-secondary:after {
@@ -192,12 +192,15 @@
   /* Icon buttons */
   .btn-glass-icon {
     position: relative;
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.6), rgba(30, 41, 59, 0.4));
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+    backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease;
     overflow: hidden;
     padding: 8px;
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .btn-glass-icon:after {
@@ -212,12 +215,12 @@
 
   .btn-glass-icon:hover {
     transform: translateY(-2px);
-    border-color: rgba(6, 182, 212, 0.4);
-    background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(15, 23, 42, 0.8));
+    border-color: rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
     box-shadow: 
       0 8px 25px rgba(6, 182, 212, 0.25),
       0 0 20px rgba(6, 182, 212, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
   .btn-glass-icon:hover:after {

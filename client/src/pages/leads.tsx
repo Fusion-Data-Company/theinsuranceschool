@@ -24,11 +24,12 @@ export default function Leads() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
             <div className="flex-1">
               <div className="flex items-center mb-6">
-                <div className="flex items-center px-4 py-2 bg-electric-cyan/20 border border-electric-cyan/30 rounded-full text-electric-cyan text-sm font-medium">
+                <div className="flex items-center px-4 py-2 card-glass border-electric-cyan/40 rounded-full text-electric-cyan text-sm font-bold backdrop-blur-lg">
                   <Shield className="w-4 h-4 mr-2" />
                   Enterprise Lead Intelligence
                 </div>
-                <div className="ml-4 px-3 py-1.5 bg-green-500/20 border border-green-500/30 rounded-full text-green-400 text-xs font-medium">
+                <div className="ml-4 px-3 py-1.5 card-glass border-green-500/40 rounded-full text-green-400 text-xs font-bold backdrop-blur-lg">
+                  <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse mr-2"></div>
                   Live Data Stream
                 </div>
               </div>
