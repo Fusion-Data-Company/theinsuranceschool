@@ -24,11 +24,19 @@ export function LeadsTable({ filters, onFiltersChange }: LeadsTableProps) {
   });
 
   const filteredLeads = leads.filter(lead => {
-    if (sourceFilter !== "all" && lead.source !== sourceFilter) return false;
-    if (statusFilter !== "all" && lead.status !== statusFilter) return false;
-    if (licenseFilter !== "all" && lead.licenseGoal !== licenseFilter) return false;
+    if (filters.source !== "all" && lead.source !== filters.source) return false;
+    if (filters.status !== "all" && lead.status !== filters.status) return false;
+    if (filters.license !== "all" && lead.licenseGoal !== filters.license) return false;
     return true;
   });
+
+  const handleApplyFilters = () => {
+    onFiltersChange({
+      source: sourceFilter,
+      status: statusFilter,
+      license: licenseFilter
+    });
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -166,7 +174,7 @@ export function LeadsTable({ filters, onFiltersChange }: LeadsTableProps) {
               </SelectContent>
             </Select>
 
-            <Button className="btn-glass-primary">
+            <Button className="btn-glass-primary" onClick={handleApplyFilters}>
               <Filter className="mr-2 h-4 w-4" />
               Apply Filters
             </Button>
