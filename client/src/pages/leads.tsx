@@ -1,12 +1,20 @@
 import { LeadsTable } from "@/components/leads/leads-table";
+import { AddProspectModal } from "@/components/leads/add-prospect-modal";
 import { Shield, Users, TrendingUp, Target, Clock, Plus, Download, Filter } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import type { Lead } from "@shared/schema";
 
 export default function Leads() {
   const { data: leads = [] } = useQuery<Lead[]>({
     queryKey: ["/api/leads"],
+  });
+
+  const [filters, setFilters] = useState({
+    source: "all",
+    status: "all",
+    license: "all"
   });
 
   // Calculate metrics
@@ -15,6 +23,32 @@ export default function Leads() {
   const enrolledLeads = leads.filter(lead => lead.status === 'enrolled').length;
   const newLeads = leads.filter(lead => lead.status === 'new').length;
   const conversionRate = totalLeads > 0 ? Math.round((enrolledLeads / totalLeads) * 100) : 0;
+
+  // Export functionality
+  const handleExportData = () => {
+    const csvData = leads.map(lead => ({
+      Name: `${lead.firstName} ${lead.lastName}`,
+      Phone: lead.phone,
+      Email: lead.email || '',
+      Status: lead.status,
+      License: lead.licenseGoal,
+      Source: lead.source,
+      Created: new Date(lead.createdAt).toLocaleDateString()
+    }));
+
+    const csvContent = [
+      Object.keys(csvData[0]).join(','),
+      ...csvData.map(row => Object.values(row).map(value => `"${value}"`).join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `prospects-${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -48,11 +82,13 @@ export default function Leads() {
 
             <div className="mt-8 lg:mt-0 lg:ml-8">
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button className="btn-glass-primary">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Prospect
-                </Button>
-                <Button className="btn-glass">
+                <AddProspectModal>
+                  <Button className="btn-glass-primary">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Prospect
+                  </Button>
+                </AddProspectModal>
+                <Button className="btn-glass" onClick={handleExportData}>
                   <Download className="w-4 h-4 mr-2" />
                   Export Data
                 </Button>
@@ -142,7 +178,7 @@ export default function Leads() {
 
       {/* Dark Content Area */}
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <LeadsTable />
+        <LeadsTable filters={filters} onFiltersChange={setFilters} />
       </div>
     </div>
   );

@@ -5,10 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { Lead } from "@shared/schema";
 
-export function LeadsTable() {
-  const [sourceFilter, setSourceFilter] = useState("all");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [licenseFilter, setLicenseFilter] = useState("all");
+interface LeadsTableProps {
+  filters: {
+    source: string;
+    status: string;
+    license: string;
+  };
+  onFiltersChange: (filters: any) => void;
+}
+
+export function LeadsTable({ filters, onFiltersChange }: LeadsTableProps) {
+  const [sourceFilter, setSourceFilter] = useState(filters.source);
+  const [statusFilter, setStatusFilter] = useState(filters.status);
+  const [licenseFilter, setLicenseFilter] = useState(filters.license);
 
   const { data: leads = [], isLoading } = useQuery<Lead[]>({
     queryKey: ["/api/leads"],
