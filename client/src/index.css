@@ -68,13 +68,19 @@
     opacity: 0.11;
   }
   
+  .btn-glass,
+  .btn-glass *,
+  .btn-glass:hover,
+  .btn-glass:hover * {
+    color: hsl(319, 100%, 72%) !important;
+  }
+
   .btn-glass {
     position: relative;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
     backdrop-filter: blur(24px) saturate(140%);
-    color: hsl(319, 100%, 72%);
     font-weight: 600;
     letter-spacing: 0.025em;
     padding: 12px 24px;
@@ -138,10 +144,16 @@
   }
 
   /* Glass button variants */
+  .btn-glass-primary,
+  .btn-glass-primary *,
+  .btn-glass-primary:hover,
+  .btn-glass-primary:hover * {
+    color: hsl(319, 100%, 72%) !important;
+  }
+
   .btn-glass-primary {
     background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(255, 255, 255, 0.05));
     border-color: rgba(6, 182, 212, 0.4);
-    color: hsl(319, 100%, 72%);
   }
 
   .btn-glass-primary:hover {
@@ -153,10 +165,16 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
+  .btn-glass-secondary,
+  .btn-glass-secondary *,
+  .btn-glass-secondary:hover,
+  .btn-glass-secondary:hover * {
+    color: hsl(319, 100%, 72%) !important;
+  }
+
   .btn-glass-secondary {
     background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(255, 255, 255, 0.05));
     border-color: rgba(236, 72, 153, 0.4);
-    color: hsl(319, 100%, 72%);
   }
 
   .btn-glass-secondary:hover {
@@ -191,6 +209,13 @@
   }
 
   /* Icon buttons */
+  .btn-glass-icon,
+  .btn-glass-icon *,
+  .btn-glass-icon:hover,
+  .btn-glass-icon:hover * {
+    color: hsl(319, 100%, 72%) !important;
+  }
+
   .btn-glass-icon {
     position: relative;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
@@ -199,7 +224,6 @@
     transition: all 0.3s ease;
     overflow: hidden;
     padding: 8px;
-    color: hsl(319, 100%, 72%);
     box-shadow: 
       0 4px 16px rgba(0, 0, 0, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
