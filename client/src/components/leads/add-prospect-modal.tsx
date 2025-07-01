@@ -88,7 +88,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
       <DialogContent className="bg-slate-900/95 backdrop-blur-md border border-slate-700/50 max-w-md text-white">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-white flex items-center">
-            <User className="w-5 h-5 mr-2 text-electric-cyan" />
+            <User className="w-5 h-5 mr-2 text-slate-400" />
             Add New Prospect
           </DialogTitle>
           <DialogDescription className="text-slate-400">
@@ -202,7 +202,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
             </Button>
             <Button
               type="submit"
-              className="btn-glass-icon flex-1"
+              className="btn-glass flex-1"
               disabled={createProspectMutation.isPending}
             >
               {createProspectMutation.isPending ? "Adding..." : "Add Prospect"}

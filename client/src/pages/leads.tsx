@@ -58,7 +58,7 @@ export default function Leads() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
             <div className="flex-1">
               <div className="flex items-center mb-6">
-                <div className="flex items-center px-4 py-2 card-glass border-electric-cyan/40 rounded-full text-electric-cyan text-sm font-bold backdrop-blur-lg">
+                <div className="flex items-center px-4 py-2 card-glass border-slate-500/40 rounded-full text-slate-300 text-sm font-bold backdrop-blur-lg">
                   <Shield className="w-4 h-4 mr-2" />
                   Enterprise Lead Intelligence
                 </div>
@@ -69,7 +69,7 @@ export default function Leads() {
               </div>
               
               <h1 className="text-4xl lg:text-6xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-white via-electric-cyan to-fuchsia bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-white via-slate-300 to-slate-400 bg-clip-text text-transparent">
                   Prospect Pipeline
                 </span>
               </h1>
@@ -83,7 +83,7 @@ export default function Leads() {
             <div className="mt-8 lg:mt-0 lg:ml-8">
               <div className="flex flex-col sm:flex-row gap-3">
                 <AddProspectModal>
-                  <Button className="btn-glass-primary">
+                  <Button className="btn-glass">
                     <Plus className="w-4 h-4 mr-2" />
                     Add Prospect
                   </Button>
@@ -106,8 +106,8 @@ export default function Leads() {
                     <p className="text-3xl font-bold text-white mt-1">{totalLeads}</p>
                     <p className="text-xs text-green-400 mt-1">+12% this month</p>
                   </div>
-                  <div className="p-3 bg-electric-cyan/20 rounded-xl">
-                    <Users className="w-6 h-6 text-electric-cyan" />
+                  <div className="p-3 bg-slate-600/20 rounded-xl">
+                    <Users className="w-6 h-6 text-slate-400" />
                   </div>
                 </div>
               </div>

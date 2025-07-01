@@ -209,11 +209,11 @@ export function LeadsTable({ filters, onFiltersChange }: LeadsTableProps) {
                 </tr>
               ) : (
                 filteredLeads.map((lead) => (
-                  <tr key={lead.id} className="hover:bg-slate-800/50 transition-all duration-200 border-l-2 border-transparent hover:border-electric-cyan/50">
+                  <tr key={lead.id} className="hover:bg-slate-800/50 transition-all duration-200 border-l-2 border-transparent hover:border-slate-500/50">
                     <td className="px-6 py-5">
                       <div className="flex items-center">
-                        <div className="h-12 w-12 rounded-full bg-gradient-to-br from-electric-cyan/20 to-fuchsia/20 border border-electric-cyan/30 flex items-center justify-center">
-                          <span className="text-sm font-bold text-electric-cyan">
+                        <div className="h-12 w-12 rounded-full bg-gradient-to-br from-slate-600/20 to-slate-500/20 border border-slate-500/30 flex items-center justify-center">
+                          <span className="text-sm font-bold text-slate-300">
                             {lead.firstName.charAt(0)}{lead.lastName.charAt(0)}
                           </span>
                         </div>
