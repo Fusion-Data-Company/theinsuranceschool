@@ -34,7 +34,9 @@ function App() {
       <TooltipProvider>
         <div className="min-h-screen">
           <Navbar />
-          <Router />
+          <main className="pt-16">
+            <Router />
+          </main>
         </div>
         <Toaster />
       </TooltipProvider>

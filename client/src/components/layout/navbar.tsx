@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Shield, Phone, Home, BarChart3, Users, GraduationCap, Settings, Database } from "lucide-react";
+import { Menu, X, Building2, Phone, Home, BarChart3, Users, GraduationCap, Settings, Database } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Navbar() {
@@ -8,54 +8,56 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { href: "/", label: "Home", icon: Home },
+    { href: "/", label: "Overview", icon: Home },
     { href: "/dashboard", label: "Dashboard", icon: BarChart3 },
-    { href: "/leads", label: "Leads", icon: Users },
+    { href: "/leads", label: "Prospects", icon: Users },
     { href: "/analytics", label: "Analytics", icon: BarChart3 },
     { href: "/enrollment", label: "Enrollment", icon: GraduationCap },
-    { href: "/mcp-demo", label: "MCP Demo", icon: Database },
+    { href: "/mcp-demo", label: "Integration", icon: Database },
     { href: "/settings", label: "Settings", icon: Settings },
   ];
 
   return (
-    <nav className="navbar-glass fixed top-0 left-0 right-0 z-50 border-b border-electric-cyan/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-200/60 shadow-sm">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
+          {/* Premium Logo */}
           <Link href="/">
-            <div className="flex items-center space-x-3 cursor-pointer">
-              <div className="w-10 h-10 bg-gradient-to-r from-electric-cyan to-crimson-red rounded-xl flex items-center justify-center">
-                <Shield className="w-6 h-6 text-white" />
+            <div className="flex items-center space-x-3 cursor-pointer group">
+              <div className="relative">
+                <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+                  <Building2 className="w-5 h-5 text-white" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300 scale-110"></div>
               </div>
               <div className="flex flex-col">
-                <span className="text-white font-bold text-lg leading-tight">Insurance School</span>
-                <span className="text-electric-cyan font-semibold text-sm leading-tight">Recruiting Annex</span>
+                <span className="text-gray-900 font-semibold text-lg tracking-tight">Insurance School</span>
+                <span className="text-blue-600 font-medium text-xs tracking-wide uppercase">Recruiting Platform</span>
               </div>
             </div>
           </Link>
           
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          {/* Enterprise Navigation */}
+          <div className="hidden md:flex items-center space-x-1">
             {navItems.map(({ href, label, icon: Icon }) => (
               <Link key={href} href={href}>
-                <Button
-                  variant="ghost"
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
+                <button
+                  className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                     location === href 
-                      ? "bg-electric-cyan/20 text-electric-cyan border border-electric-cyan/30 shadow-lg shadow-electric-cyan/20" 
-                      : "text-gray-300 hover:text-electric-cyan hover:bg-electric-cyan/10"
+                      ? "bg-blue-50 text-blue-700 border border-blue-200 shadow-sm" 
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
-                  <span className="font-medium">{label}</span>
-                </Button>
+                  <span>{label}</span>
+                </button>
               </Link>
             ))}
             
-            {/* CTA Button */}
-            <Button className="btn-glass ml-4">
+            {/* Professional CTA */}
+            <Button className="ml-6 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-sm border border-blue-700 hover:border-blue-800 transition-all duration-200">
               <Phone className="w-4 h-4 mr-2" />
-              Call Center
+              Connect
             </Button>
           </div>
           
@@ -63,9 +65,9 @@ export function Navbar() {
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-white hover:text-electric-cyan focus:outline-none p-2"
+              className="text-gray-600 hover:text-gray-900 focus:outline-none p-2 rounded-md hover:bg-gray-50 transition-colors duration-200"
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
@@ -73,33 +75,32 @@ export function Navbar() {
       
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed top-16 left-0 w-full h-screen bg-black-glass backdrop-blur-lg z-40">
-          <div className="px-4 pt-4 pb-3 space-y-2">
+        <div className="md:hidden fixed top-16 left-0 w-full h-screen bg-white/95 backdrop-blur-xl border-t border-gray-200 z-40">
+          <div className="px-6 pt-4 pb-3 space-y-1">
             {navItems.map(({ href, label, icon: Icon }) => (
               <Link key={href} href={href}>
-                <Button
-                  variant="ghost"
+                <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`w-full justify-start flex items-center space-x-3 px-4 py-3 rounded-lg ${
+                  className={`w-full justify-start flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
                     location === href 
-                      ? "bg-electric-cyan/20 text-electric-cyan border border-electric-cyan/30" 
-                      : "text-gray-300 hover:text-electric-cyan hover:bg-electric-cyan/10"
+                      ? "bg-blue-50 text-blue-700 border border-blue-200" 
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                   }`}
                 >
                   <Icon className="w-5 h-5" />
-                  <span className="font-medium">{label}</span>
-                </Button>
+                  <span>{label}</span>
+                </button>
               </Link>
             ))}
             
             {/* Mobile CTA */}
-            <Button className="btn-glass w-full mt-4">
+            <Button className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium">
               <Phone className="w-4 h-4 mr-2" />
-              Call Center
+              Connect
             </Button>
           </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 }
