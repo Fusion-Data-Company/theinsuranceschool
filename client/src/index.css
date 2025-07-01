@@ -79,7 +79,7 @@
     position: relative;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.7));
     backdrop-filter: blur(24px) saturate(140%);
     font-weight: 600;
     letter-spacing: 0.025em;
@@ -87,11 +87,11 @@
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
     cursor: pointer;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
     box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.3);
   }
   
   .btn-glass:before {
@@ -152,7 +152,7 @@
   }
 
   .btn-glass-primary {
-    background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(255, 255, 255, 0.05));
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(15, 23, 42, 0.8));
     border-color: rgba(6, 182, 212, 0.4);
   }
 
@@ -173,7 +173,7 @@
   }
 
   .btn-glass-secondary {
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(255, 255, 255, 0.05));
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(15, 23, 42, 0.8));
     border-color: rgba(236, 72, 153, 0.4);
   }
 
@@ -218,14 +218,14 @@
 
   .btn-glass-icon {
     position: relative;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.6));
     backdrop-filter: blur(20px) saturate(140%);
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease;
     overflow: hidden;
     padding: 8px;
     box-shadow: 
-      0 4px 16px rgba(0, 0, 0, 0.1),
+      0 4px 16px rgba(0, 0, 0, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
