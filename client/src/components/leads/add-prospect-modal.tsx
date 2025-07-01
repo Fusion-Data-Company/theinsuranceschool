@@ -85,7 +85,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="card-glass border-slate-700/50 max-w-md">
+      <DialogContent className="bg-slate-900/95 backdrop-blur-md border border-slate-700/50 max-w-md text-white">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-white flex items-center">
             <User className="w-5 h-5 mr-2 text-electric-cyan" />
@@ -106,7 +106,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
                 id="firstName"
                 value={formData.firstName}
                 onChange={(e) => handleInputChange("firstName", e.target.value)}
-                className="form-glass border-slate-700/50 text-white"
+                className="bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-400"
                 placeholder="John"
                 required
               />
@@ -119,7 +119,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
                 id="lastName"
                 value={formData.lastName}
                 onChange={(e) => handleInputChange("lastName", e.target.value)}
-                className="form-glass border-slate-700/50 text-white"
+                className="bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-400"
                 placeholder="Smith"
                 required
               />
@@ -136,7 +136,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
               type="tel"
               value={formData.phone}
               onChange={(e) => handleInputChange("phone", e.target.value)}
-              className="form-glass border-slate-700/50 text-white"
+              className="bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-400"
               placeholder="(555) 123-4567"
               required
             />
@@ -152,7 +152,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
               type="email"
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              className="form-glass border-slate-700/50 text-white"
+              className="bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-400"
               placeholder="john.smith@email.com"
             />
           </div>
@@ -163,7 +163,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
               License Goal *
             </Label>
             <Select value={formData.licenseGoal} onValueChange={(value) => handleInputChange("licenseGoal", value)}>
-              <SelectTrigger className="form-glass border-slate-700/50 text-white">
+              <SelectTrigger className="bg-slate-800/50 border-slate-600 text-white">
                 <SelectValue placeholder="Select license type" />
               </SelectTrigger>
               <SelectContent className="bg-slate-800 border-slate-700">
@@ -179,7 +179,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
               Lead Source
             </Label>
             <Select value={formData.source} onValueChange={(value) => handleInputChange("source", value)}>
-              <SelectTrigger className="form-glass border-slate-700/50 text-white">
+              <SelectTrigger className="bg-slate-800/50 border-slate-600 text-white">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-slate-800 border-slate-700">
