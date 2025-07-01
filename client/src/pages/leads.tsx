@@ -83,12 +83,12 @@ export default function Leads() {
             <div className="mt-8 lg:mt-0 lg:ml-8">
               <div className="flex flex-col sm:flex-row gap-3">
                 <AddProspectModal>
-                  <Button className="btn-glass">
+                  <Button className="btn-glass-icon">
                     <Plus className="w-4 h-4 mr-2" />
                     Add Prospect
                   </Button>
                 </AddProspectModal>
-                <Button className="btn-glass" onClick={handleExportData}>
+                <Button className="btn-glass-icon" onClick={handleExportData}>
                   <Download className="w-4 h-4 mr-2" />
                   Export Data
                 </Button>

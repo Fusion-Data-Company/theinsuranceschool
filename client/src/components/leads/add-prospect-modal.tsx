@@ -195,14 +195,14 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
-              className="btn-glass flex-1"
+              className="btn-glass-icon flex-1"
               disabled={createProspectMutation.isPending}
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              className="btn-glass flex-1"
+              className="btn-glass-icon flex-1"
               disabled={createProspectMutation.isPending}
             >
               {createProspectMutation.isPending ? "Adding..." : "Add Prospect"}
