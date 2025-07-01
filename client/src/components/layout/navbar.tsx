@@ -8,8 +8,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { href: "/", label: "Overview", icon: Home },
-    { href: "/dashboard", label: "Dashboard", icon: BarChart3 },
+    { href: "/", label: "Dashboard", icon: BarChart3 },
     { href: "/leads", label: "Prospects", icon: Users },
     { href: "/analytics", label: "Analytics", icon: BarChart3 },
     { href: "/enrollment", label: "Enrollment", icon: GraduationCap },
