@@ -69,6 +69,25 @@ export function LeadsTable() {
     }
   };
 
+  const getDarkLicenseColor = (license: string) => {
+    switch (license) {
+      case "2-15": return "bg-electric-cyan/20 text-electric-cyan border-electric-cyan/30";
+      case "2-40": return "bg-fuchsia/20 text-fuchsia border-fuchsia/30";
+      case "2-14": return "bg-neon-magenta/20 text-neon-magenta border-neon-magenta/30";
+      default: return "bg-slate-700/50 text-slate-300 border-slate-600/50";
+    }
+  };
+
+  const getDarkStatusColor = (status: string) => {
+    switch (status) {
+      case "qualified": return "bg-vibrant-purple/20 text-vibrant-purple border-vibrant-purple/30";
+      case "enrolled": return "bg-green-500/20 text-green-400 border-green-500/30";
+      case "contacted": return "bg-electric-cyan/20 text-electric-cyan border-electric-cyan/30";
+      case "new": return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30";
+      default: return "bg-slate-700/50 text-slate-300 border-slate-600/50";
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="card-glass p-6">
@@ -81,17 +100,20 @@ export function LeadsTable() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Enhanced Filter Controls */}
-      <div className="bg-white rounded-lg border border-slate-200 shadow-sm">
-        <div className="p-6 border-b border-slate-200">
+    <div className="space-y-8">
+      {/* Dark Enterprise Filter Controls */}
+      <div className="card-glass border-slate-700/50 backdrop-blur-sm">
+        <div className="p-6 border-b border-slate-700/50">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold text-slate-900">Prospect Filters</h3>
-              <p className="text-sm text-slate-600">Filter and search through your lead database</p>
+              <h3 className="text-xl font-bold text-white">Intelligence Filters</h3>
+              <p className="text-sm text-slate-400 mt-1">Advanced prospect segmentation and search capabilities</p>
             </div>
-            <div className="text-sm text-slate-500">
-              {filteredLeads.length} of {leads.length} leads
+            <div className="flex items-center space-x-3">
+              <div className="text-sm text-slate-400">
+                <span className="text-electric-cyan font-medium">{filteredLeads.length}</span> of {leads.length} prospects
+              </div>
+              <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
             </div>
           </div>
         </div>
@@ -99,43 +121,43 @@ export function LeadsTable() {
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <Select value={sourceFilter} onValueChange={setSourceFilter}>
-              <SelectTrigger className="border-slate-300 bg-white">
+              <SelectTrigger className="form-glass border-slate-700/50 text-white">
                 <SelectValue placeholder="All Sources" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-slate-800 border-slate-700">
                 <SelectItem value="all">All Sources</SelectItem>
-                <SelectItem value="voice_agent">Voice Agent</SelectItem>
-                <SelectItem value="website">Website</SelectItem>
-                <SelectItem value="referral">Referral</SelectItem>
+                <SelectItem value="voice_agent">🤖 Voice Agent</SelectItem>
+                <SelectItem value="website">🌐 Website</SelectItem>
+                <SelectItem value="referral">👥 Referral</SelectItem>
               </SelectContent>
             </Select>
 
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="border-slate-300 bg-white">
+              <SelectTrigger className="form-glass border-slate-700/50 text-white">
                 <SelectValue placeholder="All Status" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-slate-800 border-slate-700">
                 <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="new">New</SelectItem>
-                <SelectItem value="contacted">Contacted</SelectItem>
-                <SelectItem value="qualified">Qualified</SelectItem>
-                <SelectItem value="enrolled">Enrolled</SelectItem>
+                <SelectItem value="new">🆕 New</SelectItem>
+                <SelectItem value="contacted">📞 Contacted</SelectItem>
+                <SelectItem value="qualified">✅ Qualified</SelectItem>
+                <SelectItem value="enrolled">🎓 Enrolled</SelectItem>
               </SelectContent>
             </Select>
 
             <Select value={licenseFilter} onValueChange={setLicenseFilter}>
-              <SelectTrigger className="border-slate-300 bg-white">
+              <SelectTrigger className="form-glass border-slate-700/50 text-white">
                 <SelectValue placeholder="All Licenses" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-slate-800 border-slate-700">
                 <SelectItem value="all">All Licenses</SelectItem>
-                <SelectItem value="2-15">2-15 (Life & Health)</SelectItem>
-                <SelectItem value="2-40">2-40 (Property & Casualty)</SelectItem>
-                <SelectItem value="2-14">2-14 (Personal Lines)</SelectItem>
+                <SelectItem value="2-15">💼 2-15 (Life & Health)</SelectItem>
+                <SelectItem value="2-40">🏠 2-40 (Property & Casualty)</SelectItem>
+                <SelectItem value="2-14">🚗 2-14 (Personal Lines)</SelectItem>
               </SelectContent>
             </Select>
 
-            <Button className="bg-slate-900 hover:bg-slate-800 text-white">
+            <Button className="bg-gradient-to-r from-electric-cyan to-fuchsia hover:from-electric-cyan/80 hover:to-fuchsia/80 text-white font-medium">
               <Filter className="mr-2 h-4 w-4" />
               Apply Filters
             </Button>
@@ -143,90 +165,91 @@ export function LeadsTable() {
         </div>
       </div>
 
-      {/* Enterprise Data Table */}
-      <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+      {/* Dark Enterprise Data Table */}
+      <div className="card-glass border-slate-700/50 backdrop-blur-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-slate-50 border-b border-slate-200">
+            <thead className="bg-slate-900/50 border-b border-slate-700/50">
               <tr>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Prospect</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Contact Information</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">License Type</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Status</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Source</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Actions</th>
+                <th className="px-6 py-5 text-left text-sm font-bold text-electric-cyan uppercase tracking-wider">Prospect Profile</th>
+                <th className="px-6 py-5 text-left text-sm font-bold text-electric-cyan uppercase tracking-wider">Contact Intelligence</th>
+                <th className="px-6 py-5 text-left text-sm font-bold text-electric-cyan uppercase tracking-wider">License Target</th>
+                <th className="px-6 py-5 text-left text-sm font-bold text-electric-cyan uppercase tracking-wider">Pipeline Status</th>
+                <th className="px-6 py-5 text-left text-sm font-bold text-electric-cyan uppercase tracking-wider">Acquisition Source</th>
+                <th className="px-6 py-5 text-left text-sm font-bold text-electric-cyan uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200">
+            <tbody className="divide-y divide-slate-700/30">
               {filteredLeads.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center">
-                    <div className="text-slate-500">
-                      <Users className="mx-auto h-8 w-8 mb-2" />
-                      <p className="text-sm">No leads found matching the current filters</p>
+                  <td colSpan={6} className="px-6 py-16 text-center">
+                    <div className="text-slate-400">
+                      <Users className="mx-auto h-12 w-12 mb-4 text-slate-600" />
+                      <p className="text-lg font-medium text-slate-300">No prospects match current filters</p>
+                      <p className="text-sm text-slate-500 mt-1">Adjust your search criteria to view more results</p>
                     </div>
                   </td>
                 </tr>
               ) : (
                 filteredLeads.map((lead) => (
-                  <tr key={lead.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="px-6 py-4">
+                  <tr key={lead.id} className="hover:bg-slate-800/50 transition-all duration-200 border-l-2 border-transparent hover:border-electric-cyan/50">
+                    <td className="px-6 py-5">
                       <div className="flex items-center">
-                        <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                          <span className="text-sm font-medium text-blue-600">
+                        <div className="h-12 w-12 rounded-full bg-gradient-to-br from-electric-cyan/20 to-fuchsia/20 border border-electric-cyan/30 flex items-center justify-center">
+                          <span className="text-sm font-bold text-electric-cyan">
                             {lead.firstName.charAt(0)}{lead.lastName.charAt(0)}
                           </span>
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-slate-900">
+                          <div className="text-sm font-bold text-white">
                             {lead.firstName} {lead.lastName}
                           </div>
-                          <div className="text-sm text-slate-500">
-                            Added {new Date(lead.createdAt).toLocaleDateString()}
+                          <div className="text-xs text-slate-400">
+                            Acquired {new Date(lead.createdAt).toLocaleDateString()}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm text-slate-900">{lead.phone}</div>
-                      <div className="text-sm text-slate-500">{lead.email}</div>
+                    <td className="px-6 py-5">
+                      <div className="text-sm text-white font-medium">{lead.phone}</div>
+                      <div className="text-xs text-slate-400">{lead.email}</div>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getEnterpriseColor(lead.licenseGoal)}`}>
+                    <td className="px-6 py-5">
+                      <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold border ${getDarkLicenseColor(lead.licenseGoal)}`}>
                         {lead.licenseGoal} License
                       </span>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getEnterpriseStatusColor(lead.status)}`}>
-                        <div className={`w-1.5 h-1.5 rounded-full mr-1.5 ${getStatusDot(lead.status)}`}></div>
+                    <td className="px-6 py-5">
+                      <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold border ${getDarkStatusColor(lead.status)}`}>
+                        <div className={`w-2 h-2 rounded-full mr-2 animate-pulse ${getStatusDot(lead.status)}`}></div>
                         {lead.status.charAt(0).toUpperCase() + lead.status.slice(1)}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-slate-600 capitalize">
+                    <td className="px-6 py-5">
+                      <span className="text-sm text-slate-300 capitalize font-medium">
                         {lead.source.replace('_', ' ')}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-5">
                       <div className="flex items-center space-x-2">
                         <Button 
                           variant="ghost" 
                           size="sm"
-                          className="h-8 w-8 p-0 text-slate-600 hover:text-blue-600 hover:bg-blue-50"
+                          className="h-9 w-9 p-0 text-slate-400 hover:text-electric-cyan hover:bg-electric-cyan/10 border border-transparent hover:border-electric-cyan/30"
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
                         <Button 
                           variant="ghost" 
                           size="sm"
-                          className="h-8 w-8 p-0 text-slate-600 hover:text-green-600 hover:bg-green-50"
+                          className="h-9 w-9 p-0 text-slate-400 hover:text-green-400 hover:bg-green-500/10 border border-transparent hover:border-green-500/30"
                         >
                           <Phone className="h-4 w-4" />
                         </Button>
                         <Button 
                           variant="ghost" 
                           size="sm"
-                          className="h-8 w-8 p-0 text-slate-600 hover:text-purple-600 hover:bg-purple-50"
+                          className="h-9 w-9 p-0 text-slate-400 hover:text-fuchsia hover:bg-fuchsia/10 border border-transparent hover:border-fuchsia/30"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
