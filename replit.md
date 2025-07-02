@@ -170,6 +170,7 @@ Changelog:
 - July 1, 2025. Converted all cyan elements to grey styling for consistency: changed electric-cyan buttons, badges, icons, and text to slate-colored equivalents throughout the interface for unified professional appearance
 - July 1, 2025. Updated ALL button styling to match grey action buttons: changed button text colors from pink/cyan to grey (rgba(148, 163, 184, 1)), updated Add Prospect and Export Data buttons to use btn-glass-icon class, and synchronized all button hover effects for unified professional appearance matching the three grey action buttons in Rachel Brown's row
 - July 1, 2025. Made action buttons production-ready: implemented full functionality for Eye (view lead details modal), Phone (call initiation with toast notification), and Edit (comprehensive edit modal with form validation and database integration) buttons on each lead row, replacing placeholder icons with enterprise-level CRM functionality
+- July 2, 2025. Fixed n8n HTTP request integration: updated MCP endpoint to support both 'tool' and 'tool_name' query parameters for compatibility, implemented server keep-alive mechanism with 4-minute heartbeat to prevent Replit sleep mode, ensuring 24/7 availability for n8n workflow automation
 ```
 
 ## User Preferences

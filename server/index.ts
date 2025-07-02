@@ -80,5 +80,22 @@ app.use((req, res, next) => {
     reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
+    
+    // Keep-alive mechanism for n8n integration
+    // Ping the server every 4 minutes to prevent Replit from sleeping
+    const KEEP_ALIVE_INTERVAL = 4 * 60 * 1000; // 4 minutes
+    
+    setInterval(() => {
+      const timestamp = new Date().toISOString();
+      console.log(`[KEEP-ALIVE] ${timestamp} - Server heartbeat for n8n`);
+      
+      // Ping our own health endpoint to keep everything warm
+      fetch('http://localhost:5000/api/mcp/health')
+        .then(res => res.json())
+        .then(data => console.log(`[KEEP-ALIVE] Health check OK:`, data.status))
+        .catch(err => console.error(`[KEEP-ALIVE] Health check failed:`, err.message));
+    }, KEEP_ALIVE_INTERVAL);
+    
+    log(`Keep-alive mechanism enabled - server will stay awake for n8n`);
   });
 })();
