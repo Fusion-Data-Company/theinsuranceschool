@@ -276,7 +276,8 @@ export function registerMCPEndpoint(app: Express) {
       console.log("\n=== N8N TOOL EXECUTION REQUEST ===");
       console.log("Query params:", JSON.stringify(req.query, null, 2));
       
-      const { tool_name } = req.query;
+      // Support both 'tool' and 'tool_name' query parameters for compatibility
+      const tool_name = (req.query.tool || req.query.tool_name) as string;
       
       // Check cache first for non-dashboard data tools
       if (tool_name !== 'dashboard_data') {
