@@ -1,4 +1,4 @@
-import { LeadsTable } from "@/components/leads/leads-table";
+import { AdvancedLeadsTable } from "@/components/leads/advanced-leads-table";
 import { AddProspectModal } from "@/components/leads/add-prospect-modal";
 import { Shield, Users, TrendingUp, Target, Clock, Plus, Download, Filter } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
@@ -178,7 +178,7 @@ export default function Leads() {
 
       {/* Dark Content Area */}
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <LeadsTable filters={filters} onFiltersChange={setFilters} />
+        <AdvancedLeadsTable data={leads} filters={filters} />
       </div>
     </div>
   );
