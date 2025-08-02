@@ -94,17 +94,23 @@ const StatusBadge = ({ status, onEdit }: { status: string; onEdit: (newStatus: s
     qualified: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
     enrolled: 'bg-green-500/20 text-green-400 border-green-500/30',
     opt_out: 'bg-red-500/20 text-red-400 border-red-500/30',
+    follow_up: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+    interested: 'bg-teal-500/20 text-teal-400 border-teal-500/30',
+    not_interested: 'bg-gray-500/20 text-gray-400 border-gray-500/30',
+    callback_requested: 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
+    appointment_set: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
+    no_answer: 'bg-slate-500/20 text-slate-400 border-slate-500/30',
+    voicemail_left: 'bg-violet-500/20 text-violet-400 border-violet-500/30',
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Badge 
-          variant="outline" 
-          className={`${statusColors[status as keyof typeof statusColors]} cursor-pointer hover:opacity-80`}
+        <div 
+          className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${statusColors[status as keyof typeof statusColors]} cursor-pointer hover:opacity-80`}
         >
           {status.replace('_', ' ')}
-        </Badge>
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-slate-800 border-slate-600">
         {Object.keys(statusColors).map((s) => (
@@ -127,17 +133,24 @@ const LicenseBadge = ({ license, onEdit }: { license: string; onEdit: (newLicens
     '2-15': 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
     '2-40': 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
     '2-14': 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+    '6-20': 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+    '2-16': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+    '3-18': 'bg-pink-500/20 text-pink-400 border-pink-500/30',
+    '4-40': 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+    '7-15': 'bg-red-500/20 text-red-400 border-red-500/30',
+    '2-20': 'bg-teal-500/20 text-teal-400 border-teal-500/30',
+    undecided: 'bg-gray-500/20 text-gray-400 border-gray-500/30',
+    multiple: 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Badge 
-          variant="outline" 
-          className={`${licenseColors[license as keyof typeof licenseColors]} cursor-pointer hover:opacity-80`}
+        <div 
+          className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${licenseColors[license as keyof typeof licenseColors]} cursor-pointer hover:opacity-80`}
         >
           {license}
-        </Badge>
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-slate-800 border-slate-600">
         {Object.keys(licenseColors).map((l) => (
@@ -160,17 +173,26 @@ const SourceBadge = ({ source, onEdit }: { source: string; onEdit: (newSource: s
     voice_agent: 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
     website: 'bg-teal-500/20 text-teal-400 border-teal-500/30',
     referral: 'bg-pink-500/20 text-pink-400 border-pink-500/30',
+    social_media: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+    email_campaign: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+    phone_call: 'bg-green-500/20 text-green-400 border-green-500/30',
+    walk_in: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+    trade_show: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+    google_ads: 'bg-red-500/20 text-red-400 border-red-500/30',
+    facebook_ads: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
+    linkedin: 'bg-slate-500/20 text-slate-400 border-slate-500/30',
+    direct_mail: 'bg-violet-500/20 text-violet-400 border-violet-500/30',
+    partner_referral: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Badge 
-          variant="outline" 
-          className={`${sourceColors[source as keyof typeof sourceColors]} cursor-pointer hover:opacity-80`}
+        <div 
+          className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${sourceColors[source as keyof typeof sourceColors]} cursor-pointer hover:opacity-80`}
         >
           {source.replace('_', ' ')}
-        </Badge>
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-slate-800 border-slate-600">
         {Object.keys(sourceColors).map((s) => (
