@@ -74,54 +74,46 @@ const EditableCell = ({
       onBlur={onBlur}
       onKeyDown={onKeyDown}
       autoFocus
-      className="h-8 text-xs bg-slate-800/50 border-slate-600 focus:border-cyan-500 text-white"
+      className="h-8 px-2 bg-slate-700 border-slate-600 text-white text-sm"
     />
   ) : (
     <div
       onClick={() => setIsEditing(true)}
-      className="cursor-pointer hover:bg-slate-700/30 p-1 rounded text-xs text-slate-300 min-h-6 flex items-center"
-      title="Click to edit"
+      className="h-8 px-2 flex items-center cursor-pointer hover:bg-slate-700/50 rounded text-sm text-white"
     >
-      {initialValue || "—"}
+      {value || 'Click to edit'}
     </div>
   );
 };
 
-// Status badge component with inline editing
+// Status badge component
 const StatusBadge = ({ status, onEdit }: { status: string; onEdit: (newStatus: string) => void }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'new': return 'bg-blue-500/20 text-blue-400 border-blue-500/50 hover:bg-blue-500/30';
-      case 'contacted': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/50 hover:bg-yellow-500/30';
-      case 'qualified': return 'bg-green-500/20 text-green-400 border-green-500/50 hover:bg-green-500/30';
-      case 'enrolled': return 'bg-purple-500/20 text-purple-400 border-purple-500/50 hover:bg-purple-500/30';
-      case 'opt_out': return 'bg-red-500/20 text-red-400 border-red-500/50 hover:bg-red-500/30';
-      default: return 'bg-slate-500/20 text-slate-400 border-slate-500/50 hover:bg-slate-500/30';
-    }
+  const statusColors = {
+    new: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+    contacted: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+    qualified: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+    enrolled: 'bg-green-500/20 text-green-400 border-green-500/30',
+    opt_out: 'bg-red-500/20 text-red-400 border-red-500/30',
   };
 
   return (
-    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Badge className={`${getStatusColor(status)} cursor-pointer text-xs px-2 py-1 border transition-all duration-200`}>
+        <Badge 
+          variant="outline" 
+          className={`${statusColors[status as keyof typeof statusColors]} cursor-pointer hover:opacity-80`}
+        >
           {status.replace('_', ' ')}
         </Badge>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-slate-800 border-slate-600">
-        {['new', 'contacted', 'qualified', 'enrolled', 'opt_out'].map((s) => (
+        {Object.keys(statusColors).map((s) => (
           <DropdownMenuItem 
-            key={s}
-            onClick={() => {
-              onEdit(s);
-              setIsOpen(false);
-            }}
-            className="text-slate-300 hover:bg-slate-700"
+            key={s} 
+            onClick={() => onEdit(s)}
+            className="text-white hover:bg-slate-700"
           >
-            <Badge className={`${getStatusColor(s)} text-xs`}>
-              {s.replace('_', ' ')}
-            </Badge>
+            {s.replace('_', ' ')}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
@@ -129,39 +121,32 @@ const StatusBadge = ({ status, onEdit }: { status: string; onEdit: (newStatus: s
   );
 };
 
-// License goal badge component with inline editing
+// License badge component
 const LicenseBadge = ({ license, onEdit }: { license: string; onEdit: (newLicense: string) => void }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  
-  const getLicenseColor = (license: string) => {
-    switch (license) {
-      case '2-15': return 'bg-cyan-500/20 text-cyan-400 border-cyan-500/50 hover:bg-cyan-500/30';
-      case '2-40': return 'bg-fuchsia-500/20 text-fuchsia-400 border-fuchsia-500/50 hover:bg-fuchsia-500/30';
-      case '2-14': return 'bg-orange-500/20 text-orange-400 border-orange-500/50 hover:bg-orange-500/30';
-      default: return 'bg-slate-500/20 text-slate-400 border-slate-500/50 hover:bg-slate-500/30';
-    }
+  const licenseColors = {
+    '2-15': 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
+    '2-40': 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+    '2-14': 'bg-orange-500/20 text-orange-400 border-orange-500/30',
   };
 
   return (
-    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Badge className={`${getLicenseColor(license)} cursor-pointer text-xs px-2 py-1 border transition-all duration-200`}>
+        <Badge 
+          variant="outline" 
+          className={`${licenseColors[license as keyof typeof licenseColors]} cursor-pointer hover:opacity-80`}
+        >
           {license}
         </Badge>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-slate-800 border-slate-600">
-        {['2-15', '2-40', '2-14'].map((l) => (
+        {Object.keys(licenseColors).map((l) => (
           <DropdownMenuItem 
-            key={l}
-            onClick={() => {
-              onEdit(l);
-              setIsOpen(false);
-            }}
-            className="text-slate-300 hover:bg-slate-700"
+            key={l} 
+            onClick={() => onEdit(l)}
+            className="text-white hover:bg-slate-700"
           >
-            <Badge className={`${getLicenseColor(l)} text-xs`}>
-              {l}
-            </Badge>
+            {l}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
@@ -169,39 +154,32 @@ const LicenseBadge = ({ license, onEdit }: { license: string; onEdit: (newLicens
   );
 };
 
-// Source badge component with inline editing
+// Source badge component
 const SourceBadge = ({ source, onEdit }: { source: string; onEdit: (newSource: string) => void }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  
-  const getSourceColor = (source: string) => {
-    switch (source) {
-      case 'voice_agent': return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50 hover:bg-emerald-500/30';
-      case 'website': return 'bg-blue-500/20 text-blue-400 border-blue-500/50 hover:bg-blue-500/30';
-      case 'referral': return 'bg-violet-500/20 text-violet-400 border-violet-500/50 hover:bg-violet-500/30';
-      default: return 'bg-slate-500/20 text-slate-400 border-slate-500/50 hover:bg-slate-500/30';
-    }
+  const sourceColors = {
+    voice_agent: 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
+    website: 'bg-teal-500/20 text-teal-400 border-teal-500/30',
+    referral: 'bg-pink-500/20 text-pink-400 border-pink-500/30',
   };
 
   return (
-    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Badge className={`${getSourceColor(source)} cursor-pointer text-xs px-2 py-1 border transition-all duration-200`}>
+        <Badge 
+          variant="outline" 
+          className={`${sourceColors[source as keyof typeof sourceColors]} cursor-pointer hover:opacity-80`}
+        >
           {source.replace('_', ' ')}
         </Badge>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-slate-800 border-slate-600">
-        {['voice_agent', 'website', 'referral'].map((s) => (
+        {Object.keys(sourceColors).map((s) => (
           <DropdownMenuItem 
-            key={s}
-            onClick={() => {
-              onEdit(s);
-              setIsOpen(false);
-            }}
-            className="text-slate-300 hover:bg-slate-700"
+            key={s} 
+            onClick={() => onEdit(s)}
+            className="text-white hover:bg-slate-700"
           >
-            <Badge className={`${getSourceColor(s)} text-xs`}>
-              {s.replace('_', ' ')}
-            </Badge>
+            {s.replace('_', ' ')}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
@@ -211,24 +189,22 @@ const SourceBadge = ({ source, onEdit }: { source: string; onEdit: (newSource: s
 
 // Action buttons component
 const ActionButtons = ({ lead }: { lead: Lead }) => {
+  const handleView = () => {
+    toast({ title: `Viewing lead ${lead.firstName} ${lead.lastName}`, duration: 2000 });
+  };
+
   const handleCall = () => {
-    toast({ 
-      title: "Initiating call", 
-      description: `Calling ${lead.firstName} ${lead.lastName} at ${lead.phone}`,
-      duration: 3000
-    });
+    if (lead.phone) {
+      window.open(`tel:${lead.phone}`, '_self');
+      toast({ title: `Calling ${lead.firstName} ${lead.lastName}`, duration: 2000 });
+    }
   };
 
   const handleEmail = () => {
-    window.open(`mailto:${lead.email}?subject=Insurance License Information`);
-  };
-
-  const handleView = () => {
-    toast({ 
-      title: "Viewing lead details", 
-      description: `Opening details for ${lead.firstName} ${lead.lastName}`,
-      duration: 2000 
-    });
+    if (lead.email) {
+      window.open(`mailto:${lead.email}`, '_blank');
+      toast({ title: `Opening email to ${lead.firstName} ${lead.lastName}`, duration: 2000 });
+    }
   };
 
   return (
@@ -237,8 +213,8 @@ const ActionButtons = ({ lead }: { lead: Lead }) => {
         size="sm"
         variant="ghost"
         onClick={handleView}
-        className="h-8 w-8 p-0 text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10"
-        title="View Details"
+        className="h-8 w-8 p-0 text-slate-400 hover:text-green-400 hover:bg-green-500/10"
+        title="View Lead"
       >
         <Eye className="h-4 w-4" />
       </Button>
@@ -246,7 +222,7 @@ const ActionButtons = ({ lead }: { lead: Lead }) => {
         size="sm"
         variant="ghost"
         onClick={handleCall}
-        className="h-8 w-8 p-0 text-slate-400 hover:text-green-400 hover:bg-green-500/10"
+        className="h-8 w-8 p-0 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10"
         title="Call Lead"
       >
         <Phone className="h-4 w-4" />
@@ -278,10 +254,7 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
   // Update lead mutation
   const updateLeadMutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: Partial<Lead> }) => 
-      apiRequest(`/api/leads/${id}`, {
-        method: "PATCH",
-        body: JSON.stringify(data),
-      }),
+      apiRequest(`/api/leads/${id}`, "PATCH", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/leads"] });
       toast({ title: "Lead updated successfully", duration: 2000 });
@@ -292,19 +265,20 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
   });
 
   // Update data handler
-  const updateData = useCallback((rowIndex: number, columnId: string, value: any) => {
-    const lead = table.getRowModel().rows[rowIndex].original;
-    updateLeadMutation.mutate({ 
-      id: lead.id, 
-      data: { [columnId]: value } 
-    });
-  }, [updateLeadMutation]);
+  const updateDataCallback = useCallback((rowIndex: number, columnId: string, value: any) => {
+    const rowData = data[rowIndex];
+    if (rowData) {
+      updateLeadMutation.mutate({ 
+        id: rowData.id, 
+        data: { [columnId]: value } 
+      });
+    }
+  }, [updateLeadMutation, data]);
 
-  // Column definitions
-  const columnHelper = createColumnHelper<Lead>();
-  
-  const columns = useMemo<ColumnDef<Lead>[]>(() => [
-    columnHelper.accessor('firstName', {
+  // Column definitions using simpler approach
+  const columns = useMemo<ColumnDef<Lead, any>[]>(() => [
+    {
+      accessorKey: 'firstName',
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -323,8 +297,9 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
       ),
       cell: (props) => <EditableCell {...props} />,
       size: 120,
-    }),
-    columnHelper.accessor('lastName', {
+    },
+    {
+      accessorKey: 'lastName',
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -343,8 +318,9 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
       ),
       cell: (props) => <EditableCell {...props} />,
       size: 120,
-    }),
-    columnHelper.accessor('phone', {
+    },
+    {
+      accessorKey: 'phone',
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -363,8 +339,9 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
       ),
       cell: (props) => <EditableCell {...props} />,
       size: 140,
-    }),
-    columnHelper.accessor('email', {
+    },
+    {
+      accessorKey: 'email',
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -383,8 +360,9 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
       ),
       cell: (props) => <EditableCell {...props} />,
       size: 200,
-    }),
-    columnHelper.accessor('status', {
+    },
+    {
+      accessorKey: 'status',
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -403,13 +381,14 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
       ),
       cell: ({ getValue, row }) => (
         <StatusBadge 
-          status={getValue()} 
-          onEdit={(newStatus) => updateData(row.index, 'status', newStatus)}
+          status={getValue() as string} 
+          onEdit={(newStatus) => updateDataCallback(row.index, 'status', newStatus)}
         />
       ),
       size: 120,
-    }),
-    columnHelper.accessor('licenseGoal', {
+    },
+    {
+      accessorKey: 'licenseGoal',
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -428,13 +407,14 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
       ),
       cell: ({ getValue, row }) => (
         <LicenseBadge 
-          license={getValue()} 
-          onEdit={(newLicense) => updateData(row.index, 'licenseGoal', newLicense)}
+          license={getValue() as string} 
+          onEdit={(newLicense) => updateDataCallback(row.index, 'licenseGoal', newLicense)}
         />
       ),
       size: 100,
-    }),
-    columnHelper.accessor('source', {
+    },
+    {
+      accessorKey: 'source',
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -453,13 +433,14 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
       ),
       cell: ({ getValue, row }) => (
         <SourceBadge 
-          source={getValue()} 
-          onEdit={(newSource) => updateData(row.index, 'source', newSource)}
+          source={getValue() as string} 
+          onEdit={(newSource) => updateDataCallback(row.index, 'source', newSource)}
         />
       ),
       size: 120,
-    }),
-    columnHelper.accessor('createdAt', {
+    },
+    {
+      accessorKey: 'createdAt',
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -478,18 +459,18 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
       ),
       cell: ({ getValue }) => (
         <div className="text-xs text-slate-400">
-          {new Date(getValue()).toLocaleDateString()}
+          {new Date(getValue() as Date).toLocaleDateString()}
         </div>
       ),
       size: 100,
-    }),
-    columnHelper.display({
+    },
+    {
       id: 'actions',
       header: 'Actions',
       cell: ({ row }) => <ActionButtons lead={row.original} />,
       size: 120,
-    }),
-  ], [updateData]);
+    },
+  ], [updateDataCallback]);
 
   const table = useReactTable({
     data,
@@ -509,7 +490,7 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     meta: {
-      updateData,
+      updateData: updateDataCallback,
     },
     debugTable: false,
   });
@@ -556,23 +537,27 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
-                    <th key={header.id} className="text-left p-3 font-medium text-slate-300">
+                    <th
+                      key={header.id}
+                      className="text-left py-3 px-4 font-medium text-slate-300"
+                      style={{ width: header.getSize() }}
+                    >
                       {header.isPlaceholder
                         ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </th>
                   ))}
                 </tr>
               ))}
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-700/50">
               {table.getRowModel().rows.map((row) => (
-                <tr 
-                  key={row.id}
-                  className="border-b border-slate-700/30 hover:bg-slate-800/30 transition-colors"
-                >
+                <tr key={row.id} className="hover:bg-slate-800/30 transition-colors">
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="p-3">
+                    <td key={cell.id} className="py-3 px-4">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
@@ -583,14 +568,12 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
         </div>
 
         {/* Pagination */}
-        <div className="flex items-center justify-between p-4 border-t border-slate-700/50 bg-slate-800/30">
-          <div className="text-sm text-slate-400">
-            Showing {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to{" "}
-            {Math.min(
-              (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
-              table.getFilteredRowModel().rows.length
-            )}{" "}
-            of {table.getFilteredRowModel().rows.length} results
+        <div className="flex items-center justify-between px-4 py-3 bg-slate-800/50 border-t border-slate-700">
+          <div className="flex items-center gap-2 text-sm text-slate-400">
+            <span>
+              Page {table.getState().pagination.pageIndex + 1} of{' '}
+              {table.getPageCount()}
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -598,20 +581,17 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
               size="sm"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              className="border-slate-600 text-slate-300 hover:bg-slate-700"
+              className="bg-slate-700 border-slate-600 text-white hover:bg-slate-600"
             >
               <ChevronLeft className="h-4 w-4" />
               Previous
             </Button>
-            <span className="text-sm text-slate-400">
-              Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-            </span>
             <Button
               variant="outline"
               size="sm"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className="border-slate-600 text-slate-300 hover:bg-slate-700"
+              className="bg-slate-700 border-slate-600 text-white hover:bg-slate-600"
             >
               Next
               <ChevronRight className="h-4 w-4" />
