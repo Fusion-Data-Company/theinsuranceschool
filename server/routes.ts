@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { z } from "zod";
 import { insertLeadSchema, insertCallRecordSchema, insertPaymentSchema, insertEnrollmentSchema, insertWebhookLogSchema } from "@shared/schema";
 import { registerMCPEndpoint } from "./mcp";
+import { sendLeadNotification, testSMSNotification } from "./sms";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Register MCP endpoint FIRST to ensure it's not intercepted by frontend routing
@@ -72,6 +73,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
         
         await storage.createCallRecord(callRecordInput);
+      }
+
+      // Send SMS notification based on payment status
+      if (lead) {
+        try {
+          const notificationType = lead.paymentStatus === 'PAID' ? 'PAID' : 'NOT_PAID';
+          await sendLeadNotification({
+            lead,
+            type: notificationType
+          });
+          console.log(`SMS notification sent for lead ${lead.id} (${notificationType})`);
+        } catch (smsError) {
+          console.error('Failed to send SMS notification:', smsError);
+          // Don't fail the webhook if SMS fails
+        }
       }
 
       // If qualified lead, trigger payment link (placeholder for integration)
@@ -394,6 +410,116 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(payments);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch payments" });
+    }
+  });
+
+  // n8n Webhook endpoint for enhanced lead processing with SMS notifications
+  app.post("/api/webhooks/n8n-lead-processor", async (req, res) => {
+    try {
+      const startTime = Date.now();
+      
+      // Log the webhook
+      await storage.logWebhook({
+        endpoint: "/api/webhooks/n8n-lead-processor",
+        method: "POST",
+        payload: req.body,
+        responseStatus: 200,
+        responseTime: 0,
+      });
+
+      const leadData = req.body;
+      
+      // Create expanded lead schema with all 12 new fields
+      const expandedLeadInput = insertLeadSchema.parse({
+        firstName: leadData.firstName || leadData.first_name,
+        lastName: leadData.lastName || leadData.last_name,
+        phone: leadData.phone,
+        email: leadData.email,
+        licenseGoal: leadData.licenseGoal || leadData.license_goal,
+        source: leadData.source || "n8n_workflow",
+        status: leadData.status || "new",
+        // Enhanced lead fields from ElevenLabs conversation
+        painPoints: leadData.painPoints || leadData.pain_points,
+        employmentStatus: leadData.employmentStatus || leadData.employment_status,
+        urgencyLevel: leadData.urgencyLevel || leadData.urgency_level,
+        paymentPreference: leadData.paymentPreference || leadData.payment_preference,
+        paymentStatus: leadData.paymentStatus || leadData.payment_status || 'NOT_PAID',
+        confirmationNumber: leadData.confirmationNumber || leadData.confirmation_number,
+        agentName: leadData.agentName || leadData.agent_name || 'Bandit AI',
+        supervisor: leadData.supervisor || 'Kelli Kirk',
+        leadSource: leadData.leadSource || leadData.lead_source || 'n8n Workflow',
+        callSummary: leadData.callSummary || leadData.call_summary,
+        callDate: leadData.callDate || leadData.call_date ? new Date(leadData.callDate || leadData.call_date) : null,
+        conversationId: leadData.conversationId || leadData.conversation_id,
+      });
+      
+      // Check if lead exists by phone
+      const existingLead = await storage.getLeadByPhone(expandedLeadInput.phone);
+      let lead;
+      
+      if (existingLead) {
+        // Update existing lead with new information
+        lead = await storage.updateLead(existingLead.id, expandedLeadInput);
+        console.log(`Updated existing lead ${existingLead.id} with enhanced data`);
+      } else {
+        // Create new lead
+        lead = await storage.createLead(expandedLeadInput);
+        console.log(`Created new lead ${lead.id} with enhanced data`);
+      }
+
+      // Send SMS notification immediately
+      try {
+        const notificationType = lead.paymentStatus === 'PAID' ? 'PAID' : 'NOT_PAID';
+        const smsSuccess = await sendLeadNotification({
+          lead,
+          type: notificationType
+        });
+        
+        if (smsSuccess) {
+          console.log(`SMS notification sent for lead ${lead.id} (${notificationType}) to +14074013100`);
+        }
+      } catch (smsError) {
+        console.error('Failed to send SMS notification:', smsError);
+      }
+
+      const responseTime = Date.now() - startTime;
+      
+      res.json({ 
+        success: true, 
+        leadId: lead.id,
+        action: existingLead ? 'updated' : 'created',
+        smsNotified: true,
+        message: `Lead ${existingLead ? 'updated' : 'created'} successfully with SMS notification sent`,
+        responseTime,
+        leadData: {
+          id: lead.id,
+          name: `${lead.firstName} ${lead.lastName}`,
+          phone: lead.phone,
+          licenseGoal: lead.licenseGoal,
+          paymentStatus: lead.paymentStatus,
+          urgencyLevel: lead.urgencyLevel,
+          agentName: lead.agentName
+        }
+      });
+      
+    } catch (error) {
+      console.error("n8n webhook error:", error);
+      res.status(500).json({ error: "Failed to process n8n webhook", details: error.message });
+    }
+  });
+
+  // Test SMS endpoint for verification
+  app.post("/api/test-sms", async (req, res) => {
+    try {
+      const success = await testSMSNotification();
+      if (success) {
+        res.json({ success: true, message: "Test SMS sent successfully to +14074013100" });
+      } else {
+        res.status(500).json({ success: false, message: "Failed to send test SMS" });
+      }
+    } catch (error) {
+      console.error("Test SMS error:", error);
+      res.status(500).json({ success: false, error: "SMS test failed" });
     }
   });
 

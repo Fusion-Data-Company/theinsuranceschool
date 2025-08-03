@@ -10,6 +10,7 @@ import Analytics from "@/pages/analytics";
 import EnrollmentPage from "@/pages/enrollment";
 import Settings from "@/pages/settings";
 import MCPDemo from "@/pages/mcp-demo";
+import SMSTest from "@/pages/sms-test";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
 
@@ -34,6 +35,7 @@ function Router() {
         <Route path="/enrollment" component={EnrollmentPage} />
         <Route path="/settings" component={Settings} />
         <Route path="/mcp-demo" component={MCPDemo} />
+        <Route path="/sms-test" component={SMSTest} />
         <Route component={NotFound} />
       </Switch>
     </>

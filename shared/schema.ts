@@ -20,6 +20,19 @@ export const leads = pgTable("leads", {
   licenseGoal: text("license_goal").notNull(), // 2-15, 2-40, 2-14
   source: text("source").notNull().default("voice_agent"), // voice_agent, website, referral
   status: text("status").notNull().default("new"), // new, contacted, qualified, enrolled, opt_out
+  // NEW FIELDS FOR EXPANDED LEAD CAPTURE
+  painPoints: text("pain_points"),
+  employmentStatus: varchar("employment_status", { length: 100 }),
+  urgencyLevel: varchar("urgency_level", { length: 50 }),
+  paymentPreference: varchar("payment_preference", { length: 50 }),
+  paymentStatus: varchar("payment_status", { length: 20 }).default("NOT_PAID"),
+  confirmationNumber: varchar("confirmation_number", { length: 100 }),
+  agentName: varchar("agent_name", { length: 100 }),
+  supervisor: varchar("supervisor", { length: 100 }).default("Kelli Kirk"),
+  leadSource: varchar("lead_source", { length: 100 }),
+  callSummary: text("call_summary"),
+  callDate: timestamp("call_date"),
+  conversationId: varchar("conversation_id", { length: 100 }),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 }, (table) => ({

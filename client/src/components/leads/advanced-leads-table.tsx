@@ -461,6 +461,279 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
       ),
       size: 120,
     },
+    // NEW EXPANDED LEAD FIELDS
+    {
+      accessorKey: 'painPoints',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 px-2 text-slate-300 hover:text-white font-medium"
+        >
+          Pain Points
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-3 w-3" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-3 w-3" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-3 w-3" />
+          )}
+        </Button>
+      ),
+      cell: (props) => <EditableCell {...props} />,
+      size: 200,
+    },
+    {
+      accessorKey: 'employmentStatus',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 px-2 text-slate-300 hover:text-white font-medium"
+        >
+          Employment
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-3 w-3" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-3 w-3" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-3 w-3" />
+          )}
+        </Button>
+      ),
+      cell: (props) => <EditableCell {...props} />,
+      size: 150,
+    },
+    {
+      accessorKey: 'urgencyLevel',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 px-2 text-slate-300 hover:text-white font-medium"
+        >
+          Urgency
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-3 w-3" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-3 w-3" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-3 w-3" />
+          )}
+        </Button>
+      ),
+      cell: (props) => <EditableCell {...props} />,
+      size: 120,
+    },
+    {
+      accessorKey: 'paymentPreference',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 px-2 text-slate-300 hover:text-white font-medium"
+        >
+          Payment Pref
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-3 w-3" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-3 w-3" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-3 w-3" />
+          )}
+        </Button>
+      ),
+      cell: (props) => <EditableCell {...props} />,
+      size: 130,
+    },
+    {
+      accessorKey: 'paymentStatus',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 px-2 text-slate-300 hover:text-white font-medium"
+        >
+          Payment Status
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-3 w-3" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-3 w-3" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-3 w-3" />
+          )}
+        </Button>
+      ),
+      cell: ({ getValue, row }) => (
+        <div className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold ${
+          getValue() === 'PAID' 
+            ? 'bg-green-500/20 text-green-400 border-green-500/30' 
+            : 'bg-red-500/20 text-red-400 border-red-500/30'
+        }`}>
+          {getValue() as string || 'NOT_PAID'}
+        </div>
+      ),
+      size: 130,
+    },
+    {
+      accessorKey: 'confirmationNumber',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 px-2 text-slate-300 hover:text-white font-medium"
+        >
+          Confirmation
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-3 w-3" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-3 w-3" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-3 w-3" />
+          )}
+        </Button>
+      ),
+      cell: (props) => <EditableCell {...props} />,
+      size: 150,
+    },
+    {
+      accessorKey: 'agentName',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 px-2 text-slate-300 hover:text-white font-medium"
+        >
+          Agent
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-3 w-3" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-3 w-3" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-3 w-3" />
+          )}
+        </Button>
+      ),
+      cell: (props) => <EditableCell {...props} />,
+      size: 120,
+    },
+    {
+      accessorKey: 'supervisor',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 px-2 text-slate-300 hover:text-white font-medium"
+        >
+          Supervisor
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-3 w-3" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-3 w-3" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-3 w-3" />
+          )}
+        </Button>
+      ),
+      cell: (props) => <EditableCell {...props} />,
+      size: 120,
+    },
+    {
+      accessorKey: 'leadSource',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 px-2 text-slate-300 hover:text-white font-medium"
+        >
+          Lead Source
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-3 w-3" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-3 w-3" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-3 w-3" />
+          )}
+        </Button>
+      ),
+      cell: (props) => <EditableCell {...props} />,
+      size: 130,
+    },
+    {
+      accessorKey: 'callSummary',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 px-2 text-slate-300 hover:text-white font-medium"
+        >
+          Call Summary
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-3 w-3" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-3 w-3" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-3 w-3" />
+          )}
+        </Button>
+      ),
+      cell: ({ getValue }) => (
+        <div className="text-xs text-slate-300 max-w-[200px] truncate">
+          {getValue() as string || 'No summary'}
+        </div>
+      ),
+      size: 200,
+    },
+    {
+      accessorKey: 'callDate',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 px-2 text-slate-300 hover:text-white font-medium"
+        >
+          Call Date
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-3 w-3" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-3 w-3" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-3 w-3" />
+          )}
+        </Button>
+      ),
+      cell: ({ getValue }) => (
+        <div className="text-xs text-slate-400">
+          {getValue() ? new Date(getValue() as Date).toLocaleDateString() : 'No date'}
+        </div>
+      ),
+      size: 120,
+    },
+    {
+      accessorKey: 'conversationId',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 px-2 text-slate-300 hover:text-white font-medium"
+        >
+          Conversation ID
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-3 w-3" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-3 w-3" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-3 w-3" />
+          )}
+        </Button>
+      ),
+      cell: ({ getValue }) => (
+        <div className="text-xs text-slate-400 font-mono">
+          {getValue() as string || 'No ID'}
+        </div>
+      ),
+      size: 150,
+    },
     {
       accessorKey: 'createdAt',
       header: ({ column }) => (
