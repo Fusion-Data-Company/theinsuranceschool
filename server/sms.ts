@@ -43,6 +43,26 @@ export async function sendLeadNotification(data: SMSNotificationData): Promise<b
   }
 }
 
+// Personal test function - sends SMS to specific number for verification
+export async function sendPersonalTestSMS(toNumber: string): Promise<boolean> {
+  try {
+    const message = `🧪 Insurance School CRM SMS Test - Your SMS integration is working perfectly! From your Bandit AI system. ${new Date().toLocaleTimeString()}`;
+    
+    const result = await twilioClient.messages.create({
+      body: message,
+      from: FROM_PHONE, // +16894076645
+      to: toNumber,
+    });
+    
+    console.log(`Personal test SMS sent successfully to ${toNumber}: ${result.sid}`);
+    return true;
+    
+  } catch (error) {
+    console.error(`Failed to send personal test SMS to ${toNumber}:`, error);
+    return false;
+  }
+}
+
 // Test function for manual SMS testing
 export async function testSMSNotification(): Promise<boolean> {
   const testLead: Lead = {

@@ -4,7 +4,7 @@ import { storage } from "./storage";
 import { z } from "zod";
 import { insertLeadSchema, insertCallRecordSchema, insertPaymentSchema, insertEnrollmentSchema, insertWebhookLogSchema } from "@shared/schema";
 import { registerMCPEndpoint } from "./mcp";
-import { sendLeadNotification, testSMSNotification } from "./sms";
+import { sendLeadNotification, testSMSNotification, sendPersonalTestSMS } from "./sms";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Register MCP endpoint FIRST to ensure it's not intercepted by frontend routing
@@ -520,6 +520,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Test SMS error:", error);
       res.status(500).json({ success: false, error: "SMS test failed" });
+    }
+  });
+
+  // Personal test SMS endpoint - for verification purposes
+  app.post("/api/test-personal-sms", async (req, res) => {
+    try {
+      const { phoneNumber } = req.body;
+      if (!phoneNumber) {
+        return res.status(400).json({ success: false, message: "Phone number is required" });
+      }
+      
+      const success = await sendPersonalTestSMS(phoneNumber);
+      if (success) {
+        res.json({ 
+          success: true, 
+          message: `Personal test SMS sent successfully to ${phoneNumber}`,
+          timestamp: new Date().toISOString()
+        });
+      } else {
+        res.status(500).json({ success: false, message: "Failed to send personal test SMS" });
+      }
+    } catch (error) {
+      console.error("Personal test SMS error:", error);
+      res.status(500).json({ success: false, message: "Personal SMS test failed" });
     }
   });
 
