@@ -51,7 +51,7 @@ export default function SMSTest() {
   });
 
   const testSMSMutation = useMutation({
-    mutationFn: () => apiRequest('/api/test-sms', 'POST'),
+    mutationFn: () => fetch('/api/test-sms', { method: 'POST' }).then(res => res.json()),
     onSuccess: () => {
       toast({
         title: "Test SMS Sent! 📱",
@@ -68,7 +68,11 @@ export default function SMSTest() {
   });
 
   const processLeadMutation = useMutation({
-    mutationFn: (data: LeadFormData) => apiRequest('/api/webhooks/n8n-lead-processor', 'POST', data),
+    mutationFn: (data: LeadFormData) => fetch('/api/webhooks/n8n-lead-processor', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(res => res.json()),
     onSuccess: (response: any) => {
       toast({
         title: "Lead Processed & SMS Sent! 🎯",
