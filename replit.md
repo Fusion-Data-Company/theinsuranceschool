@@ -36,5 +36,7 @@ Button styling preferences: Avoid dark shade effects on dark backgrounds. Keep b
 - **ORM**: Drizzle ORM (type-safe database operations).
 - **UI/Graphics**: Radix UI (accessible component primitives), Tailwind CSS (utility-first styling), Spline (3D scene rendering and interaction).
 - **Workflow Automation**: n8n (workflow automation platform integration, utilizing MCP Protocol for real-time data access).
-- **Voice Agent**: ElevenLabs (for voice agent capabilities, integrated via webhooks).
+- **Voice Agent**: ElevenLabs (for voice agent capabilities, integrated via webhooks):
+  - Existing agent webhook: `/api/webhooks/elevenlabs-call` (for call processing)
+  - NEW Call Agent webhook: `/api/webhooks/elevenlabs-agent-data` (for agent call summaries that populate Prospect Pipeline)
 - **SMS**: Twilio (for SMS notification system).

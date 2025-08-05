@@ -149,6 +149,120 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // NEW: ElevenLabs Call Agent Data Webhook - for agent call summaries
+  app.post("/api/webhooks/elevenlabs-agent-data", async (req, res) => {
+    try {
+      const startTime = Date.now();
+      
+      // Log the webhook
+      await storage.logWebhook({
+        endpoint: "/api/webhooks/elevenlabs-agent-data",
+        method: "POST",
+        payload: req.body,
+        responseStatus: 200,
+        responseTime: 0,
+      });
+
+      const agentData = req.body;
+      
+      // Validate required fields
+      if (!agentData.phone) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Phone number is required" 
+        });
+      }
+
+      // Create lead data from agent summary
+      const leadInput = insertLeadSchema.parse({
+        firstName: agentData.firstName || "Unknown",
+        lastName: agentData.lastName || "Unknown", 
+        phone: agentData.phone,
+        email: agentData.email || `${agentData.phone}@temp.com`,
+        licenseGoal: agentData.licenseGoal || "2-15",
+        source: agentData.source || "voice_agent",
+        status: agentData.status || "contacted",
+        // Enhanced fields from agent conversation
+        painPoints: agentData.painPoints,
+        employmentStatus: agentData.employmentStatus,
+        urgencyLevel: agentData.urgencyLevel,
+        paymentPreference: agentData.paymentPreference,
+        paymentStatus: agentData.paymentStatus || "NOT_PAID",
+        confirmationNumber: agentData.confirmationNumber,
+        agentName: agentData.agentName || "ElevenLabs Agent",
+        supervisor: agentData.supervisor || "Kelli Kirk",
+        leadSource: agentData.leadSource || "ElevenLabs Call Agent",
+        callSummary: agentData.callSummary,
+        callDate: agentData.callDate ? new Date(agentData.callDate) : new Date(),
+        conversationId: agentData.conversationId,
+      });
+      
+      // Check if lead exists by phone and update or create
+      const existingLead = await storage.getLeadByPhone(agentData.phone);
+      let lead;
+      
+      if (existingLead) {
+        // Update existing lead with agent data
+        lead = await storage.updateLead(existingLead.id, {
+          status: leadInput.status,
+          painPoints: leadInput.painPoints,
+          employmentStatus: leadInput.employmentStatus,
+          urgencyLevel: leadInput.urgencyLevel,
+          paymentPreference: leadInput.paymentPreference,
+          paymentStatus: leadInput.paymentStatus,
+          confirmationNumber: leadInput.confirmationNumber,
+          agentName: leadInput.agentName,
+          callSummary: leadInput.callSummary,
+          callDate: leadInput.callDate,
+          conversationId: leadInput.conversationId,
+        });
+      } else {
+        // Create new lead from agent data
+        lead = await storage.createLead(leadInput);
+      }
+
+      // Send SMS notification if qualified
+      if (lead && (leadInput.status === "qualified" || leadInput.status === "enrolled")) {
+        try {
+          const notificationType = lead.paymentStatus === 'PAID' ? 'PAID' : 'NOT_PAID';
+          await sendLeadNotification({
+            lead,
+            type: notificationType
+          });
+          console.log(`SMS notification sent for lead ${lead.id} from agent data (${notificationType})`);
+        } catch (smsError) {
+          console.error('Failed to send SMS notification:', smsError);
+        }
+      }
+
+      const responseTime = Date.now() - startTime;
+      
+      res.json({ 
+        success: true, 
+        message: "Agent data processed successfully",
+        leadId: lead?.id,
+        action: existingLead ? "updated" : "created",
+        pipelineColumns: {
+          prospectProfile: `${lead?.firstName} ${lead?.lastName}`,
+          contactIntelligence: `${lead?.phone}, ${lead?.email}`,
+          licenseTarget: lead?.licenseGoal,
+          pipelineStatus: lead?.status,
+          acquisitionSource: lead?.source
+        },
+        responseTime,
+        timestamp: new Date().toISOString()
+      });
+
+    } catch (error) {
+      console.error("ElevenLabs agent data webhook error:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: error instanceof Error ? error.message : "Unknown error",
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
   // n8n Analytics webhook - handles UUID data requests
   app.post("/webhook/:webhookId", async (req, res) => {
     try {
@@ -468,43 +582,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Send SMS notification immediately
-      try {
-        const notificationType = lead.paymentStatus === 'PAID' ? 'PAID' : 'NOT_PAID';
-        const smsSuccess = await sendLeadNotification({
-          lead,
-          type: notificationType
-        });
+      if (lead) {
+        try {
+          const notificationType = lead.paymentStatus === 'PAID' ? 'PAID' : 'NOT_PAID';
+          const smsSuccess = await sendLeadNotification({
+            lead,
+            type: notificationType
+          });
         
-        if (smsSuccess) {
-          console.log(`SMS notification sent for lead ${lead.id} (${notificationType}) to +14074013100`);
+          if (smsSuccess) {
+            console.log(`SMS notification sent for lead ${lead.id} (${notificationType}) to +14074013100`);
+          }
+        } catch (smsError) {
+          console.error('Failed to send SMS notification:', smsError);
         }
-      } catch (smsError) {
-        console.error('Failed to send SMS notification:', smsError);
       }
 
       const responseTime = Date.now() - startTime;
       
-      res.json({ 
-        success: true, 
-        leadId: lead.id,
-        action: existingLead ? 'updated' : 'created',
-        smsNotified: true,
-        message: `Lead ${existingLead ? 'updated' : 'created'} successfully with SMS notification sent`,
-        responseTime,
-        leadData: {
-          id: lead.id,
-          name: `${lead.firstName} ${lead.lastName}`,
-          phone: lead.phone,
-          licenseGoal: lead.licenseGoal,
-          paymentStatus: lead.paymentStatus,
-          urgencyLevel: lead.urgencyLevel,
-          agentName: lead.agentName
-        }
-      });
+      if (lead) {
+        res.json({ 
+          success: true, 
+          leadId: lead.id,
+          action: existingLead ? 'updated' : 'created',
+          smsNotified: true,
+          message: `Lead ${existingLead ? 'updated' : 'created'} successfully with SMS notification sent`,
+          responseTime,
+          leadData: {
+            id: lead.id,
+            name: `${lead.firstName} ${lead.lastName}`,
+            phone: lead.phone,
+            licenseGoal: lead.licenseGoal,
+            paymentStatus: lead.paymentStatus,
+            urgencyLevel: lead.urgencyLevel,
+            agentName: lead.agentName
+          }
+        });
+      } else {
+        res.status(500).json({ 
+          success: false, 
+          error: "Failed to create or update lead",
+          responseTime 
+        });
+      }
       
     } catch (error) {
       console.error("n8n webhook error:", error);
-      res.status(500).json({ error: "Failed to process n8n webhook", details: error.message });
+      res.status(500).json({ error: "Failed to process n8n webhook", details: error instanceof Error ? error.message : "Unknown error" });
     }
   });
 
