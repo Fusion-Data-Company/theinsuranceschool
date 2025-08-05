@@ -547,6 +547,66 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Twilio SMS webhook for incoming messages and delivery status
+  app.post("/api/webhooks/twilio-sms", async (req, res) => {
+    try {
+      console.log("=== TWILIO SMS WEBHOOK ===");
+      console.log("Body:", req.body);
+      console.log("Headers:", req.headers);
+      
+      const { MessageSid, MessageStatus, From, To, Body } = req.body;
+      
+      // Log webhook for tracking
+      await storage.logWebhook({
+        endpoint: "/api/webhooks/twilio-sms",
+        method: "POST", 
+        payload: req.body,
+        responseStatus: 200,
+        responseTime: 0,
+      });
+      
+      // Handle delivery status updates
+      if (MessageStatus) {
+        console.log(`SMS ${MessageSid} status: ${MessageStatus}`);
+      }
+      
+      // Handle incoming SMS replies
+      if (Body && From) {
+        console.log(`Incoming SMS from ${From}: ${Body}`);
+        // You can add logic here to handle replies
+      }
+      
+      // Respond with TwiML
+      res.type('text/xml');
+      res.send(`<?xml version="1.0" encoding="UTF-8"?>
+        <Response>
+          <Message>Thank you for your message. We'll get back to you soon!</Message>
+        </Response>`);
+      
+    } catch (error) {
+      console.error("Twilio SMS webhook error:", error);
+      res.status(500).send("Webhook processing failed");
+    }
+  });
+
+  // Fallback webhook for Twilio SMS
+  app.post("/api/webhooks/twilio-sms-fallback", async (req, res) => {
+    try {
+      console.log("=== TWILIO SMS FALLBACK WEBHOOK ===");
+      console.log("Body:", req.body);
+      
+      res.type('text/xml');
+      res.send(`<?xml version="1.0" encoding="UTF-8"?>
+        <Response>
+          <Message>System temporarily unavailable. Please try again later.</Message>
+        </Response>`);
+      
+    } catch (error) {
+      console.error("Twilio SMS fallback webhook error:", error);
+      res.status(500).send("Fallback webhook failed");
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
