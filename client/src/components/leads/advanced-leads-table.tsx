@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "@/hooks/use-toast";
 import { 
   ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight,
@@ -83,6 +84,84 @@ const EditableCell = ({
     >
       {value || 'Click to edit'}
     </div>
+  );
+};
+
+// Tooltip Pain Points Cell - Displays truncated text with hover tooltip
+const PainPointsCell = ({ 
+  getValue, 
+  row, 
+  column, 
+  table 
+}: {
+  getValue: () => any;
+  row: any;
+  column: any;
+  table: any;
+}) => {
+  const initialValue = getValue() || '';
+  const [value, setValue] = useState(initialValue);
+  const [isEditing, setIsEditing] = useState(false);
+
+  // Truncate text for display
+  const truncatedText = initialValue.length > 30 ? initialValue.substring(0, 30) + '...' : initialValue;
+
+  const onBlur = () => {
+    setIsEditing(false);
+    if (value !== initialValue) {
+      table.options.meta?.updateData(row.index, column.id, value);
+    }
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      onBlur();
+    } else if (e.key === 'Escape') {
+      setValue(initialValue);
+      setIsEditing(false);
+    }
+  };
+
+  if (isEditing) {
+    return (
+      <Input
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onBlur={onBlur}
+        onKeyDown={onKeyDown}
+        autoFocus
+        className="h-8 px-2 bg-slate-700 border-slate-600 text-white text-sm"
+      />
+    );
+  }
+
+  if (!initialValue || initialValue.trim() === '') {
+    return (
+      <div
+        onClick={() => setIsEditing(true)}
+        className="h-8 px-2 flex items-center cursor-pointer hover:bg-slate-700/50 rounded text-sm text-slate-400"
+      >
+        Click to edit
+      </div>
+    );
+  }
+
+  return (
+    <TooltipProvider delayDuration={300}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div
+            onClick={() => setIsEditing(true)}
+            className="h-8 px-2 flex items-center cursor-pointer hover:bg-slate-700/50 rounded text-sm text-white truncate max-w-[200px]"
+          >
+            {truncatedText}
+          </div>
+        </TooltipTrigger>
+        <TooltipContent className="max-w-sm bg-slate-800 border-slate-600 text-white p-3">
+          <p className="text-sm whitespace-pre-wrap">{initialValue}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 
@@ -480,7 +559,7 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
           )}
         </Button>
       ),
-      cell: (props) => <EditableCell {...props} />,
+      cell: (props) => <PainPointsCell {...props} />,
       size: 200,
     },
     {
