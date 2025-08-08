@@ -21,7 +21,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { toast } from "@/hooks/use-toast";
 import { 
   ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight,
-  MoreHorizontal, Trash2, Phone, Mail, Calendar, Eye, Edit3
+  MoreHorizontal, Trash2, Phone, Mail, Calendar, Eye, Edit3, PhoneCall
 } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { apiRequest } from "@/lib/queryClient";
@@ -243,6 +243,60 @@ const LicenseBadge = ({ license, onEdit }: { license: string; onEdit: (newLicens
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+};
+
+// Call Queue badge component - shows pending calls
+const CallQueueBadge = ({ count, lastAttempt }: { count: number; lastAttempt: Date | null }) => {
+  if (!count || count === 0) {
+    return (
+      <div className="text-slate-500 text-xs">
+        No pending
+      </div>
+    );
+  }
+
+  const formatTimeAgo = (date: Date) => {
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffMins < 60) {
+      return `${diffMins}m ago`;
+    } else if (diffHours < 24) {
+      return `${diffHours}h ago`;
+    } else {
+      return `${diffDays}d ago`;
+    }
+  };
+
+  return (
+    <TooltipProvider delayDuration={300}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className={`inline-flex items-center gap-1 rounded-md border px-2.5 py-0.5 text-xs font-semibold ${
+            count >= 3 
+              ? 'bg-red-500/20 text-red-400 border-red-500/30' 
+              : count >= 2 
+                ? 'bg-orange-500/20 text-orange-400 border-orange-500/30'
+                : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+          }`}>
+            <PhoneCall className="h-3 w-3" />
+            {count} call{count > 1 ? 's' : ''} in queue
+          </div>
+        </TooltipTrigger>
+        <TooltipContent className="max-w-sm bg-slate-800 border-slate-600 text-white p-3">
+          <p className="text-sm">
+            {count} unanswered call{count > 1 ? 's' : ''}
+            {lastAttempt && (
+              <><br />Last attempt: {formatTimeAgo(lastAttempt)}</>
+            )}
+          </p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 
@@ -539,6 +593,31 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
         />
       ),
       size: 120,
+    },
+    {
+      accessorKey: 'unansweredCallAttempts',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-8 px-2 text-slate-300 hover:text-white font-medium"
+        >
+          Call Queue
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-3 w-3" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-3 w-3" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-3 w-3" />
+          )}
+        </Button>
+      ),
+      cell: ({ getValue, row }) => {
+        const count = getValue() as number || 0;
+        const lastAttempt = row.original.lastCallAttemptAt ? new Date(row.original.lastCallAttemptAt) : null;
+        return <CallQueueBadge count={count} lastAttempt={lastAttempt} />;
+      },
+      size: 140,
     },
     // NEW EXPANDED LEAD FIELDS
     {

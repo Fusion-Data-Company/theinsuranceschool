@@ -33,6 +33,9 @@ export const leads = pgTable("leads", {
   callSummary: text("call_summary"),
   callDate: timestamp("call_date"),
   conversationId: varchar("conversation_id", { length: 100 }),
+  // Call queue management - tracks multiple consecutive unanswered calls
+  unansweredCallAttempts: integer("unanswered_call_attempts").default(0),
+  lastCallAttemptAt: timestamp("last_call_attempt_at"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 }, (table) => ({
