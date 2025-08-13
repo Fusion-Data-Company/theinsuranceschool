@@ -273,12 +273,14 @@ export class DatabaseStorage implements IStorage {
     const [enrolledResult] = await db.select({ count: count() }).from(leads)
       .where(eq(leads.status, 'enrolled'));
 
-    // Get active leads (new, contacted, qualified)
+    // Get active leads (new, contacted, qualified, hot_lead, returning_customer)
     const [activeLeadsResult] = await db.select({ count: count() }).from(leads)
       .where(or(
         eq(leads.status, 'new'),
         eq(leads.status, 'contacted'),
-        eq(leads.status, 'qualified')
+        eq(leads.status, 'qualified'),
+        eq(leads.status, 'hot_lead'),
+        eq(leads.status, 'returning_customer')
       ));
 
     // Get yesterday's active leads for comparison
@@ -287,7 +289,9 @@ export class DatabaseStorage implements IStorage {
         or(
           eq(leads.status, 'new'),
           eq(leads.status, 'contacted'),
-          eq(leads.status, 'qualified')
+          eq(leads.status, 'qualified'),
+          eq(leads.status, 'hot_lead'),
+          eq(leads.status, 'returning_customer')
         ),
         gte(leads.createdAt, dayBeforeYesterday),
         lte(leads.createdAt, yesterday)
