@@ -1,0 +1,35 @@
+Widget container ready, checking element...
+ElevenLabs widget forced to load
+[ConversationalAI] Cannot fetch config for agent agent_01jym82zjnfykactsvevyt6bra: signal is aborted without reason
+updating from  114 to  115
+Widget element not found in DOM, retrying...
+[vite] hot updated: /src/components/ui/elevenlabs-widget.tsx
+[vite] hot updated: /src/index.css?v=Un_lrEskQGXSRDwXEnRFf
+Widget element not found in DOM, retrying...
+[vite] hot updated: /src/components/ui/elevenlabs-widget.tsx
+[vite] hot updated: /src/index.css?v=Un_lrEskQGXSRDwXEnRFf
+Widget element not found in DOM, retrying...
+[vite] hot updated: /src/components/ui/elevenlabs-widget.tsx
+[vite] hot updated: /src/index.css?v=Un_lrEskQGXSRDwXEnRFf
+Widget container ready, creating element...
+Widget element not found in DOM, retrying...
+Custom element defined: true
+Widget element created: 
+<elevenlabs-convai agent-id="agent_01jym82zjnfykactsvevyt6bra"></elevenlabs-convai>
+DOMException {}
+
+The above error occurred in the <div> component:
+
+    at div
+    at div
+    at ElevenLabsWidget (https://a190e6a1-bc0e-470f-8fa1-8a9b6477c321-00-3sbmufpxo473c.spock.replit.dev/src/components/ui/elevenlabs-widget.tsx?t=1756409187868:23:43)
+    at Provider (https://a190e6a1-bc0e-470f-8fa1-8a9b6477c321-00-3sbmufpxo473c.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-L5SQI3UG.js?v=ecadddb2:48:15)
+    at TooltipProvider (https://a190e6a1-bc0e-470f-8fa1-8a9b6477c321-00-3sbmufpxo473c.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=ecadddb2:59:5)
+    at QueryClientProvider (https://a190e6a1-bc0e-470f-8fa1-8a9b6477c321-00-3sbmufpxo473c.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=ecadddb2:2805:3)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+DOMException {}
+
+Widget element not found in DOM, retrying...
