@@ -173,9 +173,9 @@ export default function EnrollmentPage() {
                     <SelectValue placeholder="Select Cohort" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="day">Day Cohort - Starts Feb 1</SelectItem>
-                    <SelectItem value="evening">Evening Cohort - Starts Feb 5</SelectItem>
-                    <SelectItem value="weekend">Weekend Cohort - Starts Feb 10</SelectItem>
+                    <SelectItem value="day">Day Cohort - Contact for Schedule</SelectItem>
+                    <SelectItem value="evening">Evening Cohort - Contact for Schedule</SelectItem>
+                    <SelectItem value="weekend">Weekend Cohort - Contact for Schedule</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -203,16 +203,16 @@ export default function EnrollmentPage() {
                 <div className="flex justify-between items-center p-3 bg-black-glass rounded">
                   <div>
                     <p className="text-white font-medium">2-15 Day Cohort</p>
-                    <p className="text-gray-400 text-sm">Feb 1, 2024</p>
+                    <p className="text-gray-400 text-sm">Next start: TBD</p>
                   </div>
-                  <span className="text-electric-cyan font-bold">12 enrolled</span>
+                  <span className="text-electric-cyan font-bold">Open</span>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-black-glass rounded">
                   <div>
                     <p className="text-white font-medium">2-40 Evening</p>
-                    <p className="text-gray-400 text-sm">Feb 5, 2024</p>
+                    <p className="text-gray-400 text-sm">Next start: TBD</p>
                   </div>
-                  <span className="text-fuchsia font-bold">8 enrolled</span>
+                  <span className="text-fuchsia font-bold">Open</span>
                 </div>
               </div>
             </div>

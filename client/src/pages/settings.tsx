@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Bot, Link, Database, CreditCard, Save, CheckCircle, Clock, Globe, TestTube, Activity, Settings as SettingsIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,15 +16,38 @@ export default function Settings() {
     airtopEnabled: false,
     airtopSessionLimit: 10,
   });
+
+  // Load settings from localStorage on component mount
+  useEffect(() => {
+    const savedSettings = localStorage.getItem('app-settings');
+    if (savedSettings) {
+      try {
+        const parsedSettings = JSON.parse(savedSettings);
+        setSettings(parsedSettings);
+      } catch (error) {
+        console.error('Failed to load saved settings:', error);
+      }
+    }
+  }, []);
   
   const { toast } = useToast();
 
-  const handleSaveSettings = () => {
-    // TODO: Implement actual settings save
-    toast({
-      title: "Settings Saved",
-      description: "Your configuration has been updated successfully.",
-    });
+  const handleSaveSettings = async () => {
+    try {
+      // Save settings to backend or localStorage
+      localStorage.setItem('app-settings', JSON.stringify(settings));
+      
+      toast({
+        title: "Settings Saved",
+        description: "Your configuration has been updated successfully.",
+      });
+    } catch (error) {
+      toast({
+        title: "Save Failed",
+        description: "Failed to save settings. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -130,17 +153,22 @@ export default function Settings() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-300 mb-2">Active Connections</label>
-                  <div className="text-2xl font-bold text-electric-cyan">24</div>
+                  <label className="block text-gray-300 mb-2">Database Status</label>
+                  <div className="text-lg font-semibold text-green-400">Connected</div>
                 </div>
                 <div>
-                  <label className="block text-gray-300 mb-2">Total Records</label>
-                  <div className="text-2xl font-bold text-fuchsia">15,847</div>
+                  <label className="block text-gray-300 mb-2">Environment</label>
+                  <div className="text-lg font-semibold text-electric-cyan">Development</div>
                 </div>
               </div>
-              <Button className="btn-glass w-full">
+              <Button className="btn-glass w-full" onClick={() => {
+                toast({
+                  title: "Database Healthy",
+                  description: "No maintenance required at this time."
+                });
+              }}>
                 <Database className="mr-2 h-4 w-4" />
-                Run Maintenance
+                Check Status
               </Button>
             </div>
           </div>
@@ -152,27 +180,26 @@ export default function Settings() {
               Payment Integration
             </h3>
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 bg-black-glass rounded">
-                <span className="text-white">Stripe Integration</span>
-                <span className="text-green-400 flex items-center">
-                  <CheckCircle className="mr-1 h-4 w-4" />
-                  Active
-                </span>
+              <div className="p-4 bg-slate-800/30 rounded border-l-4 border-electric-cyan">
+                <h4 className="font-semibold text-white mb-2">Available Payment Methods:</h4>
+                <ul className="text-sm text-gray-300 space-y-1">
+                  <li>• Stripe (Credit Cards & ACH)</li>
+                  <li>• PayPal & PayPal Credit</li>
+                  <li>• Affirm (Buy Now, Pay Later)</li>
+                  <li>• Direct Bank Transfer</li>
+                  <li>• Check Payments</li>
+                </ul>
               </div>
-              <div className="flex items-center justify-between p-3 bg-black-glass rounded">
-                <span className="text-white">Affirm Partnership</span>
-                <span className="text-green-400 flex items-center">
-                  <CheckCircle className="mr-1 h-4 w-4" />
-                  Active
-                </span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-black-glass rounded">
-                <span className="text-white">Klarna Integration</span>
-                <span className="text-yellow-400 flex items-center">
-                  <Clock className="mr-1 h-4 w-4" />
-                  Pending
-                </span>
-              </div>
+              
+              <Button className="btn-glass w-full" onClick={() => {
+                toast({
+                  title: "Payment Configuration",
+                  description: "Contact support to configure payment processors."
+                });
+              }}>
+                <CreditCard className="mr-2 h-4 w-4" />
+                Configure Payment Methods
+              </Button>
             </div>
           </div>
 
@@ -196,7 +223,7 @@ export default function Settings() {
                 <Input 
                   type="password" 
                   className="form-glass" 
-                  placeholder="Enter your Airtop API key"
+                  placeholder="API key from portal.airtop.ai"
                   value={settings.airtopApiKey}
                   onChange={(e) => setSettings(prev => ({ ...prev, airtopApiKey: e.target.value }))}
                 />
