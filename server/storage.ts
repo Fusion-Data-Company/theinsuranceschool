@@ -62,21 +62,32 @@ export interface IStorage {
   getAnalytics(): Promise<{
     activeLeads: number;
     activeLeadsChange: number;
+    qualifiedLeads: number;
+    enrolledStudents: number;
     conversionRate: number;
     conversionRateChange: number;
-    revenueToday: number;
-    revenueTodayChange: number;
-    agentPerformance: number;
-    agentPerformanceChange: number;
-    totalLeads: number;
-    qualified: number;
-    enrolled: number;
-    totalCalls: number;
     monthlyRevenue: number;
+    revenueChange: number;
     avgDealSize: number;
-    aiPerformance: number;
-    responseTime: number;
-    enrollmentRate: number;
+    outstandingPayments: number;
+    paymentPlanActive: number;
+    appointmentShowRate: number;
+    callSuccessRate: number;
+    avgCallDuration: number;
+    totalCalls: number;
+    callsToday: number;
+    courseEnrollmentBreakdown: Record<string, number>;
+    cohortPerformance: Array<{
+      cohort: string;
+      enrolled: number;
+      completed: number;
+      inProgress: number;
+    }>;
+    sourceBreakdown: Record<string, {
+      leads: number;
+      converted: number;
+      rate: number;
+    }>;
   }>;
 }
 
@@ -492,7 +503,11 @@ export class DatabaseStorage implements IStorage {
     const [outstandingPaymentsResult] = await db.select({
       total: sum(payments.amount)
     }).from(payments)
-      .where(ne(payments.status, 'completed'));
+      .where(or(
+        eq(payments.status, 'pending'),
+        eq(payments.status, 'processing'),
+        eq(payments.status, 'failed')
+      ));
 
     // Get active payment plans count
     const [paymentPlansResult] = await db.select({ count: count() }).from(payments)
