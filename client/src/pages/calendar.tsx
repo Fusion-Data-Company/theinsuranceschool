@@ -106,6 +106,15 @@ export default function CalendarPage({}: CalendarProps) {
     setIsBookingModalOpen(true);
   };
 
+  const handleDayClick = (date: Date) => {
+    // Don't allow booking in the past (except today)
+    if (date < today && !isToday(date)) return;
+    
+    setSelectedDate(date);
+    setSelectedTime(null); // Let user pick time in modal
+    setIsBookingModalOpen(true);
+  };
+
   const getAppointmentTypeColor = (type: string) => {
     switch (type) {
       case 'consultation': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
@@ -188,11 +197,12 @@ export default function CalendarPage({}: CalendarProps) {
                     return (
                       <div 
                         key={index}
+                        onClick={() => handleDayClick(date)}
                         className={`
                           min-h-[120px] p-2 border rounded-lg cursor-pointer transition-all
                           ${isCurrentMonth(date) ? 'bg-slate-800 border-slate-600' : 'bg-slate-850 border-slate-700'}
                           ${isToday(date) ? 'ring-2 ring-electric-cyan/50' : ''}
-                          hover:bg-slate-750
+                          ${date < today && !isToday(date) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-slate-750 hover:border-electric-cyan/30'}
                         `}
                       >
                         <div className={`
