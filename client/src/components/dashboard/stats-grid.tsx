@@ -1,15 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { Users, TrendingUp, DollarSign, Mic } from "lucide-react";
+import { Users, TrendingUp, DollarSign, GraduationCap } from "lucide-react";
 
 interface AnalyticsData {
   activeLeads: number;
   activeLeadsChange: number;
   conversionRate: number;
   conversionRateChange: number;
-  revenueToday: number;
-  revenueTodayChange: number;
-  agentPerformance: number;
-  agentPerformanceChange: number;
+  monthlyRevenue: number;
+  revenueChange: number;
+  enrolledStudents: number;
 }
 
 export function StatsGrid() {
@@ -47,12 +46,11 @@ export function StatsGrid() {
 
   const activeLeadsChange = formatChange(analytics.activeLeadsChange, "from yesterday");
   const conversionRateChange = formatChange(analytics.conversionRateChange, "this week");
-  const revenueTodayChange = formatChange(analytics.revenueTodayChange, "vs yesterday");
-  const agentPerformanceChange = formatChange(analytics.agentPerformanceChange, "this week");
+  const revenueChange = formatChange(analytics.revenueChange, "this month");
 
   const stats = [
     {
-      title: "Active Leads",
+      title: "Active Pipeline",
       value: analytics.activeLeads.toString(),
       change: activeLeadsChange.text,
       changeColor: activeLeadsChange.color,
@@ -68,19 +66,19 @@ export function StatsGrid() {
       color: "text-fuchsia",
     },
     {
-      title: "Revenue Today",
-      value: `$${analytics.revenueToday.toLocaleString()}`,
-      change: revenueTodayChange.text,
-      changeColor: revenueTodayChange.color,
+      title: "Monthly Revenue",
+      value: `$${(analytics.monthlyRevenue || 0).toLocaleString()}`,
+      change: revenueChange.text,
+      changeColor: revenueChange.color,
       icon: DollarSign,
       color: "text-vibrant-purple",
     },
     {
-      title: "Agent Success Rate",
-      value: `${analytics.agentPerformance}%`,
-      change: agentPerformanceChange.text,
-      changeColor: agentPerformanceChange.color,
-      icon: Mic,
+      title: "Students Enrolled",
+      value: analytics.enrolledStudents.toString(),
+      change: "Total enrolled",
+      changeColor: "text-green-400",
+      icon: GraduationCap,
       color: "text-neon-magenta",
     },
   ];

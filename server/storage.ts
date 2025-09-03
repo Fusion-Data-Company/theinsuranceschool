@@ -40,19 +40,20 @@ export interface IStorage {
   updateEnrollment(id: number, updates: Partial<InsertEnrollment>): Promise<Enrollment | undefined>;
 
   // Webhook Logs
-  logWebhook(webhookLog: InsertWebhookLog): Promise<WebhookLog>;
-  getRecentWebhookLogs(limit?: number): Promise<WebhookLog[]>;
+  getAllWebhookLogs(): Promise<WebhookLog[]>;
+  createWebhookLog(webhookLog: InsertWebhookLog): Promise<WebhookLog>;
 
   // Agent Metrics
-  createAgentMetric(metric: InsertAgentMetric): Promise<AgentMetric>;
-  getAgentMetricsByCallId(callRecordId: number): Promise<AgentMetric[]>;
+  getAllAgentMetrics(): Promise<AgentMetric[]>;
+  createAgentMetric(agentMetric: InsertAgentMetric): Promise<AgentMetric>;
 
   // N8n Chat Histories
   getAllN8nChatHistories(): Promise<N8nChatHistory[]>;
+  createN8nChatHistory(chatHistory: InsertN8nChatHistory): Promise<N8nChatHistory>;
+  updateN8nChatHistory(id: number, updates: Partial<InsertN8nChatHistory>): Promise<N8nChatHistory | undefined>;
 
   // Appointments
   getAllAppointments(): Promise<Appointment[]>;
-  getAppointmentById(id: number): Promise<Appointment | undefined>;
   getAppointmentsByLeadId(leadId: number): Promise<Appointment[]>;
   createAppointment(appointment: InsertAppointment): Promise<Appointment>;
   updateAppointment(id: number, updates: Partial<InsertAppointment>): Promise<Appointment | undefined>;
@@ -72,17 +73,8 @@ export interface IStorage {
     outstandingPayments: number;
     paymentPlanActive: number;
     appointmentShowRate: number;
-    callSuccessRate: number;
-    avgCallDuration: number;
-    totalCalls: number;
-    callsToday: number;
+    totalAppointments: number;
     courseEnrollmentBreakdown: Record<string, number>;
-    cohortPerformance: Array<{
-      cohort: string;
-      enrolled: number;
-      completed: number;
-      inProgress: number;
-    }>;
     sourceBreakdown: Record<string, {
       leads: number;
       converted: number;
@@ -95,17 +87,17 @@ export class DatabaseStorage implements IStorage {
   // Users
   async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user || undefined;
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user || undefined;
+    return user;
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db.insert(users).values(insertUser).returning();
-    return user;
+  async createUser(user: InsertUser): Promise<User> {
+    const [newUser] = await db.insert(users).values(user).returning();
+    return newUser;
   }
 
   // Leads
@@ -115,29 +107,22 @@ export class DatabaseStorage implements IStorage {
 
   async getLeadById(id: number): Promise<Lead | undefined> {
     const [lead] = await db.select().from(leads).where(eq(leads.id, id));
-    return lead || undefined;
+    return lead;
   }
 
   async getLeadByPhone(phone: string): Promise<Lead | undefined> {
     const [lead] = await db.select().from(leads).where(eq(leads.phone, phone));
-    return lead || undefined;
-  }
-
-  async createLead(insertLead: InsertLead): Promise<Lead> {
-    const [lead] = await db.insert(leads).values({
-      ...insertLead,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }).returning();
     return lead;
   }
 
+  async createLead(lead: InsertLead): Promise<Lead> {
+    const [newLead] = await db.insert(leads).values(lead).returning();
+    return newLead;
+  }
+
   async updateLead(id: number, updates: Partial<InsertLead>): Promise<Lead | undefined> {
-    const [lead] = await db.update(leads)
-      .set({ ...updates, updatedAt: new Date() })
-      .where(eq(leads.id, id))
-      .returning();
-    return lead || undefined;
+    const [updatedLead] = await db.update(leads).set(updates).where(eq(leads.id, id)).returning();
+    return updatedLead;
   }
 
   // Call Records
@@ -146,17 +131,12 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getCallRecordsByLeadId(leadId: number): Promise<CallRecord[]> {
-    return await db.select().from(callRecords)
-      .where(eq(callRecords.leadId, leadId))
-      .orderBy(desc(callRecords.createdAt));
+    return await db.select().from(callRecords).where(eq(callRecords.leadId, leadId)).orderBy(desc(callRecords.createdAt));
   }
 
-  async createCallRecord(insertCallRecord: InsertCallRecord): Promise<CallRecord> {
-    const [callRecord] = await db.insert(callRecords).values({
-      ...insertCallRecord,
-      createdAt: new Date(),
-    }).returning();
-    return callRecord;
+  async createCallRecord(callRecord: InsertCallRecord): Promise<CallRecord> {
+    const [newCallRecord] = await db.insert(callRecords).values(callRecord).returning();
+    return newCallRecord;
   }
 
   // Payments
@@ -165,26 +145,17 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getPaymentsByLeadId(leadId: number): Promise<Payment[]> {
-    return await db.select().from(payments)
-      .where(eq(payments.leadId, leadId))
-      .orderBy(desc(payments.createdAt));
+    return await db.select().from(payments).where(eq(payments.leadId, leadId)).orderBy(desc(payments.createdAt));
   }
 
-  async createPayment(insertPayment: InsertPayment): Promise<Payment> {
-    const [payment] = await db.insert(payments).values({
-      ...insertPayment,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }).returning();
-    return payment;
+  async createPayment(payment: InsertPayment): Promise<Payment> {
+    const [newPayment] = await db.insert(payments).values(payment).returning();
+    return newPayment;
   }
 
   async updatePayment(id: number, updates: Partial<InsertPayment>): Promise<Payment | undefined> {
-    const [payment] = await db.update(payments)
-      .set({ ...updates, updatedAt: new Date() })
-      .where(eq(payments.id, id))
-      .returning();
-    return payment || undefined;
+    const [updatedPayment] = await db.update(payments).set(updates).where(eq(payments.id, id)).returning();
+    return updatedPayment;
   }
 
   // Enrollments
@@ -193,94 +164,71 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getEnrollmentsByLeadId(leadId: number): Promise<Enrollment[]> {
-    return await db.select().from(enrollments)
-      .where(eq(enrollments.leadId, leadId))
-      .orderBy(desc(enrollments.createdAt));
+    return await db.select().from(enrollments).where(eq(enrollments.leadId, leadId)).orderBy(desc(enrollments.createdAt));
   }
 
-  async createEnrollment(insertEnrollment: InsertEnrollment): Promise<Enrollment> {
-    const [enrollment] = await db.insert(enrollments).values({
-      ...insertEnrollment,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }).returning();
-    return enrollment;
+  async createEnrollment(enrollment: InsertEnrollment): Promise<Enrollment> {
+    const [newEnrollment] = await db.insert(enrollments).values(enrollment).returning();
+    return newEnrollment;
   }
 
   async updateEnrollment(id: number, updates: Partial<InsertEnrollment>): Promise<Enrollment | undefined> {
-    const [enrollment] = await db.update(enrollments)
-      .set({ ...updates, updatedAt: new Date() })
-      .where(eq(enrollments.id, id))
-      .returning();
-    return enrollment || undefined;
+    const [updatedEnrollment] = await db.update(enrollments).set(updates).where(eq(enrollments.id, id)).returning();
+    return updatedEnrollment;
   }
 
   // Webhook Logs
-  async logWebhook(insertWebhookLog: InsertWebhookLog): Promise<WebhookLog> {
-    const [webhookLog] = await db.insert(webhookLogs).values({
-      ...insertWebhookLog,
-      receivedAt: new Date(),
-    }).returning();
-    return webhookLog;
+  async getAllWebhookLogs(): Promise<WebhookLog[]> {
+    return await db.select().from(webhookLogs).orderBy(desc(webhookLogs.createdAt));
   }
 
-  async getRecentWebhookLogs(limit: number = 100): Promise<WebhookLog[]> {
-    return await db.select().from(webhookLogs)
-      .orderBy(desc(webhookLogs.receivedAt))
-      .limit(limit);
+  async createWebhookLog(webhookLog: InsertWebhookLog): Promise<WebhookLog> {
+    const [newWebhookLog] = await db.insert(webhookLogs).values(webhookLog).returning();
+    return newWebhookLog;
   }
 
   // Agent Metrics
-  async createAgentMetric(insertAgentMetric: InsertAgentMetric): Promise<AgentMetric> {
-    const [agentMetric] = await db.insert(agentMetrics).values({
-      ...insertAgentMetric,
-      createdAt: new Date(),
-    }).returning();
-    return agentMetric;
+  async getAllAgentMetrics(): Promise<AgentMetric[]> {
+    return await db.select().from(agentMetrics).orderBy(desc(agentMetrics.createdAt));
   }
 
-  async getAgentMetricsByCallId(callRecordId: number): Promise<AgentMetric[]> {
-    return await db.select().from(agentMetrics)
-      .where(eq(agentMetrics.callRecordId, callRecordId));
+  async createAgentMetric(agentMetric: InsertAgentMetric): Promise<AgentMetric> {
+    const [newAgentMetric] = await db.insert(agentMetrics).values(agentMetric).returning();
+    return newAgentMetric;
   }
 
+  // N8n Chat Histories
   async getAllN8nChatHistories(): Promise<N8nChatHistory[]> {
-    return await db.select().from(n8nChatHistories)
-      .orderBy(desc(n8nChatHistories.createdAt));
+    return await db.select().from(n8nChatHistories).orderBy(desc(n8nChatHistories.createdAt));
+  }
+
+  async createN8nChatHistory(chatHistory: InsertN8nChatHistory): Promise<N8nChatHistory> {
+    const [newChatHistory] = await db.insert(n8nChatHistories).values(chatHistory).returning();
+    return newChatHistory;
+  }
+
+  async updateN8nChatHistory(id: number, updates: Partial<InsertN8nChatHistory>): Promise<N8nChatHistory | undefined> {
+    const [updatedChatHistory] = await db.update(n8nChatHistories).set(updates).where(eq(n8nChatHistories.id, id)).returning();
+    return updatedChatHistory;
   }
 
   // Appointments
   async getAllAppointments(): Promise<Appointment[]> {
-    return await db.select().from(appointments)
-      .orderBy(desc(appointments.appointmentDate));
-  }
-
-  async getAppointmentById(id: number): Promise<Appointment | undefined> {
-    const [appointment] = await db.select().from(appointments).where(eq(appointments.id, id));
-    return appointment || undefined;
+    return await db.select().from(appointments).orderBy(desc(appointments.createdAt));
   }
 
   async getAppointmentsByLeadId(leadId: number): Promise<Appointment[]> {
-    return await db.select().from(appointments)
-      .where(eq(appointments.leadId, leadId))
-      .orderBy(desc(appointments.appointmentDate));
+    return await db.select().from(appointments).where(eq(appointments.leadId, leadId)).orderBy(desc(appointments.createdAt));
   }
 
-  async createAppointment(insertAppointment: InsertAppointment): Promise<Appointment> {
-    const [appointment] = await db.insert(appointments).values({
-      ...insertAppointment,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }).returning();
-    return appointment;
+  async createAppointment(appointment: InsertAppointment): Promise<Appointment> {
+    const [newAppointment] = await db.insert(appointments).values(appointment).returning();
+    return newAppointment;
   }
 
   async updateAppointment(id: number, updates: Partial<InsertAppointment>): Promise<Appointment | undefined> {
-    const [appointment] = await db.update(appointments)
-      .set({ ...updates, updatedAt: new Date() })
-      .where(eq(appointments.id, id))
-      .returning();
-    return appointment || undefined;
+    const [updatedAppointment] = await db.update(appointments).set(updates).where(eq(appointments.id, id)).returning();
+    return updatedAppointment;
   }
 
   async deleteAppointment(id: number): Promise<boolean> {
@@ -288,7 +236,7 @@ export class DatabaseStorage implements IStorage {
     return result.rowCount !== null && result.rowCount > 0;
   }
 
-  // Analytics
+  // Analytics - School Administration Focus
   async getAnalytics(): Promise<{
     activeLeads: number;
     activeLeadsChange: number;
@@ -302,17 +250,8 @@ export class DatabaseStorage implements IStorage {
     outstandingPayments: number;
     paymentPlanActive: number;
     appointmentShowRate: number;
-    callSuccessRate: number;
-    avgCallDuration: number;
-    totalCalls: number;
-    callsToday: number;
+    totalAppointments: number;
     courseEnrollmentBreakdown: Record<string, number>;
-    cohortPerformance: Array<{
-      cohort: string;
-      enrolled: number;
-      completed: number;
-      inProgress: number;
-    }>;
     sourceBreakdown: Record<string, {
       leads: number;
       converted: number;
@@ -326,8 +265,6 @@ export class DatabaseStorage implements IStorage {
 
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
-    const dayBeforeYesterday = new Date(yesterday);
-    dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 1);
 
     const weekAgo = new Date(today);
     weekAgo.setDate(weekAgo.getDate() - 7);
@@ -335,13 +272,6 @@ export class DatabaseStorage implements IStorage {
     twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 7);
 
     const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
-
-    // Get lead counts
-    const [totalLeadsResult] = await db.select({ count: count() }).from(leads);
-    const [qualifiedResult] = await db.select({ count: count() }).from(leads)
-      .where(eq(leads.status, 'qualified'));
-    const [enrolledResult] = await db.select({ count: count() }).from(leads)
-      .where(eq(leads.status, 'enrolled'));
 
     // Get active leads (new, contacted, qualified, hot_lead, returning_customer)
     const [activeLeadsResult] = await db.select({ count: count() }).from(leads)
@@ -363,29 +293,17 @@ export class DatabaseStorage implements IStorage {
           eq(leads.status, 'hot_lead'),
           eq(leads.status, 'returning_customer')
         ),
-        gte(leads.createdAt, dayBeforeYesterday),
-        lte(leads.createdAt, yesterday)
+        gte(leads.createdAt, yesterday),
+        lte(leads.createdAt, today)
       ));
 
-    // Get today's revenue
-    const [revenueResult] = await db.select({ 
-      total: sum(payments.amount) 
-    }).from(payments)
-      .where(and(
-        eq(payments.status, 'completed'),
-        gte(payments.createdAt, today),
-        lte(payments.createdAt, tomorrow)
-      ));
+    // Get qualified leads count
+    const [qualifiedLeadsResult] = await db.select({ count: count() }).from(leads)
+      .where(eq(leads.status, 'qualified'));
 
-    // Get yesterday's revenue for comparison
-    const [yesterdayRevenueResult] = await db.select({ 
-      total: sum(payments.amount) 
-    }).from(payments)
-      .where(and(
-        eq(payments.status, 'completed'),
-        gte(payments.createdAt, yesterday),
-        lte(payments.createdAt, today)
-      ));
+    // Get enrolled students count
+    const [enrolledStudentsResult] = await db.select({ count: count() }).from(leads)
+      .where(eq(leads.status, 'enrolled'));
 
     // Get this week's conversion rate data
     const [thisWeekLeadsResult] = await db.select({ count: count() }).from(leads)
@@ -418,86 +336,23 @@ export class DatabaseStorage implements IStorage {
         gte(payments.createdAt, monthStart)
       ));
 
+    // Get last month's revenue for comparison
+    const lastMonthStart = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+    const lastMonthEnd = new Date(today.getFullYear(), today.getMonth(), 0);
+    const [lastMonthRevenueResult] = await db.select({
+      total: sum(payments.amount)
+    }).from(payments)
+      .where(and(
+        eq(payments.status, 'completed'),
+        gte(payments.createdAt, lastMonthStart),
+        lte(payments.createdAt, lastMonthEnd)
+      ));
+
     // Get average deal size
     const [avgDealResult] = await db.select({
       avg: avg(payments.amount)
     }).from(payments)
       .where(eq(payments.status, 'completed'));
-
-    // Get call metrics
-    const [callCountResult] = await db.select({ count: count() }).from(callRecords);
-    const [avgConfidenceResult] = await db.select({
-      avg: avg(agentMetrics.confidence)
-    }).from(agentMetrics);
-    const [avgResponseTimeResult] = await db.select({
-      avg: avg(agentMetrics.responseTimeMs)
-    }).from(agentMetrics);
-
-    // Get agent performance from this week vs last week
-    const [thisWeekConfidenceResult] = await db.select({
-      avg: avg(agentMetrics.confidence)
-    }).from(agentMetrics)
-      .innerJoin(callRecords, eq(agentMetrics.callRecordId, callRecords.id))
-      .where(gte(callRecords.createdAt, weekAgo));
-
-    const [lastWeekConfidenceResult] = await db.select({
-      avg: avg(agentMetrics.confidence)
-    }).from(agentMetrics)
-      .innerJoin(callRecords, eq(agentMetrics.callRecordId, callRecords.id))
-      .where(and(
-        gte(callRecords.createdAt, twoWeeksAgo),
-        lte(callRecords.createdAt, weekAgo)
-      ));
-
-    // Calculate current metrics
-    const totalLeads = totalLeadsResult?.count || 0;
-    const qualified = qualifiedResult?.count || 0;
-    const enrolled = enrolledResult?.count || 0;
-    const totalCalls = callCountResult?.count || 0;
-    const activeLeads = activeLeadsResult?.count || 0;
-    const revenueToday = Number(revenueResult?.total || 0);
-
-    // Calculate historical comparisons
-    const yesterdayActiveLeads = yesterdayActiveLeadsResult?.count || 0;
-    const yesterdayRevenue = Number(yesterdayRevenueResult?.total || 0);
-    
-    const thisWeekLeads = thisWeekLeadsResult?.count || 0;
-    const thisWeekEnrolled = thisWeekEnrolledResult?.count || 0;
-    const lastWeekLeads = lastWeekLeadsResult?.count || 0;
-    const lastWeekEnrolled = lastWeekEnrolledResult?.count || 0;
-
-    const thisWeekConversionRate = thisWeekLeads > 0 ? (thisWeekEnrolled / thisWeekLeads) * 100 : 0;
-    const lastWeekConversionRate = lastWeekLeads > 0 ? (lastWeekEnrolled / lastWeekLeads) * 100 : 0;
-
-    const thisWeekConfidence = Number(thisWeekConfidenceResult?.avg || 0) * 100;
-    const lastWeekConfidence = Number(lastWeekConfidenceResult?.avg || 0) * 100;
-
-    // Calculate percentage changes
-    const activeLeadsChange = yesterdayActiveLeads > 0 ? 
-      ((activeLeads - yesterdayActiveLeads) / yesterdayActiveLeads) * 100 : 0;
-    
-    const revenueTodayChange = yesterdayRevenue > 0 ? 
-      ((revenueToday - yesterdayRevenue) / yesterdayRevenue) * 100 : 0;
-    
-    const conversionRateChange = lastWeekConversionRate > 0 ? 
-      thisWeekConversionRate - lastWeekConversionRate : 0;
-    
-    const agentPerformanceChange = lastWeekConfidence > 0 ? 
-      thisWeekConfidence - lastWeekConfidence : 0;
-
-    const conversionRate = totalLeads > 0 ? (enrolled / totalLeads) * 100 : 0;
-    const enrollmentRate = qualified > 0 ? (enrolled / qualified) * 100 : 0;
-    const agentPerformance = Number(avgConfidenceResult?.avg || 0) * 100;
-    const aiPerformance = agentPerformance;
-    const responseTime = Number(avgResponseTimeResult?.avg || 1300) / 1000;
-
-    // Get enrolled students count
-    const [enrolledStudentsResult] = await db.select({ count: count() }).from(leads)
-      .where(eq(leads.status, 'enrolled'));
-
-    // Get qualified leads count
-    const [qualifiedLeadsResult] = await db.select({ count: count() }).from(leads)
-      .where(eq(leads.status, 'qualified'));
 
     // Get outstanding payments
     const [outstandingPaymentsResult] = await db.select({
@@ -512,6 +367,11 @@ export class DatabaseStorage implements IStorage {
     // Get active payment plans count
     const [paymentPlansResult] = await db.select({ count: count() }).from(payments)
       .where(eq(payments.planChosen, 'payment_plan'));
+
+    // Get appointment metrics
+    const [totalAppointmentsResult] = await db.select({ count: count() }).from(appointments);
+    const [completedAppointmentsResult] = await db.select({ count: count() }).from(appointments)
+      .where(eq(appointments.status, 'completed'));
 
     // Get course enrollment breakdown
     const courseBreakdown = await db.select({
@@ -547,25 +407,34 @@ export class DatabaseStorage implements IStorage {
       };
     });
 
-    // Get cohort performance (simplified - using cohort from enrollments)
-    const cohortData = await db.select({
-      cohort: enrollments.cohort,
-      enrolled: count()
-    }).from(enrollments)
-      .groupBy(enrollments.cohort);
-
-    // Get appointment metrics
-    const [totalAppointmentsResult] = await db.select({ count: count() }).from(appointments);
-    const [completedAppointmentsResult] = await db.select({ count: count() }).from(appointments)
-      .where(eq(appointments.status, 'completed'));
+    // Calculate metrics
+    const activeLeads = activeLeadsResult.count;
+    const yesterdayActiveLeads = yesterdayActiveLeadsResult.count;
     
+    const thisWeekLeads = thisWeekLeadsResult.count;
+    const thisWeekEnrolled = thisWeekEnrolledResult.count;
+    const lastWeekLeads = lastWeekLeadsResult.count;
+    const lastWeekEnrolled = lastWeekEnrolledResult.count;
+
+    const thisWeekConversionRate = thisWeekLeads > 0 ? (thisWeekEnrolled / thisWeekLeads) * 100 : 0;
+    const lastWeekConversionRate = lastWeekLeads > 0 ? (lastWeekEnrolled / lastWeekLeads) * 100 : 0;
+
+    const monthlyRevenue = Number(monthlyRevenueResult?.total || 0);
+    const lastMonthRevenue = Number(lastMonthRevenueResult?.total || 0);
+
+    // Calculate percentage changes
+    const activeLeadsChange = yesterdayActiveLeads > 0 ? 
+      ((activeLeads - yesterdayActiveLeads) / yesterdayActiveLeads) * 100 : 0;
+    
+    const revenueChange = lastMonthRevenue > 0 ? 
+      ((monthlyRevenue - lastMonthRevenue) / lastMonthRevenue) * 100 : 0;
+    
+    const conversionRateChange = lastWeekConversionRate > 0 ? 
+      thisWeekConversionRate - lastWeekConversionRate : 0;
+
     // Calculate appointment show rate
     const appointmentShowRate = totalAppointmentsResult.count > 0 ? 
       (completedAppointmentsResult.count / totalAppointmentsResult.count) * 100 : 0;
-
-    // Get calls today
-    const [callsTodayResult] = await db.select({ count: count() }).from(callRecords)
-      .where(gte(callRecords.createdAt, today));
 
     return {
       // Student Pipeline
@@ -573,35 +442,25 @@ export class DatabaseStorage implements IStorage {
       activeLeadsChange: Number(activeLeadsChange.toFixed(1)),
       qualifiedLeads: qualifiedLeadsResult.count,
       enrolledStudents: enrolledStudentsResult.count,
-      conversionRate: Number(conversionRate.toFixed(1)),
+      conversionRate: Number(thisWeekConversionRate.toFixed(1)),
       conversionRateChange: Number(conversionRateChange.toFixed(1)),
 
       // Financial Metrics
-      monthlyRevenue: Number(monthlyRevenueResult?.total || 0),
-      revenueChange: Number(revenueTodayChange.toFixed(1)),
+      monthlyRevenue,
+      revenueChange: Number(revenueChange.toFixed(1)),
       avgDealSize: Number(avgDealResult?.avg || 0),
       outstandingPayments: Number(outstandingPaymentsResult.total) || 0,
       paymentPlanActive: paymentPlansResult.count,
 
       // Operational Metrics
       appointmentShowRate: Number(appointmentShowRate.toFixed(1)),
-      callSuccessRate: Number(agentPerformance.toFixed(1)),
-      avgCallDuration: Number(responseTime.toFixed(1)) / 1000, // Convert ms to minutes
-      totalCalls,
-      callsToday: callsTodayResult.count,
+      totalAppointments: totalAppointmentsResult.count,
 
       // Course & Source Analytics
       courseEnrollmentBreakdown: courseBreakdown.reduce((acc, course) => {
         acc[course.licenseGoal] = course.count;
         return acc;
       }, {} as Record<string, number>),
-      
-      cohortPerformance: cohortData.map(cohort => ({
-        cohort: cohort.cohort,
-        enrolled: cohort.enrolled,
-        completed: 0, // Would need completion tracking
-        inProgress: cohort.enrolled // Assuming all are in progress for now
-      })),
       
       sourceBreakdown: sourceBreakdown
     };

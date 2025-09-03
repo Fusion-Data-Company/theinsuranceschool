@@ -10,7 +10,6 @@ export function Navbar() {
   const navItems = [
     { href: "/", label: "Dashboard", icon: BarChart3 },
     { href: "/leads", label: "Prospects", icon: Users },
-    { href: "/analytics", label: "Analytics", icon: BarChart3 },
     { href: "/calendar", label: "Calendar", icon: Calendar },
     { href: "/enrollment", label: "Enrollment", icon: GraduationCap },
     { href: "/mcp-demo", label: "Integration", icon: Database },
