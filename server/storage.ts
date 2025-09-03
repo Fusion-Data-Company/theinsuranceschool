@@ -281,21 +281,32 @@ export class DatabaseStorage implements IStorage {
   async getAnalytics(): Promise<{
     activeLeads: number;
     activeLeadsChange: number;
+    qualifiedLeads: number;
+    enrolledStudents: number;
     conversionRate: number;
     conversionRateChange: number;
-    revenueToday: number;
-    revenueTodayChange: number;
-    agentPerformance: number;
-    agentPerformanceChange: number;
-    totalLeads: number;
-    qualified: number;
-    enrolled: number;
-    totalCalls: number;
     monthlyRevenue: number;
+    revenueChange: number;
     avgDealSize: number;
-    aiPerformance: number;
-    responseTime: number;
-    enrollmentRate: number;
+    outstandingPayments: number;
+    paymentPlanActive: number;
+    appointmentShowRate: number;
+    callSuccessRate: number;
+    avgCallDuration: number;
+    totalCalls: number;
+    callsToday: number;
+    courseEnrollmentBreakdown: Record<string, number>;
+    cohortPerformance: Array<{
+      cohort: string;
+      enrolled: number;
+      completed: number;
+      inProgress: number;
+    }>;
+    sourceBreakdown: Record<string, {
+      leads: number;
+      converted: number;
+      rate: number;
+    }>;
   }> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -469,24 +480,115 @@ export class DatabaseStorage implements IStorage {
     const aiPerformance = agentPerformance;
     const responseTime = Number(avgResponseTimeResult?.avg || 1300) / 1000;
 
+    // Get enrolled students count
+    const [enrolledStudentsResult] = await db.select({ count: count() }).from(leads)
+      .where(eq(leads.status, 'enrolled'));
+
+    // Get qualified leads count
+    const [qualifiedLeadsResult] = await db.select({ count: count() }).from(leads)
+      .where(eq(leads.status, 'qualified'));
+
+    // Get outstanding payments
+    const [outstandingPaymentsResult] = await db.select({
+      total: sum(payments.amount)
+    }).from(payments)
+      .where(ne(payments.status, 'completed'));
+
+    // Get active payment plans count
+    const [paymentPlansResult] = await db.select({ count: count() }).from(payments)
+      .where(eq(payments.planChosen, 'payment_plan'));
+
+    // Get course enrollment breakdown
+    const courseBreakdown = await db.select({
+      licenseGoal: leads.licenseGoal,
+      count: count()
+    }).from(leads)
+      .where(eq(leads.status, 'enrolled'))
+      .groupBy(leads.licenseGoal);
+
+    // Get lead source performance
+    const sourcePerformance = await db.select({
+      source: leads.source,
+      totalLeads: count(),
+    }).from(leads)
+      .groupBy(leads.source);
+
+    const sourceConversions = await db.select({
+      source: leads.source,
+      converted: count()
+    }).from(leads)
+      .where(eq(leads.status, 'enrolled'))
+      .groupBy(leads.source);
+
+    // Build source breakdown with conversion rates
+    const sourceBreakdown: Record<string, { leads: number; converted: number; rate: number }> = {};
+    
+    sourcePerformance.forEach(source => {
+      const converted = sourceConversions.find(c => c.source === source.source)?.converted || 0;
+      sourceBreakdown[source.source] = {
+        leads: source.totalLeads,
+        converted: converted,
+        rate: source.totalLeads > 0 ? (converted / source.totalLeads) * 100 : 0
+      };
+    });
+
+    // Get cohort performance (simplified - using cohort from enrollments)
+    const cohortData = await db.select({
+      cohort: enrollments.cohort,
+      enrolled: count()
+    }).from(enrollments)
+      .groupBy(enrollments.cohort);
+
+    // Get appointment metrics
+    const [totalAppointmentsResult] = await db.select({ count: count() }).from(appointments);
+    const [completedAppointmentsResult] = await db.select({ count: count() }).from(appointments)
+      .where(eq(appointments.status, 'completed'));
+    
+    // Calculate appointment show rate
+    const appointmentShowRate = totalAppointmentsResult.count > 0 ? 
+      (completedAppointmentsResult.count / totalAppointmentsResult.count) * 100 : 0;
+
+    // Get calls today
+    const [callsTodayResult] = await db.select({ count: count() }).from(callRecords)
+      .where(gte(callRecords.createdAt, today));
+
     return {
+      // Student Pipeline
       activeLeads,
       activeLeadsChange: Number(activeLeadsChange.toFixed(1)),
+      qualifiedLeads: qualifiedLeadsResult.count,
+      enrolledStudents: enrolledStudentsResult.count,
       conversionRate: Number(conversionRate.toFixed(1)),
       conversionRateChange: Number(conversionRateChange.toFixed(1)),
-      revenueToday,
-      revenueTodayChange: Number(revenueTodayChange.toFixed(1)),
-      agentPerformance: Number(agentPerformance.toFixed(1)),
-      agentPerformanceChange: Number(agentPerformanceChange.toFixed(1)),
-      totalLeads,
-      qualified,
-      enrolled,
-      totalCalls,
+
+      // Financial Metrics
       monthlyRevenue: Number(monthlyRevenueResult?.total || 0),
+      revenueChange: Number(revenueTodayChange.toFixed(1)),
       avgDealSize: Number(avgDealResult?.avg || 0),
-      aiPerformance: Number(aiPerformance.toFixed(1)),
-      responseTime: Number(responseTime.toFixed(1)),
-      enrollmentRate: Number(enrollmentRate.toFixed(1)),
+      outstandingPayments: Number(outstandingPaymentsResult.total) || 0,
+      paymentPlanActive: paymentPlansResult.count,
+
+      // Operational Metrics
+      appointmentShowRate: Number(appointmentShowRate.toFixed(1)),
+      callSuccessRate: Number(agentPerformance.toFixed(1)),
+      avgCallDuration: Number(responseTime.toFixed(1)) / 1000, // Convert ms to minutes
+      totalCalls,
+      callsToday: callsTodayResult.count,
+
+      // Course & Source Analytics
+      courseEnrollmentBreakdown: courseBreakdown.reduce((acc, course) => {
+        acc[course.licenseGoal] = course.count;
+        return acc;
+      }, {} as Record<string, number>),
+      
+      cohortPerformance: cohortData.map(cohort => ({
+        cohort: cohort.cohort,
+        enrolled: cohort.enrolled,
+        completed: 0, // Would need completion tracking
+        inProgress: cohort.enrolled // Assuming all are in progress for now
+      })),
+      
+      sourceBreakdown: sourceBreakdown
     };
   }
 }
