@@ -319,6 +319,92 @@ Insurance Licensing Education © ${new Date().getFullYear()}
         return 'Insurance License';
     }
   }
+
+  async sendAppointmentConfirmation(lead: any, appointment: any): Promise<void> {
+    try {
+      const emailHtml = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 28px;">Appointment Confirmed!</h1>
+          </div>
+          
+          <div style="padding: 30px; background-color: #f8f9fa;">
+            <p style="font-size: 18px; color: #333; margin-bottom: 20px;">
+              Dear ${lead.firstName} ${lead.lastName},
+            </p>
+            
+            <p style="font-size: 16px; color: #555; line-height: 1.6;">
+              Your appointment has been successfully scheduled! We're excited to discuss your insurance licensing goals.
+            </p>
+            
+            <div style="background-color: white; border-radius: 8px; padding: 25px; margin: 25px 0; border-left: 4px solid #667eea;">
+              <h3 style="color: #333; margin-top: 0;">Appointment Details</h3>
+              <p><strong>Type:</strong> ${appointment.type.replace('_', ' ').toUpperCase()}</p>
+              <p><strong>Date & Time:</strong> ${new Date(appointment.appointmentDate).toLocaleDateString()} at ${new Date(appointment.appointmentDate).toLocaleTimeString()}</p>
+              <p><strong>Duration:</strong> ${appointment.duration} minutes</p>
+              <p><strong>Location:</strong> ${appointment.location === 'phone' ? 'Phone Call' : appointment.location}</p>
+              ${appointment.notes ? `<p><strong>Notes:</strong> ${appointment.notes}</p>` : ''}
+            </div>
+            
+            <div style="background-color: #e3f2fd; border-radius: 8px; padding: 20px; margin: 20px 0;">
+              <h4 style="color: #1976d2; margin-top: 0;">What to Expect</h4>
+              <ul style="color: #555; line-height: 1.6;">
+                <li>We'll call you at the scheduled time using the phone number: ${lead.phone}</li>
+                <li>The conversation will focus on your ${lead.licenseGoal} licensing goals</li>
+                <li>We'll discuss program options, pricing, and next steps</li>
+                <li>Feel free to ask any questions you have about the insurance industry</li>
+              </ul>
+            </div>
+            
+            <p style="font-size: 14px; color: #666; margin-top: 30px;">
+              Need to reschedule or have questions? Reply to this email or call us directly.
+            </p>
+            
+            <div style="text-align: center; margin-top: 30px;">
+              <p style="color: #888; font-size: 12px;">
+                Insurance School Recruiting<br>
+                Professional Licensing Education
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const emailText = `
+        Appointment Confirmed!
+        
+        Dear ${lead.firstName} ${lead.lastName},
+        
+        Your appointment has been successfully scheduled for ${new Date(appointment.appointmentDate).toLocaleDateString()} at ${new Date(appointment.appointmentDate).toLocaleTimeString()}.
+        
+        Type: ${appointment.type.replace('_', ' ').toUpperCase()}
+        Duration: ${appointment.duration} minutes
+        Location: ${appointment.location === 'phone' ? 'Phone Call' : appointment.location}
+        ${appointment.notes ? `Notes: ${appointment.notes}` : ''}
+        
+        We'll call you at ${lead.phone} at the scheduled time to discuss your ${lead.licenseGoal} licensing goals.
+        
+        Need to reschedule? Reply to this email or call us directly.
+        
+        Best regards,
+        Insurance School Recruiting
+      `;
+
+      const mailOptions = {
+        from: process.env.EMAIL_FROM || 'noreply@insuranceschool.com',
+        to: lead.email,
+        subject: `Appointment Confirmed - ${new Date(appointment.appointmentDate).toLocaleDateString()}`,
+        text: emailText,
+        html: emailHtml
+      };
+
+      await this.transporter.sendMail(mailOptions);
+      console.log(`Appointment confirmation sent to ${lead.email}`);
+    } catch (error) {
+      console.error('Failed to send appointment confirmation:', error);
+      throw error;
+    }
+  }
 }
 
 export const emailService = new EmailService();

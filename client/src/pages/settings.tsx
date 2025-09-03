@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bot, Link, Database, CreditCard, Save, CheckCircle, Clock } from "lucide-react";
+import { Bot, Link, Database, CreditCard, Save, CheckCircle, Clock, Globe, TestTube, Activity, Settings as SettingsIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -12,6 +12,9 @@ export default function Settings() {
     personality: "professional",
     maxCallDuration: 15,
     webhookLogging: true,
+    airtopApiKey: "",
+    airtopEnabled: false,
+    airtopSessionLimit: 10,
   });
   
   const { toast } = useToast();
@@ -169,6 +172,115 @@ export default function Settings() {
                   <Clock className="mr-1 h-4 w-4" />
                   Pending
                 </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Airtop Browser Automation Integration */}
+          <div className="card-glass p-6">
+            <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+              <Globe className="text-electric-cyan mr-3" />
+              Airtop Automation
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-3 bg-black-glass rounded">
+                <span className="text-white">Browser Automation Service</span>
+                <span className={`flex items-center ${settings.airtopEnabled && settings.airtopApiKey ? 'text-green-400' : 'text-red-400'}`}>
+                  <Activity className="mr-1 h-4 w-4" />
+                  {settings.airtopEnabled && settings.airtopApiKey ? 'Active' : 'Inactive'}
+                </span>
+              </div>
+              
+              <div>
+                <label className="block text-gray-300 mb-2">Airtop API Key</label>
+                <Input 
+                  type="password" 
+                  className="form-glass" 
+                  placeholder="Enter your Airtop API key"
+                  value={settings.airtopApiKey}
+                  onChange={(e) => setSettings(prev => ({ ...prev, airtopApiKey: e.target.value }))}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-gray-300 mb-2">Max Concurrent Sessions</label>
+                <Select 
+                  value={settings.airtopSessionLimit.toString()} 
+                  onValueChange={(value) => setSettings(prev => ({ ...prev, airtopSessionLimit: parseInt(value) }))}
+                >
+                  <SelectTrigger className="form-glass">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5">5 Sessions</SelectItem>
+                    <SelectItem value="10">10 Sessions</SelectItem>
+                    <SelectItem value="20">20 Sessions</SelectItem>
+                    <SelectItem value="50">50 Sessions</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="flex items-center space-x-3">
+                <Checkbox 
+                  id="airtop-enabled" 
+                  checked={settings.airtopEnabled}
+                  onCheckedChange={(checked) => setSettings(prev => ({ ...prev, airtopEnabled: checked as boolean }))}
+                />
+                <label htmlFor="airtop-enabled" className="text-gray-300">
+                  Enable Airtop integration for web automation tasks
+                </label>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <Button className="btn-glass" onClick={async () => {
+                  if (!settings.airtopApiKey) {
+                    toast({ title: "API Key Required", description: "Please enter your Airtop API key first", variant: "destructive" });
+                    return;
+                  }
+                  
+                  toast({ title: "Testing Connection...", description: "Verifying Airtop API connection" });
+                  
+                  try {
+                    const response = await fetch('/api/airtop/test', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ 
+                        apiKey: settings.airtopApiKey, 
+                        sessionLimit: settings.airtopSessionLimit 
+                      })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                      toast({ title: "Connection Successful", description: result.message });
+                    } else {
+                      toast({ title: "Connection Failed", description: result.message, variant: "destructive" });
+                    }
+                  } catch (error) {
+                    toast({ title: "Test Failed", description: "Unable to test connection", variant: "destructive" });
+                  }
+                }}>
+                  <TestTube className="mr-2 h-4 w-4" />
+                  Test Connection
+                </Button>
+                <Button className="btn-glass" onClick={() => {
+                  window.open("https://portal.airtop.ai/", "_blank");
+                }}>
+                  <SettingsIcon className="mr-2 h-4 w-4" />
+                  Manage API Keys
+                </Button>
+              </div>
+              
+              <div className="mt-4 p-3 bg-slate-800/30 rounded border-l-4 border-electric-cyan">
+                <h4 className="font-semibold text-white mb-2">Automation Capabilities:</h4>
+                <ul className="text-sm text-gray-300 space-y-1">
+                  <li>• Social media profile enrichment</li>
+                  <li>• Automated form filling and data entry</li>
+                  <li>• Lead research and data collection</li>
+                  <li>• Competitor analysis and monitoring</li>
+                  <li>• SERP monitoring and keyword research</li>
+                </ul>
               </div>
             </div>
           </div>

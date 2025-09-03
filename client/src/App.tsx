@@ -11,6 +11,7 @@ import Analytics from "@/pages/analytics";
 import CalendarPage from "@/pages/calendar";
 import EnrollmentPage from "@/pages/enrollment";
 import Settings from "@/pages/settings";
+import PublicBooking from "@/pages/public-booking";
 import MCPDemo from "@/pages/mcp-demo";
 import SMSTest from "@/pages/sms-test";
 import NotFound from "@/pages/not-found";
@@ -37,6 +38,7 @@ function Router() {
         <Route path="/calendar" component={CalendarPage} />
         <Route path="/enrollment" component={EnrollmentPage} />
         <Route path="/settings" component={Settings} />
+        <Route path="/book" component={PublicBooking} />
         <Route path="/mcp-demo" component={MCPDemo} />
         <Route path="/sms-test" component={SMSTest} />
         <Route component={NotFound} />

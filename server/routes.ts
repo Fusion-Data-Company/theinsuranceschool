@@ -856,6 +856,196 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Airtop Integration endpoints
+  app.post("/api/airtop/test", async (req, res) => {
+    try {
+      const { apiKey, sessionLimit } = req.body;
+      
+      if (!apiKey) {
+        return res.status(400).json({ error: "API key is required" });
+      }
+
+      const { airtopService } = await import('./airtop-service');
+      airtopService.initialize({ apiKey, sessionLimit: sessionLimit || 10 });
+      const testResult = await airtopService.testConnection();
+      
+      res.json(testResult);
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        message: error instanceof Error ? error.message : "Unknown error" 
+      });
+    }
+  });
+
+  app.post("/api/airtop/enrich-lead", async (req, res) => {
+    try {
+      const { leadId, apiKey } = req.body;
+      
+      if (!apiKey) {
+        return res.status(400).json({ error: "API key is required" });
+      }
+
+      const lead = await storage.getLeadById(leadId);
+      if (!lead) {
+        return res.status(404).json({ error: "Lead not found" });
+      }
+
+      const { airtopService } = await import('./airtop-service');
+      airtopService.initialize({ apiKey, sessionLimit: 10 });
+      const enrichmentResult = await airtopService.enrichLeadProfile({
+        firstName: lead.firstName,
+        lastName: lead.lastName,
+        email: lead.email || undefined
+      });
+      
+      res.json(enrichmentResult);
+    } catch (error) {
+      res.status(500).json({ 
+        error: error instanceof Error ? error.message : "Enrichment failed" 
+      });
+    }
+  });
+
+  app.post("/api/airtop/monitor-pricing", async (req, res) => {
+    try {
+      const { urls, apiKey } = req.body;
+      
+      if (!apiKey) {
+        return res.status(400).json({ error: "API key is required" });
+      }
+
+      if (!urls || !Array.isArray(urls)) {
+        return res.status(400).json({ error: "URLs array is required" });
+      }
+
+      const { airtopService } = await import('./airtop-service');
+      airtopService.initialize({ apiKey, sessionLimit: 10 });
+      const monitoringResults = await airtopService.monitorCompetitorPricing(urls);
+      
+      res.json({ success: true, results: monitoringResults });
+    } catch (error) {
+      res.status(500).json({ 
+        error: error instanceof Error ? error.message : "Monitoring failed" 
+      });
+    }
+  });
+
+  // Public API endpoints for booking system (no authentication required)
+  app.post("/api/public/leads", async (req, res) => {
+    try {
+      const leadData = insertLeadSchema.parse(req.body);
+      
+      // Check if lead already exists by email or phone
+      const existingLeads = await storage.getAllLeads();
+      const existingLead = existingLeads.find(lead => 
+        lead.email === leadData.email || lead.phone === leadData.phone
+      );
+      
+      if (existingLead) {
+        // Update existing lead with new information
+        const updatedLead = await storage.updateLead(existingLead.id, {
+          ...leadData,
+          updatedAt: new Date()
+        });
+        return res.json(updatedLead);
+      }
+      
+      // Create new lead
+      const lead = await storage.createLead(leadData);
+      res.status(201).json(lead);
+    } catch (error) {
+      res.status(400).json({ error: "Invalid lead data" });
+    }
+  });
+
+  app.post("/api/public/appointments", async (req, res) => {
+    try {
+      const appointmentData = insertAppointmentSchema.parse(req.body);
+      
+      // Verify the lead exists
+      const lead = await storage.getLeadById(appointmentData.leadId);
+      if (!lead) {
+        return res.status(404).json({ error: "Lead not found" });
+      }
+      
+      // Check for scheduling conflicts (same date/time)
+      const existingAppointments = await storage.getAllAppointments();
+      const requestedDateTime = new Date(appointmentData.appointmentDate);
+      
+      const conflict = existingAppointments.find(apt => {
+        const existingDateTime = new Date(apt.appointmentDate);
+        const timeDiff = Math.abs(existingDateTime.getTime() - requestedDateTime.getTime());
+        return timeDiff < (60 * 60 * 1000); // Within 1 hour
+      });
+      
+      if (conflict) {
+        return res.status(409).json({ 
+          error: "Time slot not available", 
+          message: "Please select a different time slot" 
+        });
+      }
+      
+      const appointment = await storage.createAppointment(appointmentData);
+      
+      // Send confirmation email if lead has email
+      if (lead.email) {
+        try {
+          await emailService.sendAppointmentConfirmation(lead, appointment);
+        } catch (emailError) {
+          console.error("Failed to send appointment confirmation:", emailError);
+          // Don't fail the appointment creation if email fails
+        }
+      }
+      
+      res.status(201).json(appointment);
+    } catch (error) {
+      res.status(400).json({ error: "Invalid appointment data" });
+    }
+  });
+
+  // Generate and serve booking links
+  app.get("/api/booking/link", async (req, res) => {
+    try {
+      // Generate a unique booking link
+      const baseUrl = req.get('host');
+      const protocol = req.get('x-forwarded-proto') || 'https';
+      const bookingUrl = `${protocol}://${baseUrl}/book`;
+      
+      res.json({ 
+        bookingUrl,
+        qrCodeUrl: `${protocol}://${baseUrl}/api/booking/qr?url=${encodeURIComponent(bookingUrl)}`
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to generate booking link" });
+    }
+  });
+
+  // Generate QR code for booking link
+  app.get("/api/booking/qr", async (req, res) => {
+    try {
+      const url = req.query.url as string;
+      if (!url) {
+        return res.status(400).json({ error: "URL parameter required" });
+      }
+      
+      // Simple SVG QR code placeholder (you could use a QR code library here)
+      const qrSvg = `
+        <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="200" fill="white"/>
+          <text x="100" y="100" text-anchor="middle" font-family="Arial" font-size="12" fill="black">
+            QR Code for: ${url}
+          </text>
+        </svg>
+      `;
+      
+      res.setHeader('Content-Type', 'image/svg+xml');
+      res.send(qrSvg);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to generate QR code" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
