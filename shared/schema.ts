@@ -157,12 +157,48 @@ export const appointments = pgTable("appointments", {
   typeIdx: index("appointment_type_idx").on(table.type),
 }));
 
+// Enrollment documents for creating and managing enrollment packages
+export const enrollmentDocuments = pgTable("enrollment_documents", {
+  id: serial("id").primaryKey(),
+  enrollmentId: integer("enrollment_id").notNull().references(() => enrollments.id, { onDelete: "cascade" }),
+  filename: text("filename").notNull(),
+  originalName: text("original_name").notNull(),
+  fileSize: integer("file_size").notNull(),
+  mimeType: text("mime_type").notNull(),
+  documentPath: text("document_path").notNull(), // object storage path
+  documentType: text("document_type").notNull(), // syllabus, schedule, materials, forms, certificate
+  uploadedBy: text("uploaded_by").notNull(), // user who uploaded
+  status: text("status").notNull().default("active"), // active, archived
+  notes: text("notes"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+}, (table) => ({
+  enrollmentIdIdx: index("enrollment_doc_enrollment_id_idx").on(table.enrollmentId),
+  documentTypeIdx: index("enrollment_doc_type_idx").on(table.documentType),
+  statusIdx: index("enrollment_doc_status_idx").on(table.status),
+}));
+
 // Define relations
 export const leadsRelations = relations(leads, ({ many }) => ({
   callRecords: many(callRecords),
   payments: many(payments),
   enrollments: many(enrollments),
   appointments: many(appointments),
+}));
+
+export const enrollmentsRelations = relations(enrollments, ({ one, many }) => ({
+  lead: one(leads, {
+    fields: [enrollments.leadId],
+    references: [leads.id],
+  }),
+  documents: many(enrollmentDocuments),
+}));
+
+export const enrollmentDocumentsRelations = relations(enrollmentDocuments, ({ one }) => ({
+  enrollment: one(enrollments, {
+    fields: [enrollmentDocuments.enrollmentId],
+    references: [enrollments.id],
+  }),
 }));
 
 export const callRecordsRelations = relations(callRecords, ({ one, many }) => ({
@@ -180,12 +216,6 @@ export const paymentsRelations = relations(payments, ({ one }) => ({
   }),
 }));
 
-export const enrollmentsRelations = relations(enrollments, ({ one }) => ({
-  lead: one(leads, {
-    fields: [enrollments.leadId],
-    references: [leads.id],
-  }),
-}));
 
 export const agentMetricsRelations = relations(agentMetrics, ({ one }) => ({
   callRecord: one(callRecords, {
@@ -200,6 +230,10 @@ export const appointmentsRelations = relations(appointments, ({ one }) => ({
     references: [leads.id],
   }),
 }));
+
+// Export types for enrollment documents
+export type EnrollmentDocument = typeof enrollmentDocuments.$inferSelect;
+export type InsertEnrollmentDocument = typeof enrollmentDocuments.$inferInsert;
 
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).pick({

@@ -1,221 +1,512 @@
 import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { GraduationCap, Plus, Calendar } from "lucide-react";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { 
+  Users, 
+  GraduationCap, 
+  Plus, 
+  Calendar, 
+  Clock,
+  Award,
+  FileText,
+  Package,
+  BookOpen,
+  Send,
+  User,
+  Phone,
+  Mail,
+  Edit,
+  Eye,
+  Download,
+  CheckCircle,
+  XCircle,
+  AlertCircle
+} from "lucide-react";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
-import type { Enrollment, Lead } from "@shared/schema";
+import { DocumentUploader } from "@/components/enrollment/document-uploader";
+import type { Enrollment, Lead, EnrollmentDocument } from "@shared/schema";
+
+interface EnrollmentWithLead extends Enrollment {
+  lead: Lead;
+  documents?: EnrollmentDocument[];
+}
+
+const COURSES = [
+  { value: "2-15_life_health", label: "2-15 Life & Health Insurance" },
+  { value: "2-40_property_casualty", label: "2-40 Property & Casualty Insurance" },
+  { value: "2-14_personal_lines", label: "2-14 Personal Lines Insurance" },
+];
+
+const COHORTS = [
+  { value: "morning", label: "Morning Classes (9:00 AM - 12:00 PM)" },
+  { value: "evening", label: "Evening Classes (6:00 PM - 9:00 PM)" },
+  { value: "weekend", label: "Weekend Classes (Saturday)" },
+  { value: "online", label: "Online Self-Paced" },
+];
+
+const ENROLLMENT_STATUSES = [
+  { value: "enrolled", label: "Enrolled", color: "bg-blue-500/20 text-blue-400" },
+  { value: "active", label: "Active", color: "bg-green-500/20 text-green-400" },
+  { value: "completed", label: "Completed", color: "bg-electric-cyan/20 text-electric-cyan" },
+  { value: "dropped", label: "Dropped", color: "bg-red-500/20 text-red-400" },
+];
 
 export default function EnrollmentPage() {
-  const [selectedLead, setSelectedLead] = useState("");
-  const [selectedCourse, setSelectedCourse] = useState("");
-  const [selectedCohort, setSelectedCohort] = useState("");
+  const [selectedEnrollment, setSelectedEnrollment] = useState<EnrollmentWithLead | null>(null);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [newEnrollment, setNewEnrollment] = useState({
+    leadId: "",
+    course: "2-15_life_health",
+    cohort: "morning",
+    startDate: "",
+    status: "enrolled",
+    progress: 0,
+  });
   const { toast } = useToast();
-  const queryClient = useQueryClient();
 
-  const { data: enrollments = [] } = useQuery<Enrollment[]>({
+  // Fetch enrollments with lead data
+  const { data: enrollments = [], isLoading } = useQuery<EnrollmentWithLead[]>({
     queryKey: ["/api/enrollments"],
   });
 
+  // Fetch available leads for enrollment
   const { data: leads = [] } = useQuery<Lead[]>({
     queryKey: ["/api/leads"],
   });
 
-  const enrollmentMutation = useMutation({
-    mutationFn: async (data: { leadId: number; course: string; cohort: string; startDate: string }) => {
-      const response = await apiRequest("POST", "/api/enrollments", data);
-      return response.json();
+  // Fetch enrollment documents
+  const { data: enrollmentDocuments = [] } = useQuery<EnrollmentDocument[]>({
+    queryKey: ["/api/enrollment-documents"],
+  });
+
+  const createEnrollmentMutation = useMutation({
+    mutationFn: async (enrollment: typeof newEnrollment) => {
+      return await apiRequest("/api/enrollments", "POST", {
+        ...enrollment,
+        leadId: parseInt(enrollment.leadId),
+        startDate: new Date(enrollment.startDate).toISOString(),
+        progress: parseInt(enrollment.progress.toString()),
+      });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/enrollments"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/leads"] });
       toast({
-        title: "Enrollment Successful",
-        description: "Student has been enrolled successfully.",
+        title: "Enrollment created",
+        description: "New student enrollment has been created successfully.",
       });
-      setSelectedLead("");
-      setSelectedCourse("");
-      setSelectedCohort("");
+      queryClient.invalidateQueries({ queryKey: ["/api/enrollments"] });
+      setShowCreateForm(false);
+      setNewEnrollment({
+        leadId: "",
+        course: "2-15_life_health",
+        cohort: "morning", 
+        startDate: "",
+        status: "enrolled",
+        progress: 0,
+      });
     },
-    onError: () => {
+    onError: (error: Error) => {
       toast({
-        title: "Enrollment Failed",
-        description: "Unable to enroll student at this time.",
+        title: "Enrollment failed",
+        description: error.message || "Failed to create enrollment.",
         variant: "destructive",
       });
     },
   });
 
-  const handleEnrollment = () => {
-    if (!selectedLead || !selectedCourse || !selectedCohort) {
+  const updateEnrollmentMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: number; updates: Partial<Enrollment> }) => {
+      return await apiRequest(`/api/enrollments/${id}`, "PATCH", updates);
+    },
+    onSuccess: () => {
       toast({
-        title: "Missing Information",
-        description: "Please select all required fields.",
+        title: "Enrollment updated",
+        description: "Enrollment has been updated successfully.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/enrollments"] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Update failed",
+        description: error.message || "Failed to update enrollment.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleCreateEnrollment = () => {
+    createEnrollmentMutation.mutate(newEnrollment);
+  };
+
+  const handleUpdateProgress = (enrollmentId: number, progress: number) => {
+    updateEnrollmentMutation.mutate({ id: enrollmentId, updates: { progress } });
+  };
+
+  const handleUpdateStatus = (enrollmentId: number, status: string) => {
+    updateEnrollmentMutation.mutate({ id: enrollmentId, updates: { status } });
+  };
+
+  const getStatusColor = (status: string) => {
+    return ENROLLMENT_STATUSES.find(s => s.value === status)?.color || "bg-slate-500/20 text-slate-400";
+  };
+
+  const getCourseLabel = (course: string) => {
+    return COURSES.find(c => c.value === course)?.label || course;
+  };
+
+  const getCohortLabel = (cohort: string) => {
+    return COHORTS.find(c => c.value === cohort)?.label || cohort;
+  };
+
+  const getEnrollmentDocuments = (enrollmentId: number) => {
+    return enrollmentDocuments.filter(doc => doc.enrollmentId === enrollmentId);
+  };
+
+  const generateEnrollmentPackage = (enrollment: EnrollmentWithLead) => {
+    const documents = getEnrollmentDocuments(enrollment.id);
+    if (documents.length === 0) {
+      toast({
+        title: "No documents",
+        description: "Upload documents first before generating enrollment package.",
         variant: "destructive",
       });
       return;
     }
-
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() + 14); // Start in 2 weeks
-
-    enrollmentMutation.mutate({
-      leadId: parseInt(selectedLead),
-      course: selectedCourse,
-      cohort: selectedCohort,
-      startDate: startDate.toISOString(),
+    
+    toast({
+      title: "Package generated",
+      description: `Enrollment package created with ${documents.length} documents.`,
     });
   };
 
-  // Filter leads that haven't been enrolled yet
-  const availableLeads = leads.filter(lead => 
-    lead.status === "qualified" && 
-    !enrollments.some(enrollment => enrollment.leadId === lead.id)
-  );
-
-  return (
-    <div className="pt-20 px-4 pb-8">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
-          <span className="text-neon-magenta">Enrollment</span>{" "}
-          <span className="text-white">Management</span>
-        </h2>
-
-        {/* Enrollment Dashboard */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Active Enrollments */}
-          <div className="lg:col-span-2">
-            <div className="card-glass p-6">
-              <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
-                <GraduationCap className="text-neon-magenta mr-3" />
-                Active Enrollments
-              </h3>
-              
-              <div className="space-y-4">
-                {enrollments.length === 0 ? (
-                  <div className="text-center py-8">
-                    <p className="text-gray-400">No active enrollments found</p>
-                  </div>
-                ) : (
-                  enrollments.map((enrollment) => {
-                    const lead = leads.find(l => l.id === enrollment.leadId);
-                    if (!lead) return null;
-                    
-                    return (
-                      <div key={enrollment.id} className="flex items-center justify-between p-4 bg-black-glass rounded-lg border border-white/10">
-                        <div className="flex items-center space-x-4">
-                          <div className="w-12 h-12 bg-gradient-to-r from-electric-cyan to-fuchsia rounded-full flex items-center justify-center">
-                            <span className="text-black font-bold">
-                              {lead.firstName[0]}{lead.lastName[0]}
-                            </span>
-                          </div>
-                          <div>
-                            <p className="text-white font-medium">
-                              {lead.firstName} {lead.lastName}
-                            </p>
-                            <p className="text-gray-400 text-sm">{enrollment.course}</p>
-                            <p className="text-gray-400 text-xs">
-                              {enrollment.cohort} Cohort - Starts {new Date(enrollment.startDate).toLocaleDateString()}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-500/20 text-green-400">
-                            {enrollment.status}
-                          </span>
-                          <p className="text-gray-400 text-xs mt-1">
-                            Progress: {enrollment.progress}%
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })
-                )}
-              </div>
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-950 p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="animate-pulse">
+            <div className="h-8 bg-slate-800 rounded mb-4 w-64"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="h-48 bg-slate-800 rounded"></div>
+              ))}
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
 
-          {/* Enrollment Actions */}
-          <div className="space-y-6">
-            <div className="card-glass p-6">
-              <h3 className="text-xl font-bold text-white mb-4 flex items-center">
-                <Plus className="text-electric-cyan mr-3" />
-                Quick Enroll
-              </h3>
-              <div className="space-y-4">
-                <Select value={selectedLead} onValueChange={setSelectedLead}>
-                  <SelectTrigger className="form-glass">
-                    <SelectValue placeholder="Select Lead" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availableLeads.map(lead => (
-                      <SelectItem key={lead.id} value={lead.id.toString()}>
-                        {lead.firstName} {lead.lastName}
-                      </SelectItem>
+  return (
+    <div className="min-h-screen bg-slate-950 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+                <GraduationCap className="h-8 w-8 text-electric-cyan" />
+                Student Enrollment Management
+              </h1>
+              <p className="text-slate-400">Manage course enrollments, documents, and student progress</p>
+            </div>
+            <Button 
+              onClick={() => setShowCreateForm(true)}
+              className="bg-electric-cyan hover:bg-electric-cyan/80 text-slate-900 font-semibold"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              New Enrollment
+            </Button>
+          </div>
+        </div>
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="stat-card p-6 text-center">
+            <Users className="w-8 h-8 mx-auto text-electric-cyan mb-2" />
+            <div className="text-2xl font-bold text-white">{enrollments.length}</div>
+            <div className="text-sm text-slate-400">Total Enrollments</div>
+          </div>
+          <div className="stat-card p-6 text-center">
+            <CheckCircle className="w-8 h-8 mx-auto text-green-400 mb-2" />
+            <div className="text-2xl font-bold text-white">
+              {enrollments.filter(e => e.status === 'active').length}
+            </div>
+            <div className="text-sm text-slate-400">Active Students</div>
+          </div>
+          <div className="stat-card p-6 text-center">
+            <Award className="w-8 h-8 mx-auto text-yellow-400 mb-2" />
+            <div className="text-2xl font-bold text-white">
+              {enrollments.filter(e => e.status === 'completed').length}
+            </div>
+            <div className="text-sm text-slate-400">Completed</div>
+          </div>
+          <div className="stat-card p-6 text-center">
+            <FileText className="w-8 h-8 mx-auto text-purple-400 mb-2" />
+            <div className="text-2xl font-bold text-white">{enrollmentDocuments.length}</div>
+            <div className="text-sm text-slate-400">Documents</div>
+          </div>
+        </div>
+
+        {/* Create Enrollment Form */}
+        {showCreateForm && (
+          <Card className="bg-slate-900 border-slate-700 mb-8">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <Plus className="h-5 w-5" />
+                Create New Enrollment
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Student
+                  </label>
+                  <select 
+                    value={newEnrollment.leadId}
+                    onChange={(e) => setNewEnrollment(prev => ({ ...prev, leadId: e.target.value }))}
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded-md text-white focus:ring-electric-cyan focus:border-electric-cyan"
+                  >
+                    <option value="">Select a student</option>
+                    {leads
+                      .filter(lead => !enrollments.some(e => e.leadId === lead.id))
+                      .map(lead => (
+                        <option key={lead.id} value={lead.id.toString()}>
+                          {lead.firstName} {lead.lastName} - {lead.phone}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Course
+                  </label>
+                  <select 
+                    value={newEnrollment.course}
+                    onChange={(e) => setNewEnrollment(prev => ({ ...prev, course: e.target.value }))}
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded-md text-white focus:ring-electric-cyan focus:border-electric-cyan"
+                  >
+                    {COURSES.map(course => (
+                      <option key={course.value} value={course.value}>
+                        {course.label}
+                      </option>
                     ))}
-                  </SelectContent>
-                </Select>
+                  </select>
+                </div>
 
-                <Select value={selectedCourse} onValueChange={setSelectedCourse}>
-                  <SelectTrigger className="form-glass">
-                    <SelectValue placeholder="Select Course" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="2-15_life_health">2-15 Life & Health</SelectItem>
-                    <SelectItem value="2-40_property_casualty">2-40 Property & Casualty</SelectItem>
-                    <SelectItem value="2-14_personal_lines">2-14 Personal Lines</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Cohort
+                  </label>
+                  <select 
+                    value={newEnrollment.cohort}
+                    onChange={(e) => setNewEnrollment(prev => ({ ...prev, cohort: e.target.value }))}
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded-md text-white focus:ring-electric-cyan focus:border-electric-cyan"
+                  >
+                    {COHORTS.map(cohort => (
+                      <option key={cohort.value} value={cohort.value}>
+                        {cohort.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-                <Select value={selectedCohort} onValueChange={setSelectedCohort}>
-                  <SelectTrigger className="form-glass">
-                    <SelectValue placeholder="Select Cohort" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="day">Day Cohort - Contact for Schedule</SelectItem>
-                    <SelectItem value="evening">Evening Cohort - Contact for Schedule</SelectItem>
-                    <SelectItem value="weekend">Weekend Cohort - Contact for Schedule</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Start Date
+                  </label>
+                  <Input
+                    type="date"
+                    value={newEnrollment.startDate}
+                    onChange={(e) => setNewEnrollment(prev => ({ ...prev, startDate: e.target.value }))}
+                    className="bg-slate-800 border-slate-600 text-white"
+                  />
+                </div>
+              </div>
 
+              <div className="flex justify-end gap-4 pt-4">
                 <Button 
-                  className="btn-glass w-full" 
-                  onClick={handleEnrollment}
-                  disabled={enrollmentMutation.isPending}
+                  variant="outline" 
+                  onClick={() => setShowCreateForm(false)}
+                  className="bg-slate-800 border-slate-600 text-white hover:bg-slate-700"
                 >
-                  {enrollmentMutation.isPending ? (
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  ) : (
-                    <GraduationCap className="mr-2 h-4 w-4" />
-                  )}
-                  Enroll Student
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={handleCreateEnrollment}
+                  disabled={!newEnrollment.leadId || !newEnrollment.startDate || createEnrollmentMutation.isPending}
+                  className="bg-electric-cyan hover:bg-electric-cyan/80 text-slate-900"
+                >
+                  Create Enrollment
                 </Button>
               </div>
-            </div>
+            </CardContent>
+          </Card>
+        )}
 
-            <div className="card-glass p-6">
-              <h3 className="text-xl font-bold text-white mb-4 flex items-center">
-                <Calendar className="text-fuchsia mr-3" />
-                Upcoming Cohorts
-              </h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center p-3 bg-black-glass rounded">
-                  <div>
-                    <p className="text-white font-medium">2-15 Day Cohort</p>
-                    <p className="text-gray-400 text-sm">Next start: TBD</p>
-                  </div>
-                  <span className="text-electric-cyan font-bold">Open</span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-black-glass rounded">
-                  <div>
-                    <p className="text-white font-medium">2-40 Evening</p>
-                    <p className="text-gray-400 text-sm">Next start: TBD</p>
-                  </div>
-                  <span className="text-fuchsia font-bold">Open</span>
-                </div>
+        {/* Enrollments List */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Enrollments Cards */}
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-white mb-4">Current Enrollments</h2>
+            {enrollments.length === 0 ? (
+              <Card className="bg-slate-900 border-slate-700">
+                <CardContent className="text-center py-12">
+                  <GraduationCap className="h-16 w-16 mx-auto text-slate-600 mb-4" />
+                  <p className="text-slate-400 text-lg mb-2">No enrollments yet</p>
+                  <p className="text-slate-500 text-sm">Create your first student enrollment to get started</p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="space-y-4">
+                {enrollments.map((enrollment) => {
+                  const documents = getEnrollmentDocuments(enrollment.id);
+                  
+                  return (
+                    <Card key={enrollment.id} className="bg-slate-900 border-slate-700 hover:border-electric-cyan/30 transition-colors">
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                              <h3 className="text-lg font-semibold text-white">
+                                {enrollment.lead.firstName} {enrollment.lead.lastName}
+                              </h3>
+                              <Badge className={getStatusColor(enrollment.status)}>
+                                {enrollment.status}
+                              </Badge>
+                            </div>
+                            <div className="text-sm text-slate-400 space-y-1">
+                              <div className="flex items-center gap-2">
+                                <BookOpen className="h-4 w-4" />
+                                {getCourseLabel(enrollment.course)}
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Clock className="h-4 w-4" />
+                                {getCohortLabel(enrollment.cohort)}
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Calendar className="h-4 w-4" />
+                                Started: {new Date(enrollment.startDate).toLocaleDateString()}
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Phone className="h-4 w-4" />
+                                {enrollment.lead.phone}
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="text-right">
+                            <div className="text-2xl font-bold text-electric-cyan mb-1">
+                              {enrollment.progress}%
+                            </div>
+                            <div className="text-xs text-slate-400">Progress</div>
+                            <div className="w-16 h-2 bg-slate-700 rounded-full mt-2">
+                              <div 
+                                className="h-2 bg-electric-cyan rounded-full transition-all duration-300"
+                                style={{ width: `${enrollment.progress}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Document Summary */}
+                        <div className="flex items-center justify-between py-3 px-4 bg-slate-800/50 rounded-lg mb-4">
+                          <div className="flex items-center gap-2">
+                            <Package className="h-4 w-4 text-purple-400" />
+                            <span className="text-sm text-slate-300">
+                              Enrollment Package: {documents.length} documents
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => generateEnrollmentPackage(enrollment)}
+                              disabled={documents.length === 0}
+                              className="bg-slate-800 border-slate-600 text-white hover:bg-slate-700"
+                            >
+                              <Download className="h-4 w-4 mr-1" />
+                              Generate
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setSelectedEnrollment(enrollment)}
+                              className="bg-electric-cyan/20 border-electric-cyan/30 text-electric-cyan hover:bg-electric-cyan/30"
+                            >
+                              <Eye className="h-4 w-4 mr-1" />
+                              Manage
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* Quick Actions */}
+                        <div className="grid grid-cols-2 gap-2">
+                          <select 
+                            value={enrollment.status}
+                            onChange={(e) => handleUpdateStatus(enrollment.id, e.target.value)}
+                            className="px-3 py-2 bg-slate-800 border border-slate-600 rounded-md text-white text-sm focus:ring-electric-cyan focus:border-electric-cyan"
+                          >
+                            {ENROLLMENT_STATUSES.map(status => (
+                              <option key={status.value} value={status.value}>
+                                {status.label}
+                              </option>
+                            ))}
+                          </select>
+                          
+                          <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={enrollment.progress}
+                            onChange={(e) => handleUpdateProgress(enrollment.id, parseInt(e.target.value))}
+                            className="w-full h-8 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
-            </div>
+            )}
+          </div>
+
+          {/* Document Management Panel */}
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-4">Document Management</h2>
+            {selectedEnrollment ? (
+              <div className="space-y-6">
+                <Card className="bg-slate-900 border-slate-700">
+                  <CardHeader>
+                    <CardTitle className="text-white flex items-center gap-2">
+                      <User className="h-5 w-5" />
+                      {selectedEnrollment.lead.firstName} {selectedEnrollment.lead.lastName}
+                    </CardTitle>
+                    <p className="text-slate-400">
+                      {getCourseLabel(selectedEnrollment.course)} - {getCohortLabel(selectedEnrollment.cohort)}
+                    </p>
+                  </CardHeader>
+                </Card>
+
+                <DocumentUploader 
+                  enrollmentId={selectedEnrollment.id}
+                  documents={getEnrollmentDocuments(selectedEnrollment.id)}
+                />
+              </div>
+            ) : (
+              <Card className="bg-slate-900 border-slate-700">
+                <CardContent className="text-center py-12">
+                  <FileText className="h-16 w-16 mx-auto text-slate-600 mb-4" />
+                  <p className="text-slate-400 text-lg mb-2">No enrollment selected</p>
+                  <p className="text-slate-500 text-sm">Select an enrollment to manage documents</p>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </div>

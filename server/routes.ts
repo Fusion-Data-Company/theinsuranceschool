@@ -6,6 +6,7 @@ import { insertLeadSchema, insertCallRecordSchema, insertPaymentSchema, insertEn
 import { registerMCPEndpoint } from "./mcp";
 import { sendLeadNotification, testSMSNotification, sendPersonalTestSMS } from "./sms";
 import { emailService } from "./email-service";
+import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Register MCP endpoint FIRST to ensure it's not intercepted by frontend routing
@@ -1043,6 +1044,117 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.send(qrSvg);
     } catch (error) {
       res.status(500).json({ error: "Failed to generate QR code" });
+    }
+  });
+
+  // Enrollment Documents API
+  
+  // Get enrollment documents
+  app.get("/api/enrollment-documents", async (req, res) => {
+    try {
+      const documents = await storage.getAllEnrollmentDocuments();
+      res.json(documents);
+    } catch (error) {
+      console.error("Error fetching enrollment documents:", error);
+      res.status(500).json({ error: "Failed to fetch enrollment documents" });
+    }
+  });
+
+  // Get upload URL for enrollment document
+  app.post("/api/enrollment-documents/upload", async (req, res) => {
+    try {
+      const objectStorageService = new ObjectStorageService();
+      const uploadURL = await objectStorageService.getDocumentUploadURL();
+      res.json({ uploadURL });
+    } catch (error) {
+      console.error("Error getting upload URL:", error);
+      res.status(500).json({ error: "Failed to get upload URL" });
+    }
+  });
+
+  // Create enrollment document record
+  app.post("/api/enrollment-documents", async (req, res) => {
+    try {
+      const documentData = {
+        enrollmentId: req.body.enrollmentId,
+        filename: req.body.filename,
+        originalName: req.body.originalName,
+        fileSize: req.body.fileSize,
+        mimeType: req.body.mimeType,
+        documentPath: req.body.documentPath,
+        documentType: req.body.documentType,
+        uploadedBy: req.body.uploadedBy,
+        status: req.body.status || "active",
+        notes: req.body.notes,
+      };
+
+      const document = await storage.createEnrollmentDocument(documentData);
+      res.json(document);
+    } catch (error) {
+      console.error("Error creating enrollment document:", error);
+      res.status(500).json({ error: "Failed to create enrollment document" });
+    }
+  });
+
+  // Download enrollment document
+  app.get("/api/enrollment-documents/:id/download", async (req, res) => {
+    try {
+      const documentId = parseInt(req.params.id);
+      const document = await storage.getEnrollmentDocumentById(documentId);
+      
+      if (!document) {
+        return res.status(404).json({ error: "Document not found" });
+      }
+
+      const objectStorageService = new ObjectStorageService();
+      const documentFile = await objectStorageService.getDocumentFile(document.documentPath);
+      
+      // Set download headers
+      res.setHeader('Content-Disposition', `attachment; filename="${document.originalName}"`);
+      
+      await objectStorageService.downloadObject(documentFile, res);
+    } catch (error) {
+      console.error("Error downloading document:", error);
+      if (error instanceof ObjectNotFoundError) {
+        return res.status(404).json({ error: "Document file not found" });
+      }
+      res.status(500).json({ error: "Failed to download document" });
+    }
+  });
+
+  // Delete enrollment document
+  app.delete("/api/enrollment-documents/:id", async (req, res) => {
+    try {
+      const documentId = parseInt(req.params.id);
+      const success = await storage.deleteEnrollmentDocument(documentId);
+      
+      if (success) {
+        res.json({ success: true });
+      } else {
+        res.status(404).json({ error: "Document not found" });
+      }
+    } catch (error) {
+      console.error("Error deleting document:", error);
+      res.status(500).json({ error: "Failed to delete document" });
+    }
+  });
+
+  // Update enrollment document
+  app.patch("/api/enrollment-documents/:id", async (req, res) => {
+    try {
+      const documentId = parseInt(req.params.id);
+      const updates = req.body;
+      
+      const document = await storage.updateEnrollmentDocument(documentId, updates);
+      
+      if (document) {
+        res.json(document);
+      } else {
+        res.status(404).json({ error: "Document not found" });
+      }
+    } catch (error) {
+      console.error("Error updating document:", error);
+      res.status(500).json({ error: "Failed to update document" });
     }
   });
 

@@ -1,10 +1,10 @@
 import { 
-  users, leads, callRecords, payments, enrollments, webhookLogs, agentMetrics, n8nChatHistories, appointments,
+  users, leads, callRecords, payments, enrollments, webhookLogs, agentMetrics, n8nChatHistories, appointments, enrollmentDocuments,
   type User, type InsertUser, type Lead, type InsertLead, type CallRecord, 
   type InsertCallRecord, type Payment, type InsertPayment, type Enrollment, 
   type InsertEnrollment, type WebhookLog, type InsertWebhookLog, 
   type AgentMetric, type InsertAgentMetric, type N8nChatHistory, type InsertN8nChatHistory,
-  type Appointment, type InsertAppointment
+  type Appointment, type InsertAppointment, type EnrollmentDocument, type InsertEnrollmentDocument
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, count, avg, sum, and, gte, lte, or } from "drizzle-orm";
@@ -58,6 +58,14 @@ export interface IStorage {
   createAppointment(appointment: InsertAppointment): Promise<Appointment>;
   updateAppointment(id: number, updates: Partial<InsertAppointment>): Promise<Appointment | undefined>;
   deleteAppointment(id: number): Promise<boolean>;
+
+  // Enrollment Documents
+  getAllEnrollmentDocuments(): Promise<EnrollmentDocument[]>;
+  getEnrollmentDocumentById(id: number): Promise<EnrollmentDocument | undefined>;
+  getEnrollmentDocumentsByEnrollmentId(enrollmentId: number): Promise<EnrollmentDocument[]>;
+  createEnrollmentDocument(document: InsertEnrollmentDocument): Promise<EnrollmentDocument>;
+  updateEnrollmentDocument(id: number, updates: Partial<InsertEnrollmentDocument>): Promise<EnrollmentDocument | undefined>;
+  deleteEnrollmentDocument(id: number): Promise<boolean>;
 
   // Analytics
   getAnalytics(): Promise<{
@@ -233,6 +241,40 @@ export class DatabaseStorage implements IStorage {
 
   async deleteAppointment(id: number): Promise<boolean> {
     const result = await db.delete(appointments).where(eq(appointments.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  // Enrollment Documents
+  async getAllEnrollmentDocuments(): Promise<EnrollmentDocument[]> {
+    return await db.select().from(enrollmentDocuments).orderBy(desc(enrollmentDocuments.createdAt));
+  }
+
+  async getEnrollmentDocumentById(id: number): Promise<EnrollmentDocument | undefined> {
+    const [document] = await db.select().from(enrollmentDocuments).where(eq(enrollmentDocuments.id, id));
+    return document;
+  }
+
+  async getEnrollmentDocumentsByEnrollmentId(enrollmentId: number): Promise<EnrollmentDocument[]> {
+    return await db.select().from(enrollmentDocuments)
+      .where(eq(enrollmentDocuments.enrollmentId, enrollmentId))
+      .orderBy(desc(enrollmentDocuments.createdAt));
+  }
+
+  async createEnrollmentDocument(document: InsertEnrollmentDocument): Promise<EnrollmentDocument> {
+    const [newDocument] = await db.insert(enrollmentDocuments).values(document).returning();
+    return newDocument;
+  }
+
+  async updateEnrollmentDocument(id: number, updates: Partial<InsertEnrollmentDocument>): Promise<EnrollmentDocument | undefined> {
+    const [updatedDocument] = await db.update(enrollmentDocuments)
+      .set(updates)
+      .where(eq(enrollmentDocuments.id, id))
+      .returning();
+    return updatedDocument;
+  }
+
+  async deleteEnrollmentDocument(id: number): Promise<boolean> {
+    const result = await db.delete(enrollmentDocuments).where(eq(enrollmentDocuments.id, id));
     return result.rowCount !== null && result.rowCount > 0;
   }
 
