@@ -135,11 +135,34 @@ export const n8nChatHistories = pgTable("n8n_chat_histories", {
   uuidIdx: index("n8n_chat_histories_uuid_idx").on(table.uuid),
 }));
 
+// Appointments table for calendar booking system
+export const appointments = pgTable("appointments", {
+  id: serial("id").primaryKey(),
+  leadId: integer("lead_id").notNull().references(() => leads.id, { onDelete: "cascade" }),
+  title: text("title").notNull(),
+  description: text("description"),
+  appointmentDate: timestamp("appointment_date").notNull(),
+  duration: integer("duration").notNull().default(60), // in minutes
+  type: text("type").notNull().default("consultation"), // consultation, follow_up, enrollment, payment_discussion
+  status: text("status").notNull().default("scheduled"), // scheduled, confirmed, completed, cancelled, no_show
+  location: text("location"), // phone, zoom, in_person, or specific address
+  reminderSent: boolean("reminder_sent").notNull().default(false),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+}, (table) => ({
+  leadIdIdx: index("appointment_lead_id_idx").on(table.leadId),
+  statusIdx: index("appointment_status_idx").on(table.status),
+  dateIdx: index("appointment_date_idx").on(table.appointmentDate),
+  typeIdx: index("appointment_type_idx").on(table.type),
+}));
+
 // Define relations
 export const leadsRelations = relations(leads, ({ many }) => ({
   callRecords: many(callRecords),
   payments: many(payments),
   enrollments: many(enrollments),
+  appointments: many(appointments),
 }));
 
 export const callRecordsRelations = relations(callRecords, ({ one, many }) => ({
@@ -168,6 +191,13 @@ export const agentMetricsRelations = relations(agentMetrics, ({ one }) => ({
   callRecord: one(callRecords, {
     fields: [agentMetrics.callRecordId],
     references: [callRecords.id],
+  }),
+}));
+
+export const appointmentsRelations = relations(appointments, ({ one }) => ({
+  lead: one(leads, {
+    fields: [appointments.leadId],
+    references: [leads.id],
   }),
 }));
 
@@ -216,6 +246,12 @@ export const insertN8nChatHistorySchema = createInsertSchema(n8nChatHistories).o
   updatedAt: true,
 });
 
+export const insertAppointmentSchema = createInsertSchema(appointments).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -240,3 +276,6 @@ export type InsertAgentMetric = z.infer<typeof insertAgentMetricSchema>;
 
 export type N8nChatHistory = typeof n8nChatHistories.$inferSelect;
 export type InsertN8nChatHistory = z.infer<typeof insertN8nChatHistorySchema>;
+
+export type Appointment = typeof appointments.$inferSelect;
+export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;

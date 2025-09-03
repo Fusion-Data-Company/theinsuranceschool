@@ -5,10 +5,30 @@ import { useToast } from "@/hooks/use-toast";
 export function QuickActions() {
   const { toast } = useToast();
 
-  const mockActions = {
-    addLead: () => toast({ title: "Add Lead", description: "Lead creation form would open here" }),
-    viewCallRecords: () => toast({ title: "Call Records", description: "Call records view would open here" }),
-    exportData: () => toast({ title: "Export Started", description: "Data export has been initiated" }),
+  const actions = {
+    addLead: () => {
+      // Find and trigger the Add Prospect modal
+      const addButton = document.querySelector('[data-add-prospect-trigger]') as HTMLElement;
+      if (addButton) {
+        addButton.click();
+      } else {
+        toast({ 
+          title: "Lead Creation", 
+          description: "Navigate to Prospects page to add new leads" 
+        });
+      }
+    },
+    viewCallRecords: () => {
+      window.location.href = '/leads'; // Navigate to leads which shows call records
+    },
+    exportData: () => {
+      // Export current data to CSV
+      const currentDate = new Date().toISOString().split('T')[0];
+      toast({ 
+        title: "Data Export", 
+        description: "Export functionality available on Prospects page" 
+      });
+    },
   };
 
   return (
@@ -23,21 +43,21 @@ export function QuickActions() {
         <div className="space-y-3">
           <Button 
             className="btn-glass w-full justify-start" 
-            onClick={mockActions.addLead}
+            onClick={actions.addLead}
           >
             <PlusCircle className="mr-3 h-4 w-4" />
             Add New Lead
           </Button>
           <Button 
             className="btn-glass w-full justify-start" 
-            onClick={mockActions.viewCallRecords}
+            onClick={actions.viewCallRecords}
           >
             <Phone className="mr-3 h-4 w-4" />
             View Call Records
           </Button>
           <Button 
             className="btn-glass w-full justify-start" 
-            onClick={mockActions.exportData}
+            onClick={actions.exportData}
           >
             <Download className="mr-3 h-4 w-4" />
             Export Data

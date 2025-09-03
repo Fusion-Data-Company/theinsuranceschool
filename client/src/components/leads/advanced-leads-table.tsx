@@ -12,6 +12,8 @@ import {
   type SortingState,
   type ColumnFiltersState,
   type PaginationState,
+  type RowSelectionState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,9 +23,11 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { toast } from "@/hooks/use-toast";
 import { 
   ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight,
-  MoreHorizontal, Trash2, Phone, Mail, Calendar, Eye, Edit3, PhoneCall
+  MoreHorizontal, Trash2, Phone, Mail, Calendar, Eye, Edit3, PhoneCall,
+  Download, Settings, Filter, CheckSquare, Square, Trash, UserCheck
 } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuCheckboxItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { Checkbox } from "@/components/ui/checkbox";
 import { apiRequest } from "@/lib/queryClient";
 import type { Lead } from "@shared/schema";
 
@@ -82,7 +86,7 @@ const EditableCell = ({
       onClick={() => setIsEditing(true)}
       className="h-8 px-2 flex items-center cursor-pointer hover:bg-slate-700/50 rounded text-sm text-white"
     >
-      {value || 'Click to edit'}
+      {value || '—'}
     </div>
   );
 };
@@ -141,7 +145,7 @@ const PainPointsCell = ({
         onClick={() => setIsEditing(true)}
         className="h-8 px-2 flex items-center cursor-pointer hover:bg-slate-700/50 rounded text-sm text-slate-400"
       >
-        Click to edit
+        Add details
       </div>
     );
   }
@@ -403,6 +407,8 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
     pageSize: 10,
   });
   const [globalFilter, setGlobalFilter] = useState("");
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   const queryClient = useQueryClient();
 
@@ -432,6 +438,29 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
 
   // Column definitions using simpler approach
   const columns = useMemo<ColumnDef<Lead, any>[]>(() => [
+    // Row selection checkbox column
+    {
+      id: 'select',
+      header: ({ table }) => (
+        <Checkbox
+          checked={table.getIsAllRowsSelected()}
+          onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
+          aria-label="Select all rows"
+          className="border-slate-500 data-[state=checked]:bg-electric-cyan data-[state=checked]:border-electric-cyan"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          className="border-slate-500 data-[state=checked]:bg-electric-cyan data-[state=checked]:border-electric-cyan"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+      size: 50,
+    },
     {
       accessorKey: 'firstName',
       header: ({ column }) => (
@@ -933,23 +962,184 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
       columnFilters,
       pagination,
       globalFilter,
+      rowSelection,
+      columnVisibility,
     },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
     onGlobalFilterChange: setGlobalFilter,
+    onRowSelectionChange: setRowSelection,
+    onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    enableRowSelection: true,
     meta: {
       updateData: updateDataCallback,
     },
     debugTable: false,
   });
 
+  // Bulk action handlers
+  const selectedRows = table.getFilteredSelectedRowModel().rows;
+  const selectedLeads = selectedRows.map(row => row.original);
+
+  const handleBulkDelete = async () => {
+    if (selectedLeads.length === 0) return;
+    
+    try {
+      await Promise.all(
+        selectedLeads.map(lead => apiRequest(`/api/leads/${lead.id}`, "DELETE"))
+      );
+      queryClient.invalidateQueries({ queryKey: ["/api/leads"] });
+      setRowSelection({});
+      toast({ 
+        title: `Successfully deleted ${selectedLeads.length} lead${selectedLeads.length > 1 ? 's' : ''}`,
+        duration: 3000 
+      });
+    } catch (error) {
+      toast({ 
+        title: "Failed to delete leads", 
+        variant: "destructive",
+        duration: 3000 
+      });
+    }
+  };
+
+  const handleBulkStatusUpdate = async (newStatus: string) => {
+    if (selectedLeads.length === 0) return;
+    
+    try {
+      await Promise.all(
+        selectedLeads.map(lead => 
+          apiRequest(`/api/leads/${lead.id}`, "PATCH", { status: newStatus })
+        )
+      );
+      queryClient.invalidateQueries({ queryKey: ["/api/leads"] });
+      setRowSelection({});
+      toast({ 
+        title: `Successfully updated ${selectedLeads.length} lead${selectedLeads.length > 1 ? 's' : ''} to ${newStatus}`,
+        duration: 3000 
+      });
+    } catch (error) {
+      toast({ 
+        title: "Failed to update leads", 
+        variant: "destructive",
+        duration: 3000 
+      });
+    }
+  };
+
+  const handleExportSelected = () => {
+    if (selectedLeads.length === 0) return;
+    
+    const csvData = selectedLeads.map(lead => ({
+      'First Name': lead.firstName,
+      'Last Name': lead.lastName,
+      Phone: lead.phone,
+      Email: lead.email,
+      'License Goal': lead.licenseGoal,
+      Status: lead.status,
+      Source: lead.source,
+      'Pain Points': lead.painPoints || '',
+      'Employment': lead.employmentStatus || '',
+      'Urgency': lead.urgencyLevel || '',
+      'Payment Status': lead.paymentStatus,
+      'Agent': lead.agentName || '',
+      'Supervisor': lead.supervisor || '',
+      Created: new Date(lead.createdAt).toLocaleDateString()
+    }));
+
+    const csvContent = [
+      Object.keys(csvData[0]).join(','),
+      ...csvData.map(row => Object.values(row).map(value => `"${value}"`).join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `selected-leads-${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    toast({ 
+      title: `Exported ${selectedLeads.length} lead${selectedLeads.length > 1 ? 's' : ''} to CSV`,
+      duration: 3000 
+    });
+  };
+
   return (
     <div className="w-full">
+      {/* Bulk Actions Bar */}
+      {selectedRows.length > 0 && (
+        <div className="bg-slate-800/90 border border-slate-600 rounded-lg p-4 mb-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <span className="text-white font-medium">
+                {selectedRows.length} lead{selectedRows.length > 1 ? 's' : ''} selected
+              </span>
+              <div className="flex items-center gap-2">
+                {/* Bulk Status Update */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="bg-slate-700 border-slate-600 text-white hover:bg-slate-600">
+                      <UserCheck className="h-4 w-4 mr-2" />
+                      Update Status
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="bg-slate-800 border-slate-600">
+                    {['contacted', 'qualified', 'enrolled', 'opt_out'].map(status => (
+                      <DropdownMenuItem 
+                        key={status}
+                        onClick={() => handleBulkStatusUpdate(status)}
+                        className="text-white hover:bg-slate-700"
+                      >
+                        {status.replace('_', ' ')}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                {/* Export Selected */}
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handleExportSelected}
+                  className="bg-slate-700 border-slate-600 text-white hover:bg-slate-600"
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Export Selected
+                </Button>
+
+                {/* Bulk Delete */}
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handleBulkDelete}
+                  className="bg-red-900/20 border-red-600 text-red-400 hover:bg-red-900/40"
+                >
+                  <Trash className="h-4 w-4 mr-2" />
+                  Delete Selected
+                </Button>
+              </div>
+            </div>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setRowSelection({})}
+              className="text-slate-400 hover:text-white"
+            >
+              Clear Selection
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* Search and Filters */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
@@ -976,9 +1166,34 @@ export function AdvancedLeadsTable({ data, filters }: AdvancedLeadsTableProps) {
               ))}
             </SelectContent>
           </Select>
+
+          {/* Column Visibility Control */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="bg-slate-800/50 border-slate-600 text-white hover:bg-slate-700">
+                <Settings className="h-4 w-4 mr-2" />
+                Columns
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-slate-800 border-slate-600 w-48">
+              {table.getAllColumns()
+                .filter(column => column.getCanHide())
+                .map(column => (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="text-white hover:bg-slate-700"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
         <div className="text-sm text-slate-400">
           Total: {table.getFilteredRowModel().rows.length} leads
+          {selectedRows.length > 0 && ` • ${selectedRows.length} selected`}
         </div>
       </div>
 

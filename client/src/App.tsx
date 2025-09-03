@@ -8,6 +8,7 @@ import { ElevenLabsWidget } from "@/components/ui/elevenlabs-widget";
 import Home from "@/pages/home";
 import Leads from "@/pages/leads";
 import Analytics from "@/pages/analytics";
+import CalendarPage from "@/pages/calendar";
 import EnrollmentPage from "@/pages/enrollment";
 import Settings from "@/pages/settings";
 import MCPDemo from "@/pages/mcp-demo";
@@ -33,6 +34,7 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/leads" component={Leads} />
         <Route path="/analytics" component={Analytics} />
+        <Route path="/calendar" component={CalendarPage} />
         <Route path="/enrollment" component={EnrollmentPage} />
         <Route path="/settings" component={Settings} />
         <Route path="/mcp-demo" component={MCPDemo} />

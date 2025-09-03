@@ -107,7 +107,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
                 value={formData.firstName}
                 onChange={(e) => handleInputChange("firstName", e.target.value)}
                 className="bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-400"
-                placeholder="John"
+                placeholder="First name"
                 required
               />
             </div>
@@ -120,7 +120,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
                 value={formData.lastName}
                 onChange={(e) => handleInputChange("lastName", e.target.value)}
                 className="bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-400"
-                placeholder="Smith"
+                placeholder="Last name"
                 required
               />
             </div>
@@ -137,7 +137,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
               value={formData.phone}
               onChange={(e) => handleInputChange("phone", e.target.value)}
               className="bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-400"
-              placeholder="(555) 123-4567"
+              placeholder="Phone number"
               required
             />
           </div>
@@ -153,7 +153,7 @@ export function AddProspectModal({ children }: AddProspectModalProps) {
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
               className="bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-400"
-              placeholder="john.smith@email.com"
+              placeholder="name@example.com"
             />
           </div>
 

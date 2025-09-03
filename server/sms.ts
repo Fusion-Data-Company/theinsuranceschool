@@ -86,6 +86,8 @@ export async function testSMSNotification(): Promise<boolean> {
     callSummary: null,
     callDate: null,
     conversationId: null,
+    unansweredCallAttempts: 0,
+    lastCallAttemptAt: null,
     createdAt: new Date(),
     updatedAt: new Date(),
   };

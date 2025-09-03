@@ -2,9 +2,10 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
-import { insertLeadSchema, insertCallRecordSchema, insertPaymentSchema, insertEnrollmentSchema, insertWebhookLogSchema } from "@shared/schema";
+import { insertLeadSchema, insertCallRecordSchema, insertPaymentSchema, insertEnrollmentSchema, insertWebhookLogSchema, insertAppointmentSchema } from "@shared/schema";
 import { registerMCPEndpoint } from "./mcp";
 import { sendLeadNotification, testSMSNotification, sendPersonalTestSMS } from "./sms";
+import { emailService } from "./email-service";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Register MCP endpoint FIRST to ensure it's not intercepted by frontend routing
@@ -37,7 +38,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } = req.body;
 
       // Upsert lead if data provided
-      let lead;
+      let lead: any = null;
       if (lead_data) {
         const leadInput = insertLeadSchema.parse({
           firstName: lead_data.first_name,
@@ -75,18 +76,72 @@ export async function registerRoutes(app: Express): Promise<Server> {
         await storage.createCallRecord(callRecordInput);
       }
 
-      // Send SMS notification based on payment status
+      // Handle payment confirmation and document generation
       if (lead) {
         try {
           const notificationType = lead.paymentStatus === 'PAID' ? 'PAID' : 'NOT_PAID';
+          
+          // Send SMS notification to supervisor
           await sendLeadNotification({
             lead,
             type: notificationType
           });
           console.log(`SMS notification sent for lead ${lead.id} (${notificationType})`);
-        } catch (smsError) {
-          console.error('Failed to send SMS notification:', smsError);
-          // Don't fail the webhook if SMS fails
+          
+          // If payment is confirmed, send enrollment documents to student
+          if (lead.paymentStatus === 'PAID' && lead.email) {
+            console.log(`Processing paid enrollment for ${lead.firstName} ${lead.lastName}`);
+            
+            // Check if enrollment already exists
+            let enrollment = null;
+            try {
+              const existingEnrollments = await storage.getAllEnrollments();
+              enrollment = existingEnrollments.find(e => e.leadId === lead.id);
+              
+              // Create enrollment if it doesn't exist
+              if (!enrollment && lead.status === 'qualified') {
+                const startDate = new Date();
+                startDate.setDate(startDate.getDate() + 7); // Start in 1 week
+                
+                const enrollmentData = {
+                  leadId: lead.id,
+                  course: lead.licenseGoal === '2-15' ? '2-15_life_health' : 
+                         lead.licenseGoal === '2-40' ? '2-40_property_casualty' : '2-14_personal_lines',
+                  cohort: 'evening', // Default cohort
+                  startDate: startDate,
+                };
+                
+                enrollment = await storage.createEnrollment(enrollmentData);
+                console.log(`Created enrollment ${enrollment.id} for lead ${lead.id}`);
+                
+                // Update lead status to enrolled
+                await storage.updateLead(lead.id, { status: 'enrolled' });
+                lead = { ...lead, status: 'enrolled' };
+              }
+            } catch (enrollmentError) {
+              console.error('Error handling enrollment:', enrollmentError);
+            }
+            
+            // Send payment confirmation email first (quick confirmation)
+            try {
+              await emailService.sendPaymentConfirmation(lead);
+              console.log(`Payment confirmation sent to ${lead.email}`);
+            } catch (emailError) {
+              console.error('Failed to send payment confirmation email:', emailError);
+            }
+            
+            // Generate and send full enrollment package (with PDFs)
+            try {
+              await emailService.sendEnrollmentPackage(lead, enrollment || undefined);
+              console.log(`Complete enrollment package sent to ${lead.email}`);
+            } catch (packageError) {
+              console.error('Failed to send enrollment package:', packageError);
+            }
+          }
+          
+        } catch (error) {
+          console.error('Failed to process lead notifications/documents:', error);
+          // Don't fail the webhook if notifications fail
         }
       }
 
@@ -504,6 +559,76 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(201).json(enrollment);
     } catch (error) {
       res.status(400).json({ error: "Invalid enrollment data" });
+    }
+  });
+
+  // Appointments endpoints
+  app.get("/api/appointments", async (req, res) => {
+    try {
+      const appointments = await storage.getAllAppointments();
+      res.json(appointments);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch appointments" });
+    }
+  });
+
+  app.get("/api/appointments/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const appointment = await storage.getAppointmentById(id);
+      if (!appointment) {
+        return res.status(404).json({ error: "Appointment not found" });
+      }
+      res.json(appointment);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch appointment" });
+    }
+  });
+
+  app.get("/api/appointments/lead/:leadId", async (req, res) => {
+    try {
+      const leadId = parseInt(req.params.leadId);
+      const appointments = await storage.getAppointmentsByLeadId(leadId);
+      res.json(appointments);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch appointments for lead" });
+    }
+  });
+
+  app.post("/api/appointments", async (req, res) => {
+    try {
+      const appointmentData = insertAppointmentSchema.parse(req.body);
+      const appointment = await storage.createAppointment(appointmentData);
+      res.status(201).json(appointment);
+    } catch (error) {
+      res.status(400).json({ error: "Invalid appointment data" });
+    }
+  });
+
+  app.patch("/api/appointments/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const updateData = req.body;
+      const appointment = await storage.updateAppointment(id, updateData);
+      if (!appointment) {
+        return res.status(404).json({ error: "Appointment not found" });
+      }
+      res.json(appointment);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update appointment" });
+    }
+  });
+
+  app.delete("/api/appointments/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const success = await storage.deleteAppointment(id);
+      if (!success) {
+        return res.status(404).json({ error: "Appointment not found" });
+      }
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete appointment" });
     }
   });
 

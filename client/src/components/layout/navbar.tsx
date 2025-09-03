@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Building2, Phone, Home, BarChart3, Users, GraduationCap, Settings, Database } from "lucide-react";
+import { Menu, X, Building2, Phone, Home, BarChart3, Users, GraduationCap, Settings, Database, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Navbar() {
@@ -11,6 +11,7 @@ export function Navbar() {
     { href: "/", label: "Dashboard", icon: BarChart3 },
     { href: "/leads", label: "Prospects", icon: Users },
     { href: "/analytics", label: "Analytics", icon: BarChart3 },
+    { href: "/calendar", label: "Calendar", icon: Calendar },
     { href: "/enrollment", label: "Enrollment", icon: GraduationCap },
     { href: "/mcp-demo", label: "Integration", icon: Database },
     { href: "/settings", label: "Settings", icon: Settings },

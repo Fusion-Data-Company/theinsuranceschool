@@ -1,9 +1,10 @@
 import { 
-  users, leads, callRecords, payments, enrollments, webhookLogs, agentMetrics, n8nChatHistories,
+  users, leads, callRecords, payments, enrollments, webhookLogs, agentMetrics, n8nChatHistories, appointments,
   type User, type InsertUser, type Lead, type InsertLead, type CallRecord, 
   type InsertCallRecord, type Payment, type InsertPayment, type Enrollment, 
   type InsertEnrollment, type WebhookLog, type InsertWebhookLog, 
-  type AgentMetric, type InsertAgentMetric, type N8nChatHistory, type InsertN8nChatHistory
+  type AgentMetric, type InsertAgentMetric, type N8nChatHistory, type InsertN8nChatHistory,
+  type Appointment, type InsertAppointment
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, count, avg, sum, and, gte, lte, or } from "drizzle-orm";
@@ -48,6 +49,14 @@ export interface IStorage {
 
   // N8n Chat Histories
   getAllN8nChatHistories(): Promise<N8nChatHistory[]>;
+
+  // Appointments
+  getAllAppointments(): Promise<Appointment[]>;
+  getAppointmentById(id: number): Promise<Appointment | undefined>;
+  getAppointmentsByLeadId(leadId: number): Promise<Appointment[]>;
+  createAppointment(appointment: InsertAppointment): Promise<Appointment>;
+  updateAppointment(id: number, updates: Partial<InsertAppointment>): Promise<Appointment | undefined>;
+  deleteAppointment(id: number): Promise<boolean>;
 
   // Analytics
   getAnalytics(): Promise<{
@@ -227,6 +236,45 @@ export class DatabaseStorage implements IStorage {
   async getAllN8nChatHistories(): Promise<N8nChatHistory[]> {
     return await db.select().from(n8nChatHistories)
       .orderBy(desc(n8nChatHistories.createdAt));
+  }
+
+  // Appointments
+  async getAllAppointments(): Promise<Appointment[]> {
+    return await db.select().from(appointments)
+      .orderBy(desc(appointments.appointmentDate));
+  }
+
+  async getAppointmentById(id: number): Promise<Appointment | undefined> {
+    const [appointment] = await db.select().from(appointments).where(eq(appointments.id, id));
+    return appointment || undefined;
+  }
+
+  async getAppointmentsByLeadId(leadId: number): Promise<Appointment[]> {
+    return await db.select().from(appointments)
+      .where(eq(appointments.leadId, leadId))
+      .orderBy(desc(appointments.appointmentDate));
+  }
+
+  async createAppointment(insertAppointment: InsertAppointment): Promise<Appointment> {
+    const [appointment] = await db.insert(appointments).values({
+      ...insertAppointment,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }).returning();
+    return appointment;
+  }
+
+  async updateAppointment(id: number, updates: Partial<InsertAppointment>): Promise<Appointment | undefined> {
+    const [appointment] = await db.update(appointments)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(appointments.id, id))
+      .returning();
+    return appointment || undefined;
+  }
+
+  async deleteAppointment(id: number): Promise<boolean> {
+    const result = await db.delete(appointments).where(eq(appointments.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
   // Analytics
