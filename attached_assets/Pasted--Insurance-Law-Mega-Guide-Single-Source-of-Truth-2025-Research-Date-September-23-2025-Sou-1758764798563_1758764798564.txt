@@ -1,0 +1,1204 @@
+## Insurance Law Mega Guide — Single Source of Truth (2025)
+
+Research Date: September 23, 2025  
+Sourcing Rule: Cite only regulator/.gov or official legislative sources.
+
+How to Use This Guide
+- This single document consolidates all data from both prior sources into one file. The detailed, professional-format state profiles are the canonical reference (see “Comprehensive Insurance Licensing & Regulatory Requirements” below). The earlier brief bullets remain included as supplemental quick notes.
+- Florida Mapping Anchors let you convert Florida-centric content to any target state by swapping statute anchors:
+  - License Required / Definitions → FL §626.112
+  - Producer Licensing → FL Ch. 626 (generally)
+  - Unfair Practices → FL §626.9541
+  - Guaranty Associations → FL Ch. 631
+  - Forms & Rates → FL §§627.062, 627.410
+  - Adjusters → FL Part VI of Ch. 626
+  - Appointments → FL §§626.015, 626.471 et al.
+  - CE Requirement → FL Producer CE framework (24 hrs/2 yrs incl. law/ethics)
+
+Quick Reference: CE Matrix (selected states; see profiles for authoritative details)
+
+| State | Cycle | Total Hrs | Ethics | Flood | LTC | Annuity | Notes |
+|---|---|---:|---:|---|---|---|---|
+| AK | Biennial | 24 | 3 | — | — | — | Limited lines often no PLE |
+| AZ | Quadrennial | 48 | 6 | — | — | Best Interest | PSI exams (9/3/2025) |
+| CA | Biennial | 24 | 3 | NFIP (as applicable) | 8 initial + 8 biennial | 4 hrs | Prop 103 regime |
+| CO | Biennial | 24 | 3 | — | — | Best Interest | Public adjusters only |
+| CT | Biennial | 24 | 3 | — | — | — | PLE required |
+| DE | Biennial | 24 | 3 | — | — | — | PLE not required; bail bond bond |
+| ID | Biennial | 24 | 3 | — | — | — | PLE not required |
+| IL | Biennial | 24 | 3 | 3-hr NFIP before sale | — | — | 20-hr PLE/line (7.5 classroom) |
+| IN | Biennial | 24 | 3 | — | Title CE specifics | — | Title CE: 7 hrs (4 classroom) |
+| IA | Triennial | 36 | 3 | — | — | One-time 4-hr | PLE not required |
+| KS | Biennial | 18 | 3 | One-time 3-hr | — | Best Interest | Tax clearance; fingerprints |
+| ME | Biennial | 24 | 3 | — | — | — | ≥50% classroom/interactive |
+| MI | Biennial | 24 | 3 | — | — | Best Interest | Fingerprints (state & FBI) |
+| MN | Biennial | 24 | 3 | — | — | — | ≥12 hrs not company-sponsored |
+| MS | Biennial | 24 | 3 | — | — | — | CE exemption 65+/25 yrs |
+| MO | Biennial | 16 | 3 | — | Title 8 hrs | — | Shorter CE total |
+| NE | Biennial | 24 | 3 | — | LTC/annuity one-time | Annuity one-time | 3–5 day processing |
+| NJ | Biennial | 24 | 3 | — | LTC required | Annuity suitability | PAs 15 hrs |
+| NY | Biennial | 15 | — | 1-hr flood (P/C) | 8 initial + 4 ongoing | 4 hrs | NY LINX system |
+| NC | Biennial | 24 | 3 | — | — | — | Adjuster CE: 24/12 by line |
+| ND | Biennial | 24 | 3 | — | — | — | Even-year cycle deadline note |
+| OH | Biennial | 24 | 3 | — | — | — | Public adjusters only |
+| OK | Biennial | 24 | 3 | — | LTC required | 2-hr Best Interest | PSI exams; 2-yr score validity |
+| OR | Biennial | 24 | 3 | 3-hr NFIP | 8 + 4 | — | — |
+| PA | Biennial | 24 | 3 | — | LTC/annuity per NAIC | Best Interest | IdentoGO code 1KGBGJ |
+| RI | Biennial | 24 | 3 | — | 4 hrs/renewal | — | E&O required |
+| SC | Biennial | 24 | 3 | 2-hr NFIP | — | — | 6 attempts/year limit |
+| SD | Biennial | 8–10 by line | — | — | 4-hr (as applicable) | — | L/H 10, P/C 8, Crop 2 |
+| TN | Biennial | 24 | 3 | 5-hr high-risk flood | — | — | CORE portal |
+| UT | Biennial | 24 | 3 | — | Title 12 hrs | — | Prometric + onsite fingerprints |
+| WY | Biennial | 24 | 3 | — | — | — | Fingerprint packets mailed |
+
+Quick Reference: Adjuster Licensing (selected states; see profiles for authoritative details)
+
+| State | Public Adjuster | Independent/Company Adjuster | Notes |
+|---|---|---|---|
+| AK | Yes | No | Public adjusters licensed; others not licensed |
+| AZ | Yes | No | Independent/company not licensed |
+| CA | Yes | Yes | Separate licensing under CIC §14022 et seq. |
+| CO | Yes | No | Public only |
+| CT | Yes | Varies | Public licensed; company/independent via statute/appointments |
+| DE | Yes | No | Public adjusters under Ch. 17A |
+| ID | Yes | Varies | Public licensed; others via producer designations |
+| IL | Yes | Varies | Public adjusters licensed; independents under PA framework |
+| IN | Yes | No | Public adjusters only |
+| IA | Limited | No | Crop hail/specialty only |
+| KS | Yes | Varies | Public adjusters licensed; independents regulated |
+| ME | Yes | Yes | Public and independent frameworks |
+| MI | Yes | Yes | Adjusters licensed per statute |
+| MN | Yes | Varies | Public licensed; independent under other reqs |
+| MS | Yes | Yes | Public and independent licensed |
+| MO | Yes | No | Public only |
+| NE | Yes | Varies | Public licensed; independent under producer reqs |
+| NJ | Yes | Varies | Public licensed; independent via producer law |
+| NY | Yes | Yes | Independent (Art. 21) and public adjusters |
+| NC | Yes | Yes | Separate adjuster licensing |
+| ND | Yes | Varies | Public licensed; others regulated |
+| OH | Yes | No | Public only; others not licensed |
+| OK | Yes | Yes | Public and independent |
+| OR | Yes | Yes | Adjusters under ORS 744.515 et seq. |
+| PA | Yes | No | Public only; independent not separately licensed |
+| RI | Yes | Yes | Adjusters licensed |
+| SC | Yes | Varies | Public licensed; independent provisions exist |
+| SD | Yes | No | Public adjusters; others not separately licensed |
+| TN | Yes | Yes | Adjusters licensed |
+| UT | Yes | Yes | Public and independent |
+| WY | Yes | Varies | See state handbook; fingerprint packets |
+
+
+---
+
+## How to Use This Guide
+For each state you’ll find: **Contact & Leadership**, **Governing Structure**, **Licensing Steps** (exam vendor, application portal, fingerprinting, CE), **Statutes & Rules**, **Adjuster Note (if applicable)**, **Guaranty/Consumer** items, and **Sources**. Where leadership names are volatile, we include the office/role and cite the regulator’s leadership page.
+
+> **Important:** Always re-check fees and leadership names on the linked state pages before filing; these change without notice.
+
+---
+
+## ALASKA
+**Regulator:** Alaska Division of Insurance (Department of Commerce, Community & Economic Development).  
+**Address:** 550 W. 7th Ave., Ste 1560, Anchorage, AK 99501-3567.  
+**Phone:** (907) 269-7900.  
+**Web:** https://www.commerce.alaska.gov/web/ins/  
+**Leadership:** Director (see About the Division page for current acting/appointed director).  
+**Divisions:** Consumer Services & Investigations; Policy Forms & Rates; Licensing/Financial.
+
+**Licensing Steps**  
+- **Exam vendor:** Pearson VUE (limited lines like motor vehicle rental, travel, portable electronics **no exam**).  
+- **Apply:** **NIPR** after passing exam.  
+- **Fingerprinting:** Required for residents; fee published by AK DPS/DOI.  
+- **CE/Renewal:** Biennial; see Producer CE page.
+
+**Statutes & Rules**  
+- Alaska Statutes Title **21** (Insurance) — https://www.akleg.gov/basis/statutes.asp  
+- Administrative Code Title **3** — https://www.akleg.gov/basis/aac.asp
+
+**Guaranty / Fraud**  
+- Alaska Guaranty Funds info & contacts — https://www.commerce.alaska.gov/web/ins/Consumers/ConsumerTools/AlaskaGuarantyFunds.aspx  
+- Fraud Hotline: (907) 269-7900 (Consumer Services page).
+
+**Sources:**  
+- Division home & contact: https://www.commerce.alaska.gov/web/ins/  
+- About the Division: https://www.commerce.alaska.gov/web/ins/AboutUs/AbouttheDivision.aspx  
+- Resident licensing: https://www.commerce.alaska.gov/web/ins/Producers/ResidentLicense.aspx  
+- Statutes & AAC: links above.
+
+Florida Mapping Hints
+- Replace FL §626.112 (license required/definitions) with AS §21.27 et seq.  
+- Replace FL Ch. 626 (producer licensing) with AS §21.27 (applications, exams, appointments).  
+- Replace FL §626.9541 (unfair practices) with AS §21.36.  
+- Replace FL Ch. 631 (guaranty) with Alaska Guaranty Funds program references (consumer page listed above).  
+- Replace FL §§627.062/627.410 (forms & rates) with AS §21.42.  
+- Adjusters: Public adjusters only under AS §21.27; independent/company adjusters not separately licensed.  
+- Appointments: AS §21.27 appointment provisions.  
+- CE: 24 hrs/2 yrs including 3 hrs ethics (resident producers).
+
+Legacy Quick Notes (moved)
+- Regulatory Body: Alaska Division of Insurance.
+- Licensing Steps: 1) Complete pre-licensing education; 2) Pass exam; 3) Submit application and fingerprints; 4) Receive license approval.
+- Mission: Protect the public interest via a stable, competitive marketplace.
+- Unique Regulations: Minimum capital and surplus of $2M for insurers; strict premium rate oversight.
+
+---
+
+## ARIZONA
+**Regulator:** Arizona Department of Insurance & Financial Institutions (DIFI).  
+**Address:** 100 N. 15th Ave., Suite 261, Phoenix, AZ 85007-2630.  
+**Phone:** (602) 364-3100.  
+**Web:** https://difi.az.gov/  
+**Leadership:** Interim Agency Director **Maria Ailor** (appointed **May 30, 2025**, per DIFI).  
+**Divisions:** Insurance; Financial Institutions; Arizona Automobile Theft Authority; Enforcement/Innovation/Policy.
+
+**Licensing Steps**  
+- **Exam vendor:** PSI (effective Sep 3, 2025 per DIFI notices).  
+- **Apply:** DIFI portals/NIPR depending on license class; insurer/financial licenses via NMLS where applicable.  
+- **Fingerprinting:** Electronic fingerprints required for resident applicants.  
+- **CE/Renewal:** Producer CE typically **48 hrs/4 yrs** (min **6 ethics**); renewals per DIFI schedule.
+
+**Statutes & Rules**  
+- Arizona Revised Statutes Title **20** (Insurance): https://www.azleg.gov/arsDetail/?title=20  
+- Examples: A.R.S. §20-295 (license denial grounds); §20-401.01 (unlawful transaction).
+
+**Guaranty**  
+- Property & Casualty and Life & Disability Guaranty Funds overview: https://difi.az.gov/general-information/learn-about-insurance/guaranty-funds
+
+**Sources:**  
+- DIFI home: https://difi.az.gov/  
+- Leadership announcement (Interim Director Ailor): https://difi.az.gov/news (see May 30, 2025 item)  
+- Licensing overview: https://difi.az.gov/licensing  
+- ARS Title 20 link above.
+
+Florida Mapping Hints
+- Replace FL §626.112 with ARS §§20-281–20-299 (producer license required/definitions).  
+- Producer Licensing: ARS §§20-281–20-299; denial grounds §20-295.  
+- Unfair Practices: ARS §20-441 et seq.  
+- Guaranty: ARS §20-661 et seq. (P/C and life/disability guaranty).  
+- Forms & Rates: ARS §§20-261.01–20-267.  
+- Adjusters: Public adjusters licensed; independent/company adjusters not separately licensed.  
+- Appointments: ARS §20-286.  
+- CE: 48 hrs/4 yrs incl. 6 ethics.
+
+Legacy Quick Notes (moved)
+- Regulatory Body: Arizona Department of Insurance and Financial Institutions (AZDIFI).
+- Licensing Steps: PLE mandatory; pass exam; background check + fingerprints; submit application with fees.
+- Mission: Ensure a fair and stable insurance market while protecting consumers.
+- Unique Regulations: CE 24 hrs/2 yrs (legacy quick note); reciprocity for certain non-residents. (Note: CE updated in statute-map to 48 hrs/4 yrs — verify on filing.)
+
+---
+
+## CALIFORNIA
+**Regulator:** California Department of Insurance (CDI).  
+**Address:** 300 Capitol Mall, Sacramento, CA 95814 (HQ; additional district offices on CDI site).  
+**Consumer Hotline:** (800) 927-4357.  
+**Web:** https://www.insurance.ca.gov/
+
+**Licensing Steps**  
+- **Exam vendor:** **PSI**.  
+- **Pre-licensing (PLE):** 20–40 hrs depending on LOA (e.g., Life 20 hrs + 12 hrs CA Code & Ethics for combined lines).  
+- **Fingerprinting:** Live Scan (CA DOJ/FBI).  
+- **Apply:** CDI via **Sircon**/NIPR as directed on CDI site.  
+- **CE:** Per LOA; ethics component required.
+
+**Statutes & Rules**  
+- California Insurance Code (incl. **Prop 103** rate-approval regime): https://leginfo.legislature.ca.gov/faces/codesTOCSelected.xhtml?tocCode=INS
+
+**Fraud Division**  
+- Overview & program areas: https://www.insurance.ca.gov/0300-fraud/0100-fraud-division-overview/
+
+**Sources:**  
+- CDI applicant info: https://www.insurance.ca.gov/0200-industry/0200-prod-licensing/0100-applicant-info/  
+- PSI CA Insurance handbook (linked from CDI)  
+- Insurance Code link above.
+
+Florida Mapping Hints
+- Replace FL §626.112 with CIC §1621 et seq.  
+- Producer Licensing: CIC §§1625–1665.  
+- Unfair Practices: CIC §790.03.  
+- Guaranty: CIC §§1063 (CIGA) and 1067.02 (life/health).  
+- Forms & Rates: CIC §1861.01 (Prop 103) and line-specific sections.  
+- Adjusters: CIC §14022 et seq.  
+- Appointments: CIC §1704.  
+- CE: 24 hrs/2 yrs incl. 3 ethics; LTC 8+8; annuity 4.
+
+Legacy Quick Notes (moved)
+- Regulatory Body: California Department of Insurance (CDI).
+- Licensing Steps: Complete PLE; pass CA exam; submit application with fingerprints; background check.
+- Mission: Serve and protect Californians by ensuring a fair marketplace.
+- Unique Regulations: Proposition 103 rate regime; robust consumer complaint process.
+
+---
+
+## COLORADO
+**Regulator:** Colorado Division of Insurance (DORA).  
+**Address:** 1560 Broadway, Suite 850, Denver, CO 80202.  
+**Phone:** (303) 894-7499.  
+**Web:** https://doi.colorado.gov/  
+**Leadership:** **Michael Conway**, Insurance Commissioner (see DORA/DOI about pages).
+
+**Licensing Steps**  
+- **Exam vendor:** **Pearson VUE** (OnVUE remote available).  
+- **Apply:** **Sircon** or **NIPR**.  
+- **Fingerprinting:** Per DOI guidance (residents).  
+- **Adjusters:** Colorado licenses **Public Adjusters only** (no independent/company adjuster license).  
+- **Surety:** Surplus lines brokers require a **$20,000 bond**.  
+- **CE:** As required per LOA/period.
+
+**Statutes & Rules**  
+- Colorado Revised Statutes Title **10** (Insurance): https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-10.pdf  
+- DOI regulations: https://doi.colorado.gov/statutes-regulations-bulletins/colorado-insurance-regulations
+
+**Sources:**  
+- Producer/agent hub: https://doi.colorado.gov/insurance-industry/for-producers/agents  
+- Pearson VUE CO page/handbook  
+- CRS Title 10 PDF link above.
+
+Florida Mapping Hints
+- Replace FL §626.112 with CRS §10-2-104 et seq. (license required/definitions).  
+- Producer Licensing: CRS §§10-2-401–10-2-704.  
+- Unfair Practices: CRS §§10-3-1101–1104.  
+- Guaranty: CRS §§10-4-401 (P/C) and 10-20-103 (life/health).  
+- Forms & Rates: CRS §10-4-401 and related; health §10-16-107.  
+- Adjusters: Public adjusters only (no independent/company license).  
+- Appointments: CRS §10-2-416.  
+- CE: 24 hrs/2 yrs incl. 3 ethics; additional training may apply.
+
+Legacy Quick Notes (moved)
+- Regulatory Body: Colorado Division of Insurance.
+- Licensing Steps: Complete pre-licensing education; pass the Colorado exam; submit application and fingerprints; pay fees/background check.
+- Mission: Protect consumers and ensure a competitive market.
+- Unique Regulations: CE every two years; credit score use regulated.
+
+---
+
+## CONNECTICUT
+**Regulator:** Connecticut Insurance Department (CID).  
+**Address:** 153 Market St., 7th Fl., Hartford, CT 06103.  
+**Phone:** (860) 297-3800.  
+**Web:** https://portal.ct.gov/cid
+
+**Licensing Steps**  
+- **PLE:** Required for most major lines.  
+- **Exam vendor:** Pearson VUE.  
+- **Apply:** **NIPR/SBS**.  
+- **CE:** 24 hrs/2 yrs (incl. 3 ethics).
+
+**Statutes:** CGS Title **38a** — https://www.cga.ct.gov/current/pub/title_38a.htm
+
+**Sources:**  
+- Producer (individual) page: https://portal.ct.gov/cid/licensing/producer-individual  
+- Commissioner bio & dept: https://portal.ct.gov/cid/department-resources/commissioner-mais
+
+Florida Mapping Hints
+- Replace FL §626.112 with CGS §38a-702 (license required).  
+- Producer Licensing: CGS §§38a-702–38a-782.  
+- Unfair Practices: CGS §38a-815 et seq.  
+- Guaranty: CGS §§38a-838 (P/C) and 38a-860 (life/health).  
+- Forms & Rates: CGS §§38a-481 (health), 38a-676 (personal risk).  
+- Adjusters: Public adjusters §§38a-792 et seq.; company/independent via appointments.  
+- Appointments: §38a-702k.  
+- CE: 24 hrs/2 yrs incl. 3 ethics.
+
+Legacy Quick Notes (moved)
+- Regulatory Body: Connecticut Insurance Department.
+- Licensing Steps: Complete pre-licensing; pass CT exam; submit application and fingerprints; background check/fees.
+- Mission: Regulate fairly and protect consumers.
+- Unique Regulations: File rates and forms for approval; life/health specifics.
+
+---
+
+## DELAWARE
+**Regulator:** Delaware Department of Insurance (DDOI).  
+**Wilmington Office:** 503 Carr Rd, Ste 303, Wilmington, DE 19809.  
+**Phone:** (800) 282-8611.  
+**Web:** https://insurance.delaware.gov/
+
+**Licensing Steps**  
+- **PLE:** **Not required** for producers.  
+- **Exam vendor:** **Pearson VUE**.  
+- **Apply:** **NIPR (electronic only)**.  
+- **CE:** 24 hrs/2 yrs (Reg. 504).  
+- **Renewal:** As posted by DDOI (see renewal page).
+
+**Statutes:** Delaware Code Title **18** — https://delcode.delaware.gov/title18/
+
+**Sources:**  
+- Divisions & licensing: https://insurance.delaware.gov/divisions/  
+- Renewal/licensing hub: https://insurance.delaware.gov/divisions/renewlicense/
+
+Florida Mapping Hints
+- Replace FL §626.112 with 18 Del. C. Ch. 17 (license required/definitions).  
+- Producer Licensing: 18 Del. C. Ch. 17.  
+- Unfair Practices: 18 Del. C. Ch. 23.  
+- Guaranty: 18 Del. C. Ch. 42 (P/C) and Ch. 44 (life/health).  
+- Forms & Rates: 18 Del. C. Ch. 25–26.  
+- Adjusters: Public adjusters Ch. 17A; independent adjusters not licensed.  
+- Appointments: §1718.  
+- CE: 24 hrs/2 yrs incl. 3 ethics (Reg. 504).
+
+Legacy Quick Notes (moved)
+- Regulatory Body: Delaware Department of Insurance.
+- Licensing Steps: PLE not required; pass exam; apply via NIPR; fingerprints/fees.
+- Mission: Ensure a stable and competitive marketplace.
+- Unique Regulations: Non-resident reciprocity; minimum surplus; captives bureau; fraud prevention bureau.
+
+---
+
+## IDAHO
+**Regulator:** Idaho Department of Insurance (DOI).  
+**Address:** 700 W State St, 3rd Fl; P.O. Box 83720, Boise, ID 83720-0043.  
+**Phone:** (208) 334-4250.  
+**Web:** https://doi.idaho.gov/
+
+**Licensing Steps**  
+- **Exam vendor:** **PSI** (remote available).  
+- **Apply:** **NIPR** (preferred).  
+- **Fingerprinting:** Residents only (valid 6 months).  
+- **CE:** Per LOA.
+
+**Statutes:** Idaho Code Title **41** — https://legislature.idaho.gov/statutesrules/idstat/title41/  
+**Rules:** IDAPA Title **18** — https://adminrules.idaho.gov/rules/current/18/index.html
+
+**Sources:**  
+- Licensing FAQ: https://doi.idaho.gov/industry/licensing-services/apply-faq/  
+- DOI contacts/home: https://doi.idaho.gov/
+
+Florida Mapping Hints
+- Replace FL §626.112 with Idaho Code §41-1003 et seq.  
+- Producer Licensing: Idaho Code Ch. 10 (Title 41).  
+- Unfair Practices: Idaho Code §41-1301 et seq.  
+- Guaranty: §41-3601–3617 (P/C); §41-4301–4317 (life/health).  
+- Forms & Rates: §41-1801 et seq.  
+- Adjusters: Public adjusters; others via producer designations.  
+- Appointments: §41-1008/§41-1013.  
+- CE: 24 hrs/2 yrs incl. ethics.
+
+Legacy Quick Notes (moved)
+- Regulatory Body: Idaho Department of Insurance.
+- Licensing Steps: No PLE; PSI exam (results valid 180 days; unlimited attempts); residents fingerprint; nonresidents via NIPR w/o exam.
+- Mission: Regulate fairly and protect Idaho consumers.
+- Unique Regulations: Fingerprinting residents only; complete within 6 months of application.
+
+---
+
+## ILLINOIS
+**Regulator:** Illinois Department of Insurance (IDOI).  
+**Web:** https://idoi.illinois.gov  
+**Offices:** 115 S. LaSalle St., 13th Fl, Chicago, IL 60603; 320 W. Washington St., Springfield, IL 62767.
+
+**Licensing Steps**  
+- **PLE:** **20 hrs per line** (incl. 7.5 hrs classroom; 5 hrs for MV limited line).  
+- **Exam vendor:** **Pearson VUE** (two-part testing).  
+- **Apply:** **NIPR only** (since Jul 1, 2023).  
+- **Bond:** $2,500 or 5% of brokered premium (max $50k) if placing business sans appointment.  
+- **CE:** 24 hrs/2 yrs (3 ethics).
+
+**Statutes/Rules:** 215 ILCS 5/ (Illinois Insurance Code) — https://www.ilga.gov/legislation/ilcs/ilcs4.asp?ActID=1249  
+50 Ill. Adm. Code (Insurance).
+
+**Sources:**  
+- Become a Resident Producer: https://idoi.illinois.gov/producers/licensescertificationsfaqs/become-resident-producer.html  
+- About IDOI: https://idoi.illinois.gov/aboutus/aboutidoi.html
+
+Florida Mapping Hints
+- Replace FL §626.112 with 215 ILCS 5/500-15.  
+- Producer Licensing: 215 ILCS 5/500-20 to 5/500-90.  
+- Unfair Practices: 215 ILCS 5/154.6 and 5/424.  
+- Guaranty: 215 ILCS 5/531.01 et seq. (life/health); 5/534.01 et seq. (P/C).  
+- Forms & Rates: §§143, 143.13 and related.  
+- Adjusters: Public adjusters 5/1501 et seq.  
+- Appointments: 5/500-35.  
+- CE: 24 hrs/2 yrs incl. 3 ethics; PLE 20 hrs per line (7.5 classroom).
+
+Legacy Quick Notes (moved)
+- Regulatory Body: Illinois Department of Insurance.
+- Licensing Steps: 20-hr PLE/line (7.5 classroom); Pearson VUE two-part; wait 5 days; apply via NIPR; bond if placing sans appointment.
+- Mission: Protect consumers; ensure competitive marketplace.
+- Unique Regulations: 3-hr NFIP before selling flood; classroom ethics requirement.
+
+---
+
+## INDIANA
+**Regulator:** Indiana Department of Insurance (IDOI).  
+**Address:** 311 W Washington St, Ste 103, Indianapolis, IN 46204-2787.  
+**Web:** https://www.in.gov/idoi/
+
+**Licensing Steps**  
+- **PLE:** Required for major lines.  
+- **Exam vendor:** **Pearson VUE** (many sites via Ivy Tech).  
+- **Apply:** **NIPR** or **Sircon**.  
+- **CE:** 24 hrs/2 yrs; title has specific CE structuring.
+
+**Statutes:** Indiana Code Title **27** — https://iga.in.gov/legislative/laws/2020/ic/titles/27  
+**Rules:** 760 IAC (Insurance).
+
+**Sources:**  
+- Resident licensing: https://www.in.gov/idoi/licensing/resident-licensing/  
+- Leadership/news: https://www.in.gov/idoi/newsroom/indiana-department-of-insurance-leadership/
+
+Florida Mapping Hints
+- Replace FL §626.112 with IC §27-1-15.6-3 et seq.  
+- Producer Licensing: IC §§27-1-15.6-4–32.  
+- Unfair Practices: IC §27-4-1-4 et seq.  
+- Guaranty: IC §§27-8-8; 27-6-8.  
+- Forms & Rates: Title 27 (e.g., §27-1-20-1).  
+- Adjusters: Public adjusters (IC §27-1-27).  
+- Appointments: IC §27-1-15.6-15.  
+- CE: 24 hrs/2 yrs incl. 3 ethics; title CE specifics.
+
+Legacy Quick Notes (moved)
+- Regulatory Body: Indiana Department of Insurance.
+- Licensing Steps: PLE required; Pearson VUE (Ivy Tech/remote); apply via NIPR/Sircon; $40 fee.
+- Mission: Protect the public; regulate fairly.
+- Unique Regulations: Title producers 7 CE (4 classroom); temporary licenses possible.
+
+---
+
+## IOWA
+**Regulator:** Iowa Insurance Division (IID).  
+**Address:** 1963 Bell Ave., Des Moines, IA.  
+**Web:** https://iid.iowa.gov/
+
+**Licensing Steps**  
+- **PLE:** **Not required**.  
+- **Exam vendor:** **Pearson VUE**.  
+- **Apply:** **NIPR**; fee **$50**.  
+- **Exam result validity:** typically **90 days**.  
+- **CE:** Producers commonly **36 hrs/3 yrs** including ethics (check IID CE table).
+
+**Statutes:** Iowa Code Title **XIII** (Commerce) — Producer licensing Ch. **522B**.  
+**Source:** https://iid.iowa.gov/regulated-individuals/insurance-producers/new-license ; https://www.legis.iowa.gov/law/iowaCode/chapters?title=XIII
+
+Florida Mapping Hints
+- Replace FL §626.112 with Iowa Code §522B.2.  
+- Producer Licensing: Iowa Code §522B.3–522B.18.  
+- Unfair Practices: Iowa Code §507B.3.  
+- Guaranty: §515B.3 (P/C); §508C.5 (life/health).  
+- Forms & Rates: Ch. 515 and 515F.  
+- Adjusters: Crop hail/specialty only; others not separately licensed.  
+- Appointments: §522B.11.  
+- CE: 36 hrs/3 yrs incl. 3 ethics; one-time 4-hr annuity course.
+
+Legacy Quick Notes (moved)
+- Regulatory Body: Iowa Insurance Division.
+- Licensing Steps: PLE not required; Pearson VUE exam (valid 90 days); apply via NIPR ($50); appointments via NIPR.
+- Mission: Protect Iowa consumers through regulation.
+- Unique Regulations: One-time annuity course; adjuster licensing limited.
+
+---
+
+## KANSAS
+**Regulator:** Kansas Department of Insurance (KID).  
+**Address:** 1300 SW Arrowhead Rd, Topeka, KS 66604-4073.  
+**Phone:** (785) 296-3071.  
+**Web:** https://insurance.kansas.gov/
+
+**Licensing Steps**  
+- **Tax Clearance:** **Required** (Kansas Dept. of Revenue).  
+- **Fingerprinting:** Required (waiver form).  
+- **Exam vendor:** **Pearson VUE**.  
+- **Apply:** **NIPR** ($15 app + $60 fingerprints typical).  
+- **Scores valid:** **2 years**.  
+- **CE:** As posted per LOA.
+
+**Statutes:** KSA Ch. **40** — https://ksrevisor.gov/statutes/ksa_ch40.html
+
+**Source:** https://insurance.kansas.gov/producer-licensing/
+
+Florida Mapping Hints
+- Replace FL §626.112 with KSA §40-4903 et seq.  
+- Producer Licensing: §§40-4903–4912; tax clearance §40-4902.  
+- Unfair Practices: §40-2404.  
+- Guaranty: §§40-2903 (P/C) and 40-3003 (life/health).  
+- Forms & Rates: §§40-216–40-323.  
+- Adjusters: Public adjusters §§40-5501–5515.  
+- Appointments: §40-4902.  
+- CE: 18 hrs/2 yrs incl. 3 ethics; one-time flood (3 hrs); annuity Best Interest.
+
+Legacy Quick Notes (moved)
+- Regulatory Body: Kansas Insurance Department.
+- Licensing Steps: Tax clearance; fingerprints + waiver; Pearson VUE exam; apply via NIPR.
+- Mission: Protect consumers; promote a competitive market.
+- Unique Regulations: Exam scores valid 2 years; training updates.
+
+---
+
+## MAINE
+**Regulator:** Maine Bureau of Insurance (Dept. of Professional & Financial Regulation).  
+**Address:** 76 Northern Ave, Gardiner, ME 04345.  
+**Phone:** (800) 300-5000.  
+**Web:** https://www.maine.gov/pfr/insurance/home  
+**Leadership:** **Superintendent Bob Carey** (confirmed 2024).
+
+**Licensing / CE**  
+- Producer CE: **24 hrs** each biennium incl. **3 ethics**; due last day of birth month on odd/even cycle.  
+- Non-resident producer licenses: **Perpetual** (no renewal fee) per Bureau FAQ.
+
+**Statutes:** 24‑A M.R.S. (Title **24‑A** Insurance Code) — https://legislature.maine.gov/statutes/24-a/title24-ach0sec0.html  
+**Producer/Consultant Chapter:** Ch. **16** (§§1401–1498).
+
+**Sources:**  
+- Superintendent page: https://www.maine.gov/pfr/insurance/about/superintendent  
+- CE FAQ: https://www.maine.gov/pfr/insurance/frequently-asked-questions/ce-for-producers-consultants
+
+---
+
+## MICHIGAN
+**Regulator:** Michigan Department of Insurance & Financial Services (DIFS).  
+**Address:** 530 W Allegan St, 7th Fl, Lansing, MI 48933.  
+**Phone:** (877) 999-6442.  
+**Web:** https://www.michigan.gov/difs
+
+**Licensing Steps**  
+- **PLE:** Required per MCL 500.1204.  
+- **Exam vendor:** **PSI**.  
+- **Apply:** **NIPR**.  
+- **CE:** **24 hrs/2 yrs** (min **3 ethics**).  
+- **Fingerprinting:** Required (state & FBI).
+
+**Statutes:** Michigan Insurance Code (MCL Ch. **500**) — https://www.legislature.mi.gov/Laws/MCL?objectName=MCL-500-100
+
+**Sources:**  
+- How to become licensed (resident producer): https://www.michigan.gov/difs/industry/licensing-ins/agnt-ins/general-info/how-to-become-licensed-as-a-resident-producer  
+- DIFS about/leadership: https://www.michigan.gov/difs/about
+
+---
+
+## MINNESOTA
+**Regulator:** Minnesota Department of Commerce.  
+**Address:** 85 7th Pl E, Ste 280, St. Paul, MN 55101.  
+**Phone:** (651) 539-1600.  
+**Web:** https://mn.gov/commerce/
+
+**Licensing Steps**  
+- **PLE:** **20 hrs per line** (often with classroom-hour minima).  
+- **Exam vendor:** **PSI**.  
+- **Fingerprinting:** Required (often at PSI sites).  
+- **Apply:** **Sircon/NIPR**.  
+- **CE:** **24 hrs/2 yrs** (3 ethics; 12 hrs not company‑sponsored).
+
+**Statutes:** Producer Licensing **Ch. 60K** — https://www.revisor.mn.gov/statutes/cite/60K/full  
+**Cybersecurity:** §§60A.985–60A.9858.
+
+**Sources:**  
+- Licensing hub: https://mn.gov/commerce/licensing/list/insurance/resident-producers.jsp  
+- Commerce leadership: https://mn.gov/commerce/about/leadership/
+
+---
+
+## MISSISSIPPI
+**Regulator:** Mississippi Insurance Department (MID).  
+**Address:** PO Box 79, Jackson, MS 39205.  
+**Phone:** (601) 359-3569.  
+**Web:** https://www.mid.ms.gov/
+
+**Licensing Steps / Recent Changes**  
+- **HB 819 (2024):** Life line **PLE exemption** effective July 1, 2024.  
+- **Exam vendor:** **Pearson VUE**.  
+- **Apply:** **Sircon**.  
+- **CE:** **24 hrs/2 yrs** (3 ethics); **HB 1084 (2023)**: CE exemption for age 65+ with 25 yrs licensure.
+
+**Statutes:** Mississippi Code **Title 83**; **Cybersecurity** §§83‑5‑801–825.
+
+**Source:** https://www.mid.ms.gov/mississippi-insurance-department/licensing/
+
+---
+
+## MISSOURI
+**Regulator:** Missouri Department of Commerce & Insurance (DCI).  
+**Address:** 301 W High St, Rm 530, Jefferson City, MO 65101.  
+**Phone:** (573) 751-4126.  
+**Web:** https://dci.mo.gov/
+
+**Licensing Steps**  
+- **PLE:** Not required for standard producer lines.  
+- **Exam vendor:** **Pearson VUE**.  
+- **Apply:** Online per DCI (NIPR/Sircon).  
+- **Fee:** ~$100 application (check DCI page).  
+- **CE:** **16 hrs/2 yrs** (3 ethics) for L/H and P/C.
+
+**Statutes/Rules:** RSMo Title **XXIV** (Ch. 374–385); 20 CSR (Insurance).
+
+**Source:** https://insurance.mo.gov/resident-producers/resident-producer-licensing-application-requirements
+
+---
+
+## NEBRASKA
+**Regulator:** Nebraska Department of Insurance.  
+**Phone:** (402) 471-2201.  
+**Web:** https://doi.nebraska.gov/
+
+**Licensing Steps**  
+- **Exam vendor:** **PSI**.  
+- **Apply:** **NIPR**; **processing 3–5 days** typical.  
+- **CE:** **24 hrs** with **3 ethics** + line‑specific (annuity, LTC, flood) training as applicable.
+
+**Statutes:** Nebraska Rev. Stat. **Ch. 44** — https://nebraskalegislature.gov/laws/browse-chapters.php?chapter=44
+
+**Source:** https://doi.nebraska.gov/producer-licensing
+
+---
+
+## NEW JERSEY
+**Regulator:** NJ Department of Banking & Insurance (DOBI) — Division of Insurance.  
+**Web:** https://www.nj.gov/dobi/
+
+**Licensing Steps**  
+- **Exam vendor:** **PSI**.  
+- **Fingerprinting:** **Live Scan** for residents.  
+- **Apply:** **NIPR** (paper adds $20).  
+- **CE:** **24 hrs/2 yrs** (3 ethics); Public Adjuster **15 hrs** biennial.
+
+**Statutes/Rules:** NJ Stat. Titles **17** & **17B**; **N.J.A.C. Title 11**.
+
+**Source:** https://www.nj.gov/dobi/inslic.htm
+
+---
+
+## NEW YORK
+**Regulator:** NYS Department of Financial Services (DFS).  
+**Address:** 1 State St, New York, NY 10004-1511.  
+**Phone:** (800) 342-3736.  
+**Web:** https://www.dfs.ny.gov/
+
+**Licensing Steps**  
+- **System:** **NY LINX**.  
+- **Fingerprinting:** **IdentoGO**.  
+- **CE:** **15 hrs** (P&C includes **1 hr flood**).  
+- **Apply/Renew:** Online up to **180 days** before expiration.
+
+**Statutes/Rules:** NY Insurance Law (**Art. 21** licensing) & **11 NYCRR Part 20**; Financial Services Law (2011 DFS creation).
+
+**Source:** https://www.dfs.ny.gov/apps_and_licensing/agents_and_brokers/
+
+---
+
+## NORTH CAROLINA
+**Regulator:** North Carolina Department of Insurance (NCDOI).  
+**Address:** 1201 Mail Service Center, Raleigh, NC 27699-1201.  
+**Phone:** (855) 408-1212.  
+**Web:** https://www.ncdoi.gov/
+
+**Licensing Steps**  
+- **PLE:** Required for major lines (adjusters excepted).  
+- **Exam vendor:** **Pearson VUE**.  
+- **CE:** **24 hrs/2 yrs** for most producers; adjuster CE per NCDOI.  
+- **Renewal:** **Biennial** for most producer licenses (prior note “most licenses do not renew” is incorrect).  
+- **Apply:** **NIPR**.
+
+**Statutes:** NCGS **Chapter 58** — https://www.ncleg.net/enactedlegislation/statutes/html/bychapter/chapter_58.html
+
+**Source:** https://www.ncdoi.gov/licensees/agent-and-adjuster-licensing/
+
+---
+
+## OHIO
+**Regulator:** Ohio Department of Insurance (ODI).  
+**Address:** 50 W Town St, 3rd Fl, Ste 300, Columbus, OH 43215.  
+**Phone:** (614) 644-2658.  
+**Web:** https://insurance.ohio.gov/
+
+**Licensing Steps**  
+- **Exam vendor:** **PSI**.  
+- **Fingerprinting:** **BCI & FBI** required.  
+- **Apply:** **NIPR/Sircon**; renewal **biennial**.  
+- **Adjusters:** Ohio licenses **Public Adjusters**; **independent/company adjusters are not licensed**.
+
+**Statutes:** ORC **Title 39**; Producer Act **Ch. 3905**; Guaranty **Ch. 3955** — https://codes.ohio.gov/ohio-revised-code/title-39
+
+**Source:** ODI state info via NIPR: https://nipr.com/licensing-center/state-information/ohio and ODI site above.
+
+---
+
+## OKLAHOMA
+**Regulator:** Oklahoma Insurance Department (OID).  
+**OKC Address:** 400 NE 50th St, Oklahoma City, OK 73105.  
+**Phone:** (405) 521-2828.  
+**Web:** https://www.oid.ok.gov/
+
+**Licensing Steps**  
+- **Step 1:** Prepare for exam (study).  
+- **Step 2:** Schedule with **PSI**.  
+- **Step 3:** After passing, **wait 3 business days**, then **apply via NIPR**.  
+- **Step 4:** **OID review** → issue license.  
+- **Scores valid:** typically **2 years**.
+
+**Statutes/Rules:** 36 O.S. (Insurance); OAC Title **365**.
+
+**Source:** OID “Apply Now”/Licensing: https://www.oid.ok.gov/licensing-and-education/
+
+---
+
+## PENNSYLVANIA
+**Regulator:** Pennsylvania Insurance Department (PID).  
+**Address:** 1326 Strawberry Square, Harrisburg, PA 17120.  
+**Phone:** (717) 787-3840.  
+**Web:** https://www.pa.gov/agencies/insurance
+
+**Licensing Steps**  
+- **PLE:** **24 hrs** per major line.  
+- **Exam vendor:** **PSI**.  
+- **Fingerprinting:** **IdentoGO** (code **1KGBGJ**).  
+- **Apply:** **Sircon** or **NIPR**.  
+- **Fees:** Resident ~$55; Nonresident ~$110 (verify PID schedule).
+
+**Statutes:** Pa. Stat. **Title 40** — https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/40/40.HTM
+
+**Source:** https://www.pa.gov/agencies/insurance/licensing/
+
+---
+
+## SOUTH CAROLINA
+**Regulator:** South Carolina Department of Insurance (SCDOI).  
+**Address:** 1201 Main St, Ste 1000, Columbia, SC 29201.  
+**Phone:** (803) 737-6180.  
+**Web:** https://doi.sc.gov/
+
+**Licensing Steps**  
+- **Exam vendor:** **Pearson VUE**.  
+- **Fingerprinting:** Required (IdentoGO).  
+- **Apply:** **NIPR** (SCDOI portal links).  
+- **Fee:** ~$25 plus service fee.  
+- **CE:** Producers standard SC CE per LOA.
+
+**Statutes:** S.C. Code **Title 38** — https://www.scstatehouse.gov/code/title38.php  
+**Director Powers:** §38‑3‑110.
+
+**Source:** SCDOI Producer page: https://www.doi.sc.gov/481/Producer
+
+---
+
+## SOUTH DAKOTA
+**Regulator:** South Dakota Division of Insurance (Dept. of Labor & Regulation).  
+**Address:** 124 S Euclid Ave, 2nd Fl, Pierre, SD 57501.  
+**Phone:** (605) 773-3563.  
+**Web:** https://dlr.sd.gov/insurance/
+
+**Leadership:** **Division Director Larry Deiter** (active through 2025 per DLR materials).  
+**Licensing Steps**  
+- **PLE:** **Not required**.  
+- **Exam vendor:** **Pearson VUE**.  
+- **Apply:** **NIPR** or **SBS**.  
+- **Fees/CE:** Producer fee ~$25; CE examples: Crop 2 hrs; P&C 8 hrs; L/H 10 hrs (verify current SD CE grid).
+
+**Statutes/Rules:** SDCL **Title 58**; **ARSD 20:06**.  
+**Source:** https://dlr.sd.gov/insurance/producers/resident_producers.aspx ; rules/statutes links on sdlegislature.gov
+
+---
+
+## TENNESSEE
+**Regulator:** Tennessee Department of Commerce & Insurance (TDCI).  
+**Address:** 500 James Robertson Pkwy, Nashville, TN 37243-0565.  
+**Phone (Agent Licensing):** (615) 741-2693.  
+**Web:** https://www.tn.gov/commerce/
+
+**Licensing Steps**  
+- **System:** **CORE** (https://core.tn.gov).  
+- **Exam vendor:** **Pearson VUE**.  
+- **Scores valid:** **12 months**.  
+- **Apply:** via CORE/NIPR per TDCI guidance.
+
+**Statutes:** T.C.A. **Title 56** (incl. §56‑6‑112 disciplinary; §56‑6‑119 30‑day reporting; cybersecurity in Title 56 Ch. 2).
+
+**Source:** https://www.tn.gov/commerce/insurance/agent-producer-resources/
+
+---
+
+## UTAH
+**Regulator:** Utah Insurance Department (UID).  
+**Address:** 4315 S 2700 W, Ste 2300, Taylorsville, UT 84129.  
+**Phone:** (801) 957-9200.  
+**Web:** https://insurance.utah.gov/
+
+**Licensing Steps**  
+- **Exam vendor:** **Prometric**.  
+- **Fingerprinting:** At Prometric site after exam (fees: FBI/BCI + processing).  
+- **Apply:** **Sircon/NIPR**.  
+- **CE:** **24 hrs** (Title **12** for Title license), **3 ethics**.
+
+**Statutes/Rules:** Utah Code **Title 31A** — https://le.utah.gov/xcode/Title31a/31a.html ; UID rules page.
+
+**Source:** UID Exam & Licensing Procedures: https://insurance.utah.gov/licensees/producers/exam/
+
+---
+
+## WYOMING
+**Regulator:** Wyoming Department of Insurance.  
+**Address:** 106 E 6th Ave, Cheyenne, WY 82002.  
+**Phone:** (307) 777-7401.  
+**Web:** https://doi.wyo.gov/
+
+**Licensing Steps**  
+- **Exam vendor:** **Pearson VUE**.  
+- **Apply:** **Sircon**.  
+- **Fingerprinting:** Packet mailed after app (per DOI).  
+- **Fees:** Resident ~$100; Nonresident ~$150.  
+- **CE:** **24 hrs/2 yrs** with **3 ethics** (residents).
+
+**Statutes:** W.S. **Title 26** — https://wyoleg.gov/statutes/compress/title26.pdf  
+**Recent:** Medicare Supplement "Birthday Rule" (June 2025) (see DOI bulletins).
+
+**Source:** Producer licensing: https://doi.wyo.gov/licensing/producers
+
+---
+
+## QUICK COMPLIANCE COMPARATORS (summary)
+- **Portals:** Most apps via **NIPR**; states may also use **Sircon**, proprietary portals (**NY LINX**, **CORE**).  
+- **Exam vendors:** **Pearson VUE**, **PSI**, **Prometric** (varies by state).  
+- **Fingerprinting:** Most resident applicants; common vendors **IdentoGO**/**state BCI/DOJ**/**Prometric**.  
+- **CE Ranges:** 15–48 hrs across states; ethics hours common.
+
+> Keep a rolling calendar for renewals/CE and subscribe to regulator bulletinsStatute Map & Continuing Education Requirements for 28 U.S. States
+
+This section provides a Florida‐style template for converting course content from Florida to other states and a detailed statute map for 28 states (Alaska through South Dakota).  For each state it lists the statutory provisions governing producer licensing, unfair/market practices, guaranty associations, policy form and rate filings, adjuster licensing, appointments, and continuing education (CE) requirements.  Where available the exact code sections are provided alongside backlinks to state regulatory or legislative pages so that the information can be self‑audited.  The CE hours included here represent typical producer requirements for standard lines of authority; some lines (such as long‑term care, annuity suitability or flood) may require additional courses—always consult the linked regulator pages for the most current rules.
+
+Florida template
+
+When converting Florida insurance coursework to another state, replace references to Florida’s statutes and agencies with the corresponding state provisions.  Florida uses the Department of Financial Services (DFS) and Office of Insurance Regulation (OIR) under an elected Chief Financial Officer.  Core Florida sections include: §626.112 (license required), Chapter 626 (producer licensing), §626.9541 (unfair methods of competition), Chapter 631 (insurance guaranty associations) and §§627.062/627.410 (rate and form approval) ￼.  Florida producer CE requires 24 hours every two years, including 5 hours of law and ethics.  The table below maps these categories to equivalent statutes in each state.
+
+Statute map by state
+
+For each state the key statutes and CE requirements are summarised.  The License Required / Definitions entry points to the section requiring producers to hold a license and defining basic terms; Producer Licensing covers the rules for issuing and renewing producer licenses; Unfair Practices lists the chapter prohibiting rebating, twisting/churning and other unfair marketing practices; Guaranty Associations identifies the sections creating property/casualty and life/health guaranty funds; Forms & Rates refers to the authority approving policy forms and rates; Adjusters notes special provisions for adjuster licensing; Appointments covers requirements for insurer appointments; and CE Requirement states the typical hours and cycle for continuing education.  Sources cite the official regulator or legislative pages used in the research.  Where CE information is not codified, it comes from the state’s licensing or continuing‑education FAQ page.
+
+Alaska
+	•	License Required / Definitions: Alaska Statutes (AS) §21.27 et seq. define insurance transactions and require producers to hold a license ￼.
+	•	Producer Licensing: AS 21.27 covers application, examinations and appointments; limited lines such as motor‑vehicle rental, travel and portable electronics do not require an exam ￼.
+	•	Unfair Practices: AS §21.36 prohibits unfair methods of competition and market practices.
+	•	Guaranty Associations: The Alaska property and life/health guaranty funds are described on the Division of Insurance consumer page ￼.
+	•	Forms & Rates: AS §21.42 empowers the Office of Insurance Regulation to review policy forms and rate filings.
+	•	Adjusters: Adjuster licensing is addressed in AS 21.27 and limited to public adjusters.
+	•	Appointments: Producers must be appointed by insurers under AS 21.27.
+	•	CE Requirement: 24 hours of CE every 2 years (including at least 3 hours of ethics) for resident producers—see Alaska Division of Insurance CE page (resident licensees are generally required to complete 24 credit hours per two‑year period) ￼.
+	•	Sources: Alaska Division of Insurance – Resident Licensing ￼; Alaska Statutes Title 21 ￼.
+
+Arizona
+	•	License Required / Definitions: Arizona Revised Statutes (ARS) §20‑281 to §20‑299 (Article 3) require a license to act as an insurance producer ￼.
+	•	Producer Licensing: ARS §20‑281 to §20‑299 sets rules for examinations, appointments and renewals.  The Department may deny a license under §20‑295 ￼.
+	•	Unfair Practices: ARS §20‑441 et seq. (Article 6) prohibits unfair trade practices.
+	•	Guaranty Associations: Property/casualty and life/disability guaranty funds are authorised under ARS §20‑661 et seq.; DIFI provides guaranty fund information on its website ￼.
+	•	Forms & Rates: ARS §20‑261.01 to §20‑267 govern rate filing and policy form approval.
+	•	Adjusters: Public adjusters must be licensed under ARS §20‑281; company and independent adjusters are not separately licensed.
+	•	Appointments: Producers must be appointed by insurers (ARS §20‑286).
+	•	CE Requirement: Arizona requires 48 hours of CE every four years, including at least 6 hours of ethics, per DIFI licensing regulations (see DIFI licensing page; continuing education rules are administered by third‑party vendors and enforced at renewal) ￼.
+	•	Sources: Arizona DIFI – Licensing ￼; ARS Title 20 ￼.
+
+California
+	•	License Required / Definitions: California Insurance Code (CIC) §1621 et seq. requires anyone who transacts insurance to hold a license.
+	•	Producer Licensing: CIC §1625–1665 sets forth licensing procedures, examinations, education and appointments ￼.
+	•	Unfair Practices: CIC §790.03 prohibits unfair or deceptive acts and practices.
+	•	Guaranty Associations: California Insurance Guarantee Association (CIGA) and Life & Health Insurance Guaranty Association operate under CIC §1063 and §1067.02.
+	•	Forms & Rates: CIC §1861.01 (Proposition 103) requires prior approval of most property and casualty rates; policy forms are reviewed under various sections (e.g., §10192.5 for LTC).
+	•	Adjusters: Public and independent adjusters must be licensed under CIC §14022 et seq.
+	•	Appointments: Producers must hold insurer appointments under CIC §1704.
+	•	CE Requirement: California requires 24 hours of CE every 2 years for producers, including 3 hours of ethics; additional training is required for long‑term care (8 hours initial + 8 hours biennial) and annuity suitability (4 hours) ￼.
+	•	Sources: California CDI – Applicant information ￼; California Insurance Code ￼.
+
+Colorado
+	•	License Required / Definitions: Colorado Revised Statutes (CRS) §10‑2‑104 et seq. define producer licensing requirements.
+	•	Producer Licensing: CRS §10‑2‑401 to §10‑2‑704 covers examinations, applications and temporary licenses ￼ ￼.
+	•	Unfair Practices: CRS §10‑3‑1101 to §10‑3‑1104 prohibits unfair methods of insurance competition.
+	•	Guaranty Associations: The Colorado Insurance Guaranty Association (property/casualty) and Life & Health Insurance Protection Association operate under CRS §10‑4‑401 and §10‑20‑103.
+	•	Forms & Rates: CRS §10‑4‑401 and related sections provide rate and form regulation.
+	•	Adjusters: Colorado licenses public adjusters only; independent/company adjusters are not separately licensed ￼.
+	•	Appointments: Producers must have insurer appointments as required by CRS §10‑2‑416.
+	•	CE Requirement: Colorado producers must complete 24 hours of CE every two years, including 3 hours of ethics; additional training may be required for flood and long‑term care. ￼ ￼.
+	•	Sources: Colorado DOI – Producer licensing ￼ ￼; CRS Title 10 ￼.
+
+Connecticut
+	•	License Required / Definitions: Connecticut General Statutes (CGS) §38a‑702 requires a license to act as an insurance producer.
+	•	Producer Licensing: CGS §38a‑702 to §38a‑782 govern producer licensing, examinations, appointments and renewals ￼.
+	•	Unfair Practices: CGS §38a‑815 et seq. (Unfair Insurance Practices Act) prohibits misrepresentations, rebating and unfair discrimination.
+	•	Guaranty Associations: Property/casualty and life/health guaranty associations operate under CGS §38a‑838 and §38a‑860.
+	•	Forms & Rates: Various sections of Title 38a require insurers to file rates and forms for approval (e.g., §38a‑481 for health; §38a‑676 for personal risk).
+	•	Adjusters: Public adjusters are licensed under CGS §38a‑792 et seq.; company/independent adjusters require appointments.
+	•	Appointments: Producers must be appointed by insurers under §38a‑702k.
+	•	CE Requirement: Connecticut producers must complete 24 hours of CE every 2 years, including 3 hours of ethics, before their license renewal ￼.
+	•	Sources: Connecticut CID – Producer licensing ￼; Connecticut General Statutes Title 38a.
+
+Delaware
+	•	License Required / Definitions: Delaware Code Title 18, Chapter 17 requires a license for insurance producers and defines key terms.
+	•	Producer Licensing: Chapter 17 sets forth licensing procedures, examinations and renewals; Delaware does not require pre‑licensing education ￼.
+	•	Unfair Practices: Title 18 Chapter 23 prohibits unfair trade practices.
+	•	Guaranty Associations: The Delaware Property & Casualty Insurance Guaranty Association and Life & Health Insurance Guaranty Association operate under Chapter 42 and Chapter 44.
+	•	Forms & Rates: Delaware law requires rate and form filing in Chapters 25 and 26.
+	•	Adjusters: Public adjuster licensing is covered in Chapter 17A; Delaware does not license independent adjusters.
+	•	Appointments: Producers must be appointed by insurers; see §1718.
+	•	CE Requirement: Producers must complete 24 hours of CE every 2 years, including 3 hours of ethics, per Delaware Regulation 504 ￼.
+	•	Sources: Delaware DOI – Licensing and renewal ￼; Delaware Code Title 18 ￼.
+
+Idaho
+	•	License Required / Definitions: Idaho Code §41‑1003 et seq. requires licensing for producers and defines insurance transactions. ￼
+	•	Producer Licensing: Idaho Code Chapter 10 (within Title 41) outlines licensing, examinations, appointments and renewals; pre‑licensing education is not required ￼.
+	•	Unfair Practices: Idaho Code §41‑1301 et seq. lists unfair trade practices.
+	•	Guaranty Associations: The Idaho Life & Health Insurance Guaranty Association and Idaho Insurance Guaranty Association operate under §41‑4303 and §41‑3601.
+	•	Forms & Rates: Policy form and rate filings are addressed in §41‑1801 et seq.
+	•	Adjusters: Idaho licenses public adjusters; company/independent adjusters may be designated under producer licensing.
+	•	Appointments: Insurers must appoint producers (see §41‑1008).
+	•	CE Requirement: Idaho producers must complete 24 hours of CE every 2 years (ethics hours included) according to the DOI’s licensing FAQ ￼.
+	•	Sources: Idaho DOI – Licensing FAQ ￼; Idaho Code Title 41 ￼.
+
+Illinois
+	•	License Required / Definitions: 215 ILCS 5/500‑15 requires individuals to hold a license when acting as an insurance producer.
+	•	Producer Licensing: 215 ILCS 5/500‑20 to 5/500‑90 sets forth licensing, examinations and continuing education requirements ￼.
+	•	Unfair Practices: 215 ILCS 5/154.6 and 5/424 list unfair methods of competition and trade practices.
+	•	Guaranty Associations: Life & Health Insurance Guaranty Association Act (215 ILCS 5/531.01 et seq.) and Illinois Insurance Guaranty Fund (215 ILCS 5/534.01 et seq.).
+	•	Forms & Rates: Policy forms and rate filings are governed throughout 215 ILCS 5 (e.g., §143 and §143.13 for property/casualty).
+	•	Adjusters: Illinois licenses public adjusters (215 ILCS 5/1501 et seq.); independent adjusters are covered within the public adjuster law.
+	•	Appointments: Insurers must appoint producers (215 ILCS 5/500‑35).
+	•	CE Requirement: Illinois requires 24 hours of CE every 2 years, including 3 hours of ethics; producers must complete a 20‑hour pre‑licensing course for each major line with at least 7.5 hours in a classroom setting ￼ ￼.
+	•	Sources: IDOI – Resident producer licensing ￼ ￼; Illinois Insurance Code ￼.
+
+Indiana
+	•	License Required / Definitions: Indiana Code §27‑1‑15.6‑3 et seq. defines and requires producer licensing.
+	•	Producer Licensing: IC §27‑1‑15.6‑4 to §27‑1‑15.6‑32 set forth licensing, examinations, temporary licenses and renewals ￼.
+	•	Unfair Practices: IC §27‑4‑1‑4 et seq. prohibits unfair and deceptive acts.
+	•	Guaranty Associations: Life & Health Insurance Guaranty Association (IC §27‑8‑8‑1 et seq.) and Indiana Insurance Guaranty Association (IC §27‑6‑8‑1 et seq.).
+	•	Forms & Rates: Rate and form filings are covered in various sections of Title 27 (e.g., §27‑1‑20‑1 for property/casualty).
+	•	Adjusters: Indiana licenses public adjusters; company/independent adjusters are not separately licensed.
+	•	Appointments: Insurer appointments are required under IC §27‑1‑15.6‑15.
+	•	CE Requirement: Indiana producers must complete 24 hours of CE every 2 years, including 3 hours of ethics ￼.
+	•	Sources: Indiana DOI – Resident licensing ￼; Indiana Code Title 27.
+
+Iowa
+	•	License Required / Definitions: Iowa Code §522B.2 et seq. defines a producer and requires a license.
+	•	Producer Licensing: Iowa Code §522B.3 to §522B.18 covers licensing, examinations and continuing education ￼.
+	•	Unfair Practices: Iowa Code §507B.3 prohibits unfair trade practices.
+	•	Guaranty Associations: Iowa Insurance Guaranty Association (§515B.3) and Life & Health Insurance Guaranty Association (§508C.5).
+	•	Forms & Rates: Rate and form regulation is in Chapter 515 and 515F.
+	•	Adjusters: Iowa licenses crop hail adjusters and some specialty adjusters; company and independent adjusters are not separately licensed.
+	•	Appointments: Insurers must appoint producers (Iowa Code §522B.11).
+	•	CE Requirement: Iowa requires 36 hours of CE every 3 years, including 3 hours of ethics, for insurance producers ￼ ￼.
+	•	Sources: Iowa Insurance Division – Producer licensing ￼ ￼; Iowa Code ￼.
+
+Kansas
+	•	License Required / Definitions: Kansas Statutes Annotated (KSA) §40‑2a01 et seq. require licensing for insurance producers.
+	•	Producer Licensing: KSA Chapter 40 (particularly §40‑4903 to §40‑4909) details licensing, examinations, fingerprints and appointments ￼.
+	•	Unfair Practices: KSA §40‑2404 prohibits unfair methods of competition and unfair or deceptive acts.
+	•	Guaranty Associations: Property & casualty guaranty association under §40‑2903 and life & health under §40‑3003.
+	•	Forms & Rates: Rate and form regulation is in §40‑216 et seq.
+	•	Adjusters: Kansas licenses public adjusters; independent adjusters are regulated through the producer licensing system.
+	•	Appointments: Producers must be appointed by insurers (§40‑4902).
+	•	CE Requirement: Kansas producers must complete 18 hours of CE every 2 years, including 3 hours of ethics ￼.
+	•	Sources: Kansas Insurance Dept. – Producer licensing ￼; Kansas statutes ￼.
+
+Maine
+	•	License Required / Definitions: Maine Insurance Code (24‑A M.R.S.) §1401 to §1498 requires licensing for producers and consultants ￼.
+	•	Producer Licensing: The same sections cover examinations, applications, appointments and renewals; Maine does not require pre‑licensing for standard producer lines ￼.
+	•	Unfair Practices: 24‑A M.R.S. §2155 et seq. prohibits unfair or deceptive insurance practices.
+	•	Guaranty Associations: Maine Insurance Guaranty Association (§4432) and Life & Health Insurance Guaranty Association (§4621).
+	•	Forms & Rates: Rate and form regulation is addressed in §2313 (property/casualty) and other sections.
+	•	Adjusters: Maine licenses public adjusters and consultants; independent adjusters are regulated separately.
+	•	Appointments: Producers must be appointed by insurers (24‑A §1443).
+	•	CE Requirement: Maine producers must complete 24 hours of CE every 2 years, including 3 hours of ethics ￼.
+	•	Sources: Maine Bureau of Insurance – Licensing FAQs ￼; 24‑A M.R.S. Title 24‑A ￼.
+
+Michigan
+	•	License Required / Definitions: Michigan Compiled Laws (MCL) §500.1201 to §500.1204 require licensing and define insurance producers.
+	•	Producer Licensing: MCL §500.1205 to §500.1231 covers examinations, applications, fingerprints and renewals.
+	•	Unfair Practices: MCL §500.2001 et seq. prohibits unfair or deceptive acts.
+	•	Guaranty Associations: Michigan Property & Casualty Guaranty Association (§500.7901 et seq.) and Life & Health Insurance Guaranty Association (§500.7701 et seq.).
+	•	Forms & Rates: Various sections in Chapter 21 (e.g., §500.2131) govern rate filings and policy forms.
+	•	Adjusters: Michigan licenses adjusters for fire/casualty, public adjusters and other lines.
+	•	Appointments: Producers must be appointed by insurers (§500.1208).
+	•	CE Requirement: Michigan producers must complete 24 hours of CE every 2 years, including 3 hours of ethics; pre‑licensing education is required by §500.1204 ￼.
+	•	Sources: DIFS – How to become licensed ￼; Michigan Insurance Code.
+
+Minnesota
+	•	License Required / Definitions: Minnesota Statutes §60K.31 et seq. require licensing for insurance producers.
+	•	Producer Licensing: §60K.33 to §60K.48 set rules for examinations, applications and appointments ￼.
+	•	Unfair Practices: §72A.02 et seq. prohibits unfair or deceptive acts and defines fiduciary responsibilities ￼.
+	•	Guaranty Associations: Minnesota Insurance Guaranty Association (§60C.01 et seq.) and Minnesota Life & Health Guaranty Association (§61B.18 et seq.).
+	•	Forms & Rates: Rate and form filing is governed by §§70A.01 and 70A.06.
+	•	Adjusters: Minnesota licenses public adjusters; independent adjusters operate under other professional requirements.
+	•	Appointments: Producers must have insurer appointments (§60K.49).
+	•	CE Requirement: Minnesota requires 24 hours of CE every 2 years, including 3 hours of ethics; at least 50 percent must be classroom or interactive training ￼.
+	•	Sources: Minnesota Dept. of Commerce – Licensing ￼; Minnesota statutes ￼.
+
+Mississippi
+	•	License Required / Definitions: Mississippi Code Annotated (MCA) §83‑17‑1 requires a producer license.
+	•	Producer Licensing: MCA §83‑17‑5 to §83‑17‑75 covers licensing, examinations and renewals ￼.
+	•	Unfair Practices: MCA §83‑5‑33 et seq. lists unfair trade practices.
+	•	Guaranty Associations: Mississippi Insurance Guaranty Association (§83‑23‑101 et seq.) and Life & Health Insurance Guaranty Association (§83‑23‑201 et seq.).
+	•	Forms & Rates: Rate and form regulation is addressed in §83‑2‑1 and subsequent sections.
+	•	Adjusters: Mississippi licenses public adjusters; independent adjusters are licensed separately.
+	•	Appointments: Producers require insurer appointments under §83‑17‑211.
+	•	CE Requirement: Mississippi producers must complete 24 hours of CE every 2 years, including 3 hours of ethics; House Bill 819 (2024) exempts life‑only producers from pre‑licensing ￼.
+	•	Sources: Mississippi Insurance Department – Licensing ￼; Mississippi Code ￼.
+
+Missouri
+	•	License Required / Definitions: Missouri Revised Statutes (RSMo) §375.014 et seq. require licensing for producers.
+	•	Producer Licensing: RSMo §375.018 to §375.041 and §§385.200 et seq. cover licensing, examinations and renewals ￼.
+	•	Unfair Practices: RSMo §375.936 prohibits unfair trade practices.
+	•	Guaranty Associations: Missouri Property & Casualty Insurance Guaranty Association (§375.771) and Life & Health Insurance Guaranty Association (§376.715).
+	•	Forms & Rates: Rate and form regulation is found in RSMo §379.321 and related sections.
+	•	Adjusters: Missouri licenses public adjusters; there is no separate license for independent/company adjusters.
+	•	Appointments: Producers must be appointed by insurers (RSMo §375.023).
+	•	CE Requirement: Missouri requires 16 hours of CE every 2 years for life/health and property/casualty producers, including 3 hours of ethics ￼.
+	•	Sources: Missouri DCI – Resident producer licensing ￼; MO DCI mission.
+
+Nebraska
+	•	License Required / Definitions: Nebraska Revised Statutes §44‑4053 and §44‑4054 require producer licensing and define terms.
+	•	Producer Licensing: §44‑4055 to §44‑4067 govern licensing, examinations and renewals; exams are administered by PSI ￼.
+	•	Unfair Practices: §44‑1520 et seq. prohibits unfair trade practices.
+	•	Guaranty Associations: Nebraska Property & Liability Insurance Guaranty Association (§44‑2391) and Life & Health Insurance Guaranty Association (§44‑3005).
+	•	Forms & Rates: Rate and form regulation is addressed in various sections (e.g., §44‑751 for property/casualty).
+	•	Adjusters: Nebraska licenses public adjusters; independent adjusters may be covered under producer requirements.
+	•	Appointments: Producers must be appointed by insurers (§44‑4058).
+	•	CE Requirement: Nebraska producers must complete 24 hours of CE every 2 years, including 3 hours of ethics ￼.
+	•	Sources: Nebraska DOI – Producer licensing ￼; Nebraska statutes ￼.
+
+New Jersey
+	•	License Required / Definitions: New Jersey Statutes §17:22A‑26 et seq. (Producer Licensing Act) require producers to obtain a license.
+	•	Producer Licensing: These sections set out licensing, examinations, fingerprints and renewals ￼.
+	•	Unfair Practices: N.J.S.A. §17B:30‑1 et seq. prohibits unfair and deceptive acts.
+	•	Guaranty Associations: New Jersey Property & Liability Insurance Guaranty Association (§17:30A‑5), Life & Health Insurance Guaranty Association (§17B:32A‑1).
+	•	Forms & Rates: Rate and form regulation appears throughout Title 17 and Title 17B.
+	•	Adjusters: New Jersey licenses public adjusters; independent adjusters may be licensed under producer law.
+	•	Appointments: Producers must be appointed by insurers (§17:22A‑41).
+	•	CE Requirement: New Jersey producers must complete 24 hours of CE every 2 years, including 3 hours of ethics ￼.
+	•	Sources: NJ DOBI – Insurance licensing ￼; NJ statutes.
+
+New York
+	•	License Required / Definitions: New York Insurance Law §2102 prohibits acting as an insurance producer without a license ￼.
+	•	Producer Licensing: Insurance Law §2103 to §2111 details licensing, examinations and appointments; pre‑licensing education is required ￼.
+	•	Unfair Practices: Insurance Law §2402 prohibits unfair and deceptive acts.
+	•	Guaranty Associations: Property/Casualty Insurance Security Fund (Article 76) and Life & Health Insurance Guaranty Corporation (Article 77).
+	•	Forms & Rates: Rate and form approval is scattered throughout Articles 23 and 24 (property/casualty) and Article 27 (life/annuity).
+	•	Adjusters: New York licenses independent adjusters (Article 21); public adjusters are licensed under §2108.
+	•	Appointments: Producers must be appointed by insurers (§2112).
+	•	CE Requirement: New York requires 15 hours of CE every 2 years for most producers, including 1 hour of flood insurance training for property/casualty licensees ￼.
+	•	Sources: NYS DFS – Agents & Brokers ￼ ￼.
+
+North Carolina
+	•	License Required / Definitions: North Carolina General Statutes (NCGS) §58‑33‑25 requires a license to act as an insurance producer ￼.
+	•	Producer Licensing: NCGS §58‑33‑30 to §58‑33‑76 governs licensing, examinations and appointments; a combined licence is valid until surrendered, cancelled or revoked but producers must complete CE to maintain it ￼.
+	•	Unfair Practices: NCGS §58‑63‑5 prohibits unfair methods of competition and unfair or deceptive acts.
+	•	Guaranty Associations: North Carolina Insurance Guaranty Association (§58‑48‑15) and Life & Health Insurance Guaranty Association (§58‑62‑20).
+	•	Forms & Rates: Rate and form filing for property and casualty is governed by §58‑40‑25 and related sections.
+	•	Adjusters: North Carolina licenses adjusters (Article 71); public adjusters must be licensed; company/independent adjusters may be licensed separately.
+	•	Appointments: Producers must be appointed by insurers (§58‑33‑40).
+	•	CE Requirement: North Carolina producers must complete 24 hours of CE every 2 years (including 3 hours of ethics); adjusters must complete 24 hours for property/casualty or 12 hours for adjuster/consumer lines ￼.
+	•	Sources: North Carolina DOI – Agent and adjuster licensing ￼; NCGS Chapter 58 ￼.
+
+North Dakota
+	•	License Required / Definitions: North Dakota Century Code (NDCC) §26.1‑26‑03 requires a producer license and defines terms.
+	•	Producer Licensing: NDCC §26.1‑26‑05 to §26.1‑26‑31 covers licensing procedures, examinations and renewals.
+	•	Unfair Practices: NDCC §26.1‑04‑03 prohibits unfair or deceptive acts.
+	•	Guaranty Associations: North Dakota Insurance Guaranty Association (§26.1‑32‑01 et seq.) and Life & Health Insurance Guaranty Association (§26.1‑38‑01 et seq.).
+	•	Forms & Rates: Rate and form regulation is in NDCC §26.1‑25‑04 and other sections.
+	•	Adjusters: North Dakota licenses public adjusters; other adjusters may be regulated via producer licensing.
+	•	Appointments: Producers must be appointed by insurers (§26.1‑26‑10).
+	•	CE Requirement: North Dakota requires 24 hours of CE every 2 years, including 3 hours of ethics; producers renewing on even‑numbered years must complete CE by April 30 of that year.
+	•	Sources: ND Insurance Department – Producer licensing; NDCC Title 26.1.
+
+Ohio
+	•	License Required / Definitions: Ohio Revised Code (ORC) §3905.02 prohibits acting as an agent or broker without a license ￼.
+	•	Producer Licensing: ORC §3905.04 to §3905.22 governs licensing, exams and renewals ￼.
+	•	Unfair Practices: ORC §3901.19 et seq. prohibits unfair and deceptive acts.
+	•	Guaranty Associations: Ohio Insurance Guaranty Association (§3955.01 et seq.) and Ohio Life & Health Insurance Guaranty Association (§3956.01 et seq.).
+	•	Forms & Rates: Rate and form regulation is in ORC §3935.01 et seq.
+	•	Adjusters: Ohio licenses public adjusters under §3951.01 et seq.; there is no license for independent/company adjusters.
+	•	Appointments: Producers must be appointed by insurers (§3905.20).
+	•	CE Requirement: Ohio producers must complete 24 hours of CE every 2 years, including 3 hours of ethics ￼.
+	•	Sources: Ohio Department of Insurance – Licensing information ￼; ORC Title 39.
+
+Oklahoma
+	•	License Required / Definitions: Oklahoma Statutes 36 O.S. §1435.3 et seq. require licensing for insurance producers.
+	•	Producer Licensing: 36 O.S. §1435.5 to §1435.23 covers licensing, examinations, fingerprinting and renewals.
+	•	Unfair Practices: 36 O.S. §1204 prohibits unfair methods of competition and deceptive practices.
+	•	Guaranty Associations: Oklahoma Property & Casualty Insurance Guaranty Association (§3636) and Life & Health Insurance Guaranty Association (§2021).
+	•	Forms & Rates: Rate and form regulation is addressed in §651 et seq.
+	•	Adjusters: Oklahoma licenses public adjusters (Article 1); independent adjusters are licensed under separate provisions.
+	•	Appointments: Producers must be appointed by insurers (§1435.14).
+	•	CE Requirement: Oklahoma producers must complete 24 hours of CE every 2 years, including 3 hours of ethics; the licensing page emphasises exam preparation, scheduling with PSI, waiting 3 days for results and applying via NIPR.
+	•	Sources: Oklahoma Insurance Department – Licensing & Education; Oklahoma statutes.
+
+Oregon
+	•	License Required / Definitions: Oregon Revised Statutes (ORS) §744.053 requires licensing for insurance producers.
+	•	Producer Licensing: ORS §744.068 to §744.089 covers licensing, examinations and renewals.
+	•	Unfair Practices: ORS §746.015 et seq. prohibits unfair or deceptive acts.
+	•	Guaranty Associations: Oregon Insurance Guaranty Association (§734.510 et seq.) and Life & Health Insurance Guaranty Association (§734.801 et seq.).
+	•	Forms & Rates: Rate and form regulation is addressed in ORS §737.205 and related sections.
+	•	Adjusters: Oregon licenses adjusters under ORS §744.515 et seq.
+	•	Appointments: Producers must be appointed by insurers (§744.078).
+	•	CE Requirement: Oregon producers must complete 24 hours of CE every 2 years, including 3 hours of ethics; CE requirements are stated in the Division of Financial Regulation licensing guide.
+	•	Sources: Oregon Division of Financial Regulation – Licensing; ORS Title 56.
+
+Pennsylvania
+	•	License Required / Definitions: Pennsylvania Statutes (Pa. C.S.) §40 P.S. 321 et seq. require licensing for insurance producers.
+	•	Producer Licensing: Pa. C.S. §310.1 to §310.99 (formerly Act 147) covers licensing, examinations and renewals ￼.
+	•	Unfair Practices: 40 P.S. §1171.1 et seq. prohibits unfair insurance practices.
+	•	Guaranty Associations: Pennsylvania Property & Casualty Insurance Guaranty Association (§991.1801 et seq.) and Pennsylvania Life & Health Insurance Guaranty Association (§991.1701 et seq.).
+	•	Forms & Rates: Rate and form filings are addressed in various sections (e.g., 40 P.S. §710‑1 et seq.).
+	•	Adjusters: Pennsylvania licenses public adjusters; independent adjusters are not separately licensed.
+	•	Appointments: Producers must be appointed by insurers (§310.71).
+	•	CE Requirement: Pennsylvania producers must complete 24 hours of CE every 2 years, including 3 hours of ethics ￼.
+	•	Sources: Pennsylvania Insurance Department – Licensing ￼ ￼; Pennsylvania statutes.
+
+Rhode Island
+	•	License Required / Definitions: Rhode Island General Laws (RIGL) §27‑2.4‑1 requires a producer license.
+	•	Producer Licensing: §27‑2.4‑2 to §27‑2.4‑16 cover licensing, examinations and renewals.
+	•	Unfair Practices: §27‑29‑1 et seq. prohibits unfair insurance practices.
+	•	Guaranty Associations: Rhode Island Insurers Insolvency Fund (§27‑34‑1 et seq.) and Life & Health Insurance Guaranty Association (§27‑34.3‑1 et seq.).
+	•	Forms & Rates: Rate and form regulation is addressed in §27‑6‑1 et seq. (property/casualty) and §27‑19‑1 et seq. (health).
+	•	Adjusters: Rhode Island licenses public adjusters; independent adjusters may be regulated separately.
+	•	Appointments: Producers must be appointed by insurers (§27‑2.4‑14).
+	•	CE Requirement: Rhode Island requires producers to complete 24 hours of CE every 2 years, including 3 hours of ethics; additional 4‑hour long‑term care training is required for producers selling LTC policies.
+	•	Sources: Rhode Island Department of Business Regulation – Insurance Division; RIGL Title 27.
+
+South Carolina
+	•	License Required / Definitions: South Carolina Code §38‑43‑100 et seq. requires licensing for producers ￼.
+	•	Producer Licensing: §§38‑43‑105 to 38‑43‑250 cover examinations, appointments and renewals; producers may attempt the licensing exam up to six times annually ￼.
+	•	Unfair Practices: §38‑57‑30 prohibits unfair methods of insurance competition.
+	•	Guaranty Associations: South Carolina Property & Casualty Insurance Guaranty Association (§38‑31‑20) and Life & Accident & Health Insurance Guaranty Association (§38‑29‑10).
+	•	Forms & Rates: §§38‑73‑10 to 38‑73‑990 require insurers to file rates and forms for approval.
+	•	Adjusters: South Carolina licenses public adjusters; independent adjusters may be licensed under separate provisions.
+	•	Appointments: Producers must be appointed by insurers (§38‑43‑70).
+	•	CE Requirement: South Carolina requires 24 hours of CE every 2 years, including 3 hours of ethics; producers selling flood insurance must complete a 2‑hour NFIP course ￼.
+	•	Sources: South Carolina DOI – Producer licensing ￼; South Carolina Code ￼.
+
+South Dakota
+	•	License Required / Definitions: South Dakota Codified Laws (SDCL) §58‑30‑2 requires licensing for insurance producers.
+	•	Producer Licensing: SDCL §58‑30‑4 to §58‑30‑171 governs licensing, examinations and renewals; pre‑licensing education is not required for most lines.
+	•	Unfair Practices: SDCL §58‑33‑1 et seq. prohibits unfair or deceptive insurance practices.
+	•	Guaranty Associations: South Dakota Insurance Guaranty Association (§58‑29A‑3) and Life & Health Insurance Guaranty Association (§58‑29C‑46).
+	•	Forms & Rates: Rate and form regulation is addressed in §58‑11‑1 et seq.
+	•	Adjusters: South Dakota licenses public adjusters; company and independent adjusters are not separately licensed.
+	•	Appointments: Producers must be appointed by insurers (§58‑30‑56).
+	•	CE Requirement: South Dakota producers must complete 10 hours of CE every 2 years for life/health, 8 hours for property/casualty and 2 hours for crop producers; adjusters may have different requirements.
+	•	Sources: South Dakota Division of Insurance – Resident producers; SDCL Title 58.
+
+Tennessee
+	•	License Required / Definitions: Tennessee Code Annotated (TCA) §56‑6‑103 requires licensing for insurance producers ￼.
+	•	Producer Licensing: TCA §56‑6‑104 to §56‑6‑112 covers licensing, examinations and renewals ￼.
+	•	Unfair Practices: TCA §56‑8‑104 prohibits unfair trade practices.
+	•	Guaranty Associations: Tennessee Insurance Guaranty Association (§56‑12‑101 et seq.) and Life & Health Insurance Guaranty Association (§56‑12‑201 et seq.).
+	•	Forms & Rates: Rate and form regulation is addressed in §56‑5‑101 et seq.
+	•	Adjusters: Tennessee licenses public adjusters; other adjusters may be regulated differently.
+	•	Appointments: Producers must be appointed by insurers (§56‑6‑115).
+	•	CE Requirement: Tennessee producers must complete 24 hours of CE every 2 years, including 3 hours of ethics ￼.
+	•	Sources: Tennessee TDCI – Agent/producer resources ￼; Tennessee Code.
+
+Utah
+	•	License Required / Definitions: Utah Code §31A‑23a‑104 requires licensing for insurance producers ￼.
+	•	Producer Licensing: §§31A‑23a‑106 to 31A‑23a‑115 cover licensing, examinations and renewals ￼.
+	•	Unfair Practices: §31A‑23a‑402 prohibits unfair marketing practices.
+	•	Guaranty Associations: Utah Property & Casualty Insurance Guaranty Association (§31A‑28‑108) and Utah Life & Health Insurance Guaranty Association (§31A‑28‑202).
+	•	Forms & Rates: Rate and form filings are addressed in §§31A‑19a‑201 et seq.
+	•	Adjusters: Utah licenses public adjusters and independent adjusters separately.
+	•	Appointments: Producers must be appointed by insurers (§31A‑23a‑115).
+	•	CE Requirement: Utah requires 24 hours of CE every 2 years, including 3 hours of ethics; title producers must complete 12 hours ￼.
+	•	Sources: Utah Insurance Department – Exam & licensing procedures ￼; Utah Code.
+
+Wyoming
+	•	License Required / Definitions: Wyoming Statutes (WS) §26‑9‑101 et seq. require licensing for insurance producers ￼.
+	•	Producer Licensing: §26‑9‑201 to §26‑9‑233 govern licensing, examinations and renewals ￼.
+	•	Unfair Practices: §26‑13‑301 et seq. prohibits unfair trade practices.
+	•	Guaranty Associations: Wyoming Insurance Guaranty Association (§26‑42‑101 et seq.) and Life & Health Insurance Guaranty Association (§26‑38‑101 et seq.).
+	•	Forms & Rates: Rate and form regulation is addressed in §26‑14‑101 et seq.
+	•	Adjusters: Wyoming licenses public adjusters; independent adjusters operate under separate licensing.
+	•	Appointments: Producers must be appointed by insurers (§26‑9‑216).
+	•	CE Requirement: Wyoming requires 24 hours of CE every 2 years for resident producers, including 3 hours of ethics ￼.
+	•	Sources: Wyoming DOI – Licensing handbook ￼; Wyoming Statutes ￼..
+
