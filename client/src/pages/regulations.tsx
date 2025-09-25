@@ -464,7 +464,44 @@ const statesData = {
         "ceHours": "24 hours every 2 years (3 hours ethics); adjusters 24 hours for P/C, 12 hours for limited lines",
         "keyStatutes": "NCGS §§58‑33‑25 – 58‑33‑140 (licensing), §58‑63‑5 (unfair practices), §§58‑48‑15 and 58‑62‑20 (guaranty associations)",
         "uniqueFeatures": "DOI oversees fire and rescue services; separate Office of State Fire Marshal; adjuster licensing separate from producer licensing",
-        "sources": "NCDOI – Agent & adjuster licensing; NCGS Chapter 58"
+        "sources": "NCDOI – Agent & adjuster licensing; NCGS Chapter 58",
+        "website": "https://www.ncdoi.gov/",
+        "licensingUrl": "https://www.ncdoi.gov/agent-licensing",
+        "statuteUrl": "https://www.ncleg.gov/Laws/GeneralStatutes",
+        "guarantyUrl": "https://www.ncdoi.gov/consumers/insurance-guaranty-associations",
+        "aboutUrl": "https://www.ncdoi.gov/about-ncdoi",
+        "applicationPortal": "NIPR",
+        "examInfo": "Pearson VUE (adjusters exempt from exam)",
+        "divisions": "Agent Licensing; Consumer Services; Fire & Rescue; State Fire Marshal",
+        "statuteReferences": {
+            "licensing": "NCGS §§58-33-25–58-33-140",
+            "unfairPractices": "NCGS §58-63-5",
+            "guarantyAssociations": "NCGS §§58-48-15, 58-62-20",
+            "appointments": "Required by each insurer",
+            "adjusters": "NCGS Chapter 58 Article 33"
+        },
+        "officialSources": [
+            {
+                "title": "NCDOI home",
+                "url": "https://www.ncdoi.gov/"
+            },
+            {
+                "title": "About NC Department of Insurance",
+                "url": "https://www.ncdoi.gov/about-ncdoi"
+            },
+            {
+                "title": "Agent Licensing",
+                "url": "https://www.ncdoi.gov/agent-licensing"
+            },
+            {
+                "title": "NC General Statutes",
+                "url": "https://www.ncleg.gov/Laws/GeneralStatutes"
+            },
+            {
+                "title": "Insurance Guaranty Associations",
+                "url": "https://www.ncdoi.gov/consumers/insurance-guaranty-associations"
+            }
+        ]
     },
     "North Dakota": {
         "authority": "North Dakota Insurance Department",
@@ -480,7 +517,44 @@ const statesData = {
         "ceHours": "24 hours every 2 years (3 hours ethics); even-numbered year renewals complete CE by April 30",
         "keyStatutes": "NDCC §§26.1‑26‑03 – 26.1‑26‑31 (licensing), §26.1‑04‑03 (unfair practices), §§26.1‑32‑01 (P/C guaranty), 26.1‑38‑01 (life/health guaranty)",
         "uniqueFeatures": "Specialized training for long-term care or annuity products; license suspension for CE failure",
-        "sources": "ND Insurance Department – Producer licensing; NDCC Title 26.1"
+        "sources": "ND Insurance Department – Producer licensing; NDCC Title 26.1",
+        "website": "https://www.insurance.nd.gov/",
+        "licensingUrl": "https://www.insurance.nd.gov/producer-licensing",
+        "statuteUrl": "https://www.legis.nd.gov/cencode/t26-1c26-1.pdf",
+        "guarantyUrl": "https://www.insurance.nd.gov/guaranty-funds",
+        "aboutUrl": "https://www.insurance.nd.gov/about",
+        "applicationPortal": "NIPR",
+        "examInfo": "Pearson VUE (no exam required for major lines)",
+        "divisions": "Producer Licensing; Consumer Services; Financial Examination; Market Regulation",
+        "statuteReferences": {
+            "licensing": "NDCC §§26.1-26-03–26.1-26-31",
+            "unfairPractices": "NDCC §26.1-04-03",
+            "guarantyPC": "NDCC §§26.1-32-01",
+            "guarantyLife": "NDCC §26.1-38-01",
+            "appointments": "Required by each insurer"
+        },
+        "officialSources": [
+            {
+                "title": "ND Insurance Department home",
+                "url": "https://www.insurance.nd.gov/"
+            },
+            {
+                "title": "About the Department",
+                "url": "https://www.insurance.nd.gov/about"
+            },
+            {
+                "title": "Producer Licensing",
+                "url": "https://www.insurance.nd.gov/producer-licensing"
+            },
+            {
+                "title": "NDCC Title 26.1 (Insurance)",
+                "url": "https://www.legis.nd.gov/cencode/t26-1c26-1.pdf"
+            },
+            {
+                "title": "Guaranty Funds",
+                "url": "https://www.insurance.nd.gov/guaranty-funds"
+            }
+        ]
     },
     "Ohio": {
         "authority": "Ohio Department of Insurance",
@@ -496,7 +570,45 @@ const statesData = {
         "ceHours": "24 hours every 2 years (3 hours ethics)",
         "keyStatutes": "ORC §§3905.02 – 3905.22 (licensing), §§3901.19 – 3901.27 (unfair practices), §§3955.01 – 3955.19 (P/C guaranty), §§3956.01 – 3956.18 (life/health guaranty)",
         "uniqueFeatures": "Prohibits credit scores as sole underwriting factor; public adjusters need $1,000 bond and 10 CE hours; no independent/company adjuster licensing",
-        "sources": "Ohio Department of Insurance – Licensing info; ORC Title 39"
+        "sources": "Ohio Department of Insurance – Licensing info; ORC Title 39",
+        "website": "https://insurance.ohio.gov/",
+        "licensingUrl": "https://insurance.ohio.gov/industry/producer-licensing",
+        "statuteUrl": "https://codes.ohio.gov/ohio-revised-code/title-39",
+        "guarantyUrl": "https://insurance.ohio.gov/consumer/guaranty-associations",
+        "aboutUrl": "https://insurance.ohio.gov/about-odi",
+        "applicationPortal": "NIPR/Sircon",
+        "examInfo": "PSI (required for producer licensing)",
+        "divisions": "Producer Licensing; Consumer Services; Financial Examination; Market Conduct",
+        "statuteReferences": {
+            "licensing": "ORC §§3905.02–3905.22",
+            "unfairPractices": "ORC §§3901.19–3901.27",
+            "guarantyPC": "ORC §§3955.01–3955.19",
+            "guarantyLife": "ORC §§3956.01–3956.18",
+            "appointments": "Required by each insurer",
+            "adjusters": "Public adjusters only (bond required)"
+        },
+        "officialSources": [
+            {
+                "title": "Ohio Department of Insurance home",
+                "url": "https://insurance.ohio.gov/"
+            },
+            {
+                "title": "About ODI",
+                "url": "https://insurance.ohio.gov/about-odi"
+            },
+            {
+                "title": "Producer Licensing",
+                "url": "https://insurance.ohio.gov/industry/producer-licensing"
+            },
+            {
+                "title": "Ohio Revised Code Title 39",
+                "url": "https://codes.ohio.gov/ohio-revised-code/title-39"
+            },
+            {
+                "title": "Guaranty Associations",
+                "url": "https://insurance.ohio.gov/consumer/guaranty-associations"
+            }
+        ]
     },
     "Oklahoma": {
         "authority": "Oklahoma Insurance Department",
@@ -512,7 +624,45 @@ const statesData = {
         "ceHours": "24 hours every 2 years (3 hours ethics)",
         "keyStatutes": "36 O.S. §§1435.3 – 1435.23 (licensing), §1204 (unfair practices), §§3636 (P/C guaranty), 2021 (life/health guaranty)",
         "uniqueFeatures": "Exam scores valid 2 years; 2-hour annuity best-interest training; separate LTC and flood courses",
-        "sources": "Oklahoma Insurance Department – Licensing & Education; Oklahoma statutes"
+        "sources": "Oklahoma Insurance Department – Licensing & Education; Oklahoma statutes",
+        "website": "https://www.oid.ok.gov/",
+        "licensingUrl": "https://www.oid.ok.gov/producers/licensing",
+        "statuteUrl": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=69550",
+        "guarantyUrl": "https://www.oid.ok.gov/consumers/guaranty-associations",
+        "aboutUrl": "https://www.oid.ok.gov/about",
+        "applicationPortal": "NIPR",
+        "examInfo": "PSI (wait 3 business days after passing before applying)",
+        "divisions": "Producer Licensing; Consumer Protection; Financial Regulation; Market Conduct",
+        "statuteReferences": {
+            "licensing": "36 O.S. §§1435.3–1435.23",
+            "unfairPractices": "36 O.S. §1204",
+            "guarantyPC": "36 O.S. §§3636",
+            "guarantyLife": "36 O.S. §2021",
+            "appointments": "Required by each insurer",
+            "examValidity": "Scores valid for 2 years"
+        },
+        "officialSources": [
+            {
+                "title": "Oklahoma Insurance Department home",
+                "url": "https://www.oid.ok.gov/"
+            },
+            {
+                "title": "About OID",
+                "url": "https://www.oid.ok.gov/about"
+            },
+            {
+                "title": "Producer Licensing",
+                "url": "https://www.oid.ok.gov/producers/licensing"
+            },
+            {
+                "title": "Oklahoma Statutes Title 36",
+                "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=69550"
+            },
+            {
+                "title": "Guaranty Associations",
+                "url": "https://www.oid.ok.gov/consumers/guaranty-associations"
+            }
+        ]
     },
     "Oregon": {
         "authority": "Oregon Division of Financial Regulation, Department of Consumer & Business Services",
@@ -528,7 +678,45 @@ const statesData = {
         "ceHours": "24 hours every 2 years (3 hours ethics)",
         "keyStatutes": "ORS §§744.051 – 744.098 (licensing), §746.230 (unfair practices), §§735.500 – 735.650 (P/C guaranty), §§734.010 – 734.710 (life/health guaranty)",
         "uniqueFeatures": "3-hour NFIP course for flood insurance; 8-hour initial and 4-hour ongoing LTC courses",
-        "sources": "Oregon DFR – Licensing; Oregon Revised Statutes"
+        "sources": "Oregon DFR – Licensing; Oregon Revised Statutes",
+        "website": "https://dfr.oregon.gov/",
+        "licensingUrl": "https://dfr.oregon.gov/business/ins-opp/licensing",
+        "statuteUrl": "https://www.oregonlegislature.gov/bills_laws/ors/ors744.html",
+        "guarantyUrl": "https://dfr.oregon.gov/consumers/insurance/pages/guaranty-association.aspx",
+        "aboutUrl": "https://dfr.oregon.gov/about",
+        "applicationPortal": "NIPR",
+        "examInfo": "Pearson VUE (required for producer licensing)",
+        "divisions": "Insurance Regulation; Consumer Protection; Financial Regulation; Market Conduct",
+        "statuteReferences": {
+            "licensing": "ORS §§744.051–744.098",
+            "unfairPractices": "ORS §746.230",
+            "guarantyPC": "ORS §§735.500–735.650",
+            "guarantyLife": "ORS §§734.010–734.710",
+            "appointments": "Required by each insurer",
+            "floodInsurance": "3-hour NFIP course required"
+        },
+        "officialSources": [
+            {
+                "title": "Oregon DFR home",
+                "url": "https://dfr.oregon.gov/"
+            },
+            {
+                "title": "About DFR",
+                "url": "https://dfr.oregon.gov/about"
+            },
+            {
+                "title": "Insurance Producer Licensing",
+                "url": "https://dfr.oregon.gov/business/ins-opp/licensing"
+            },
+            {
+                "title": "Oregon Revised Statutes Chapter 744",
+                "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors744.html"
+            },
+            {
+                "title": "Guaranty Association",
+                "url": "https://dfr.oregon.gov/consumers/insurance/pages/guaranty-association.aspx"
+            }
+        ]
     },
     "Pennsylvania": {
         "authority": "Pennsylvania Insurance Department",
@@ -544,7 +732,45 @@ const statesData = {
         "ceHours": "24 hours every 2 years (3 hours ethics)",
         "keyStatutes": "40 Pa.C.S. §§631.1 – 631.20 (licensing), §§626.1 – 626.69 (unfair practices), §§991-A (P/C guaranty), 991.1-A (life/health guaranty)",
         "uniqueFeatures": "Mandatory continuing education audit system; separate flood and LTC courses",
-        "sources": "Pennsylvania Insurance Department – Producer licensing; Pennsylvania statutes"
+        "sources": "Pennsylvania Insurance Department – Producer licensing; Pennsylvania statutes",
+        "website": "https://www.insurance.pa.gov/",
+        "licensingUrl": "https://www.insurance.pa.gov/companies-providers/producer-licensing/",
+        "statuteUrl": "https://www.legis.state.pa.us/cfdocs/legis/LI/consCheck.cfm?txtType=HTM&ttl=40",
+        "guarantyUrl": "https://www.insurance.pa.gov/coverage/consumer-info/pages/guaranty-associations.aspx",
+        "aboutUrl": "https://www.insurance.pa.gov/About/Pages/default.aspx",
+        "applicationPortal": "NIPR",
+        "examInfo": "PSI (required for producer licensing)",
+        "divisions": "Producer Licensing; Consumer Services; Market Conduct; Financial Regulation",
+        "statuteReferences": {
+            "licensing": "40 Pa.C.S. §§631.1–631.20",
+            "unfairPractices": "40 Pa.C.S. §§626.1–626.69",
+            "guarantyPC": "40 Pa.C.S. §991-A",
+            "guarantyLife": "40 Pa.C.S. §991.1-A",
+            "appointments": "Required by each insurer",
+            "auditSystem": "Mandatory CE audit system"
+        },
+        "officialSources": [
+            {
+                "title": "Pennsylvania Insurance Department home",
+                "url": "https://www.insurance.pa.gov/"
+            },
+            {
+                "title": "About PID",
+                "url": "https://www.insurance.pa.gov/About/Pages/default.aspx"
+            },
+            {
+                "title": "Producer Licensing",
+                "url": "https://www.insurance.pa.gov/companies-providers/producer-licensing/"
+            },
+            {
+                "title": "Pennsylvania Code Title 40",
+                "url": "https://www.legis.state.pa.us/cfdocs/legis/LI/consCheck.cfm?txtType=HTM&ttl=40"
+            },
+            {
+                "title": "Guaranty Associations",
+                "url": "https://www.insurance.pa.gov/coverage/consumer-info/pages/guaranty-associations.aspx"
+            }
+        ]
     },
     "South Carolina": {
         "authority": "South Carolina Department of Insurance",
@@ -560,7 +786,45 @@ const statesData = {
         "ceHours": "24 hours every 2 years (3 hours ethics)",
         "keyStatutes": "S.C. Code §§38‑43‑10 – 38‑43‑160 (licensing), §38‑55‑60 (unfair practices), §§38‑31‑10 (P/C guaranty), 38‑37‑10 (life/health guaranty)",
         "uniqueFeatures": "Wind and Hail Underwriting Association for coastal properties; separate flood insurance training",
-        "sources": "SC Department of Insurance – Producer licensing; South Carolina Code"
+        "sources": "SC Department of Insurance – Producer licensing; South Carolina Code",
+        "website": "https://doi.sc.gov/",
+        "licensingUrl": "https://doi.sc.gov/producer-licensing",
+        "statuteUrl": "https://www.scstatehouse.gov/code/t38c043.php",
+        "guarantyUrl": "https://doi.sc.gov/consumer/guaranty-associations",
+        "aboutUrl": "https://doi.sc.gov/about",
+        "applicationPortal": "NIPR",
+        "examInfo": "PSI (required for producer licensing)",
+        "divisions": "Producer Licensing; Consumer Services; Market Regulation; Coastal Property",
+        "statuteReferences": {
+            "licensing": "S.C. Code §§38-43-10–38-43-160",
+            "unfairPractices": "S.C. Code §38-55-60",
+            "guarantyPC": "S.C. Code §38-31-10",
+            "guarantyLife": "S.C. Code §38-37-10",
+            "appointments": "Required by each insurer",
+            "coastalProperties": "Wind and Hail Underwriting Association"
+        },
+        "officialSources": [
+            {
+                "title": "SC Department of Insurance home",
+                "url": "https://doi.sc.gov/"
+            },
+            {
+                "title": "About SC DOI",
+                "url": "https://doi.sc.gov/about"
+            },
+            {
+                "title": "Producer Licensing",
+                "url": "https://doi.sc.gov/producer-licensing"
+            },
+            {
+                "title": "South Carolina Code Title 38",
+                "url": "https://www.scstatehouse.gov/code/t38c043.php"
+            },
+            {
+                "title": "Guaranty Associations",
+                "url": "https://doi.sc.gov/consumer/guaranty-associations"
+            }
+        ]
     },
     "Tennessee": {
         "authority": "Tennessee Department of Commerce & Insurance",
@@ -576,7 +840,45 @@ const statesData = {
         "ceHours": "24 hours every 2 years (3 hours ethics)",
         "keyStatutes": "Tenn. Code Ann. §§56‑6‑101 – 56‑6‑122 (licensing), §56‑8‑104 (unfair practices), §§56‑12‑101 (P/C guaranty), 56‑7‑101 (life/health guaranty)",
         "uniqueFeatures": "Combined Department of Commerce & Insurance; separate courses for flood and long-term care",
-        "sources": "Tennessee Department of Commerce & Insurance – Licensing; Tennessee Code"
+        "sources": "Tennessee Department of Commerce & Insurance – Licensing; Tennessee Code",
+        "website": "https://www.tn.gov/commerce/insurance.html",
+        "licensingUrl": "https://www.tn.gov/commerce/insurance/licensing.html",
+        "statuteUrl": "https://www.tn.gov/commerce/insurance/legal.html",
+        "guarantyUrl": "https://www.tn.gov/commerce/insurance/consumers/guaranty-associations.html",
+        "aboutUrl": "https://www.tn.gov/commerce/about.html",
+        "applicationPortal": "NIPR",
+        "examInfo": "PSI (required for producer licensing)",
+        "divisions": "Insurance Division; Commerce Division; Regulatory Boards; Fire Prevention",
+        "statuteReferences": {
+            "licensing": "Tenn. Code Ann. §§56-6-101–56-6-122",
+            "unfairPractices": "Tenn. Code Ann. §56-8-104",
+            "guarantyPC": "Tenn. Code Ann. §56-12-101",
+            "guarantyLife": "Tenn. Code Ann. §56-7-101",
+            "appointments": "Required by each insurer",
+            "combinedDept": "Commerce & Insurance combined"
+        },
+        "officialSources": [
+            {
+                "title": "TN Department of Commerce & Insurance home",
+                "url": "https://www.tn.gov/commerce/insurance.html"
+            },
+            {
+                "title": "About the Department",
+                "url": "https://www.tn.gov/commerce/about.html"
+            },
+            {
+                "title": "Insurance Licensing",
+                "url": "https://www.tn.gov/commerce/insurance/licensing.html"
+            },
+            {
+                "title": "Legal Resources",
+                "url": "https://www.tn.gov/commerce/insurance/legal.html"
+            },
+            {
+                "title": "Guaranty Associations",
+                "url": "https://www.tn.gov/commerce/insurance/consumers/guaranty-associations.html"
+            }
+        ]
     },
     "Texas": {
         "authority": "Texas Department of Insurance (TDI)",
@@ -592,7 +894,46 @@ const statesData = {
         "ceHours": "30 hours every 2 years (2 hours ethics + 3 hours fraud prevention)",
         "keyStatutes": "Tex. Ins. Code §§4001.051 – 4001.204 (licensing), §541.051 (unfair practices), §§462.001 – 462.712 (P/C guaranty), §463.001 – 463.605 (life/health guaranty)",
         "uniqueFeatures": "30 hours CE requirement (highest among states covered); windstorm insurance via TWIA; separate courses for flood, ethics, and fraud prevention",
-        "sources": "TDI – General lines agent licensing; Texas Insurance Code"
+        "sources": "TDI – General lines agent licensing; Texas Insurance Code",
+        "website": "https://www.tdi.texas.gov/",
+        "licensingUrl": "https://www.tdi.texas.gov/license/agent/index.html",
+        "statuteUrl": "https://statutes.capitol.texas.gov/Docs/IN/htm/IN.4001.htm",
+        "guarantyUrl": "https://www.tdi.texas.gov/consumer/guaranty-associations.html",
+        "aboutUrl": "https://www.tdi.texas.gov/about/",
+        "applicationPortal": "NIPR",
+        "examInfo": "PSI (required for producer licensing)",
+        "divisions": "Licensing & Registration; Market Conduct; Financial Regulation; Consumer Protection",
+        "statuteReferences": {
+            "licensing": "Tex. Ins. Code §§4001.051–4001.204",
+            "unfairPractices": "Tex. Ins. Code §541.051",
+            "guarantyPC": "Tex. Ins. Code §§462.001–462.712",
+            "guarantyLife": "Tex. Ins. Code §463.001–463.605",
+            "appointments": "Required by each insurer",
+            "windstorm": "TWIA windstorm insurance",
+            "ceRequirement": "30 hours (highest requirement)"
+        },
+        "officialSources": [
+            {
+                "title": "Texas Department of Insurance home",
+                "url": "https://www.tdi.texas.gov/"
+            },
+            {
+                "title": "About TDI",
+                "url": "https://www.tdi.texas.gov/about/"
+            },
+            {
+                "title": "Agent Licensing",
+                "url": "https://www.tdi.texas.gov/license/agent/index.html"
+            },
+            {
+                "title": "Texas Insurance Code",
+                "url": "https://statutes.capitol.texas.gov/Docs/IN/htm/IN.4001.htm"
+            },
+            {
+                "title": "Guaranty Associations",
+                "url": "https://www.tdi.texas.gov/consumer/guaranty-associations.html"
+            }
+        ]
     },
     "Utah": {
         "authority": "Utah Insurance Department",
@@ -608,7 +949,46 @@ const statesData = {
         "ceHours": "24 hours every 2 years (3 hours ethics)",
         "keyStatutes": "Utah Code §§31A‑23a‑101 – 31A‑23a‑117 (licensing), §31A‑23‑236 (unfair practices), §§31A‑28‑101 (P/C guaranty), 31A‑28‑201 (life/health guaranty)",
         "uniqueFeatures": "Pre-licensing exam must be taken within 180 days of course completion; annuity suitability training required",
-        "sources": "Utah Insurance Department – Producer licensing; Utah Code"
+        "sources": "Utah Insurance Department – Producer licensing; Utah Code",
+        "website": "https://insurance.utah.gov/",
+        "licensingUrl": "https://insurance.utah.gov/licensing/producer-licensing",
+        "statuteUrl": "https://le.utah.gov/xcode/Title31A/Chapter23a/31A-23a.html",
+        "guarantyUrl": "https://insurance.utah.gov/consumer/guaranty-associations",
+        "aboutUrl": "https://insurance.utah.gov/about",
+        "applicationPortal": "NIPR",
+        "examInfo": "PSI (must be taken within 180 days of course completion)",
+        "divisions": "Producer Licensing; Consumer Services; Market Conduct; Financial Regulation",
+        "statuteReferences": {
+            "licensing": "Utah Code §§31A-23a-101–31A-23a-117",
+            "unfairPractices": "Utah Code §31A-23-236",
+            "guarantyPC": "Utah Code §31A-28-101",
+            "guarantyLife": "Utah Code §31A-28-201",
+            "appointments": "Required by each insurer",
+            "examTiming": "180-day exam completion requirement",
+            "annuitySuitability": "Required training"
+        },
+        "officialSources": [
+            {
+                "title": "Utah Insurance Department home",
+                "url": "https://insurance.utah.gov/"
+            },
+            {
+                "title": "About the Department",
+                "url": "https://insurance.utah.gov/about"
+            },
+            {
+                "title": "Producer Licensing",
+                "url": "https://insurance.utah.gov/licensing/producer-licensing"
+            },
+            {
+                "title": "Utah Code Title 31A",
+                "url": "https://le.utah.gov/xcode/Title31A/Chapter23a/31A-23a.html"
+            },
+            {
+                "title": "Guaranty Associations",
+                "url": "https://insurance.utah.gov/consumer/guaranty-associations"
+            }
+        ]
     },
     "West Virginia": {
         "authority": "West Virginia Offices of the Insurance Commissioner",
@@ -624,7 +1004,46 @@ const statesData = {
         "ceHours": "24 hours every 2 years (3 hours ethics)",
         "keyStatutes": "W. Va. Code §§33‑12‑1 – 33‑12‑19 (licensing), §33‑11‑4 (unfair practices), §§33‑26‑1 (P/C guaranty), 33‑26A‑1 (life/health guaranty)",
         "uniqueFeatures": "Combined life and health exam; separate courses for annuity suitability and long-term care",
-        "sources": "WV Offices of the Insurance Commissioner – Producer licensing; West Virginia Code"
+        "sources": "WV Offices of the Insurance Commissioner – Producer licensing; West Virginia Code",
+        "website": "https://www.wvinsurance.gov/",
+        "licensingUrl": "https://www.wvinsurance.gov/licensing/producer-licensing",
+        "statuteUrl": "http://www.legis.state.wv.us/wvcode/code.cfm?chap=33&art=12",
+        "guarantyUrl": "https://www.wvinsurance.gov/consumer/guaranty-associations",
+        "aboutUrl": "https://www.wvinsurance.gov/about",
+        "applicationPortal": "NIPR",
+        "examInfo": "PSI (combined life and health exam available)",
+        "divisions": "Producer Licensing; Consumer Services; Market Conduct; Financial Oversight",
+        "statuteReferences": {
+            "licensing": "W. Va. Code §§33-12-1–33-12-19",
+            "unfairPractices": "W. Va. Code §33-11-4",
+            "guarantyPC": "W. Va. Code §33-26-1",
+            "guarantyLife": "W. Va. Code §33-26A-1",
+            "appointments": "Required by each insurer",
+            "combinedExam": "Life and health combined exam option",
+            "annuitySuitability": "Required training course"
+        },
+        "officialSources": [
+            {
+                "title": "WV Offices of the Insurance Commissioner home",
+                "url": "https://www.wvinsurance.gov/"
+            },
+            {
+                "title": "About the Insurance Commissioner",
+                "url": "https://www.wvinsurance.gov/about"
+            },
+            {
+                "title": "Producer Licensing",
+                "url": "https://www.wvinsurance.gov/licensing/producer-licensing"
+            },
+            {
+                "title": "West Virginia Code Chapter 33",
+                "url": "http://www.legis.state.wv.us/wvcode/code.cfm?chap=33&art=12"
+            },
+            {
+                "title": "Guaranty Associations",
+                "url": "https://www.wvinsurance.gov/consumer/guaranty-associations"
+            }
+        ]
     }
 };
 
