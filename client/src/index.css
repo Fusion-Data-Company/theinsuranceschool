@@ -49,6 +49,110 @@
 }
 
 @layer components {
+  /* Advanced Animation Keyframes */
+  @keyframes holographicShift {
+    0% { background-position: 0% 50%; transform: rotate(0deg); }
+    25% { background-position: 100% 50%; }
+    50% { background-position: 100% 50%; transform: rotate(2deg); }
+    75% { background-position: 0% 50%; }
+    100% { background-position: 0% 50%; transform: rotate(0deg); }
+  }
+  
+  @keyframes auroraFlow {
+    0% { transform: translateX(-100%) rotate(0deg); opacity: 0.3; }
+    20% { opacity: 0.7; }
+    50% { transform: translateX(0%) rotate(5deg); opacity: 0.8; }
+    80% { opacity: 0.6; }
+    100% { transform: translateX(100%) rotate(0deg); opacity: 0.3; }
+  }
+  
+  @keyframes textShimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  
+  @keyframes floatingParticle {
+    0% { transform: translate3d(0, 100vh, 0) scale(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; transform: translate3d(0, 90vh, 0) scale(1) rotate(30deg); }
+    90% { opacity: 0.8; transform: translate3d(0, -10vh, 0) scale(0.8) rotate(330deg); }
+    100% { transform: translate3d(0, -20vh, 0) scale(0) rotate(360deg); opacity: 0; }
+  }
+  
+  @keyframes prismaticShift {
+    0% { filter: hue-rotate(0deg) saturate(100%) brightness(1); }
+    25% { filter: hue-rotate(90deg) saturate(120%) brightness(1.1); }
+    50% { filter: hue-rotate(180deg) saturate(140%) brightness(1.2); }
+    75% { filter: hue-rotate(270deg) saturate(120%) brightness(1.1); }
+    100% { filter: hue-rotate(360deg) saturate(100%) brightness(1); }
+  }
+  
+  @keyframes magneticPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.6), 0 0 60px rgba(255, 0, 255, 0.4); }
+  }
+  
+  @keyframes ambientLighting {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  @keyframes cyberpunkGrid {
+    0% { transform: translateY(0) scale(1); opacity: 0.1; }
+    50% { transform: translateY(-50px) scale(1.05); opacity: 0.3; }
+    100% { transform: translateY(0) scale(1); opacity: 0.1; }
+  }
+  
+  @keyframes energyPulse {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.7; }
+    50% { transform: scale(1.1) rotate(180deg); opacity: 1; }
+  }
+  
+  @keyframes spectralGlow {
+    0% { text-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(255, 0, 255, 0.3); }
+    33% { text-shadow: 0 0 20px rgba(255, 0, 255, 0.5), 0 0 40px rgba(0, 255, 147, 0.3); }
+    66% { text-shadow: 0 0 20px rgba(0, 255, 147, 0.5), 0 0 40px rgba(0, 255, 255, 0.3); }
+    100% { text-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(255, 0, 255, 0.3); }
+  }
+  /* Spectacular Animated Background */
+  .cyberpunk-bg {
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(0, 255, 147, 0.1) 0%, transparent 50%),
+      linear-gradient(135deg, hsl(236, 61%, 16%) 0%, hsl(225, 15%, 6%) 25%, hsl(236, 61%, 16%) 50%, hsl(225, 15%, 6%) 75%, hsl(236, 61%, 16%) 100%);
+    background-size: 800px 800px, 600px 600px, 400px 400px, 100% 100%;
+    background-attachment: fixed;
+    animation: ambientLighting 20s ease-in-out infinite;
+    position: relative;
+  }
+  
+  .cyberpunk-bg::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 98px,
+        rgba(0, 255, 255, 0.03) 100px,
+        rgba(0, 255, 255, 0.03) 102px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 98px,
+        rgba(255, 0, 255, 0.03) 100px,
+        rgba(255, 0, 255, 0.03) 102px
+      );
+    pointer-events: none;
+    animation: cyberpunkGrid 8s ease-in-out infinite;
+  }
+
   .glass {
     background: 
       linear-gradient(135deg, 
@@ -315,6 +419,117 @@
       0 0 12px rgba(255, 255, 255, 0.1);
   }
 
+  /* Advanced Search Container */
+  .search-glass {
+    background: 
+      linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.15) 0%, 
+        rgba(255, 255, 255, 0.08) 30%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        rgba(255, 255, 255, 0.08) 70%, 
+        rgba(255, 255, 255, 0.15) 100%
+      ),
+      linear-gradient(45deg, 
+        hsla(225, 15%, 6%, 0.4) 0%, 
+        hsla(236, 61%, 16%, 0.5) 30%, 
+        hsla(225, 15%, 6%, 0.6) 50%, 
+        hsla(236, 61%, 16%, 0.5) 70%, 
+        hsla(225, 15%, 6%, 0.4) 100%
+      ),
+      radial-gradient(circle at center, 
+        rgba(0, 255, 255, 0.1) 0%, 
+        rgba(255, 0, 255, 0.05) 50%, 
+        transparent 100%
+      );
+    border-radius: 2rem;
+    backdrop-filter: blur(50px) saturate(200%) brightness(1.1) contrast(1.05);
+    -webkit-backdrop-filter: blur(50px) saturate(200%) brightness(1.1) contrast(1.05);
+    border: 2px solid rgba(0, 255, 255, 0.3);
+    box-shadow: 
+      0 0 50px rgba(0, 255, 255, 0.2), 
+      0 0 100px rgba(255, 0, 255, 0.1),
+      0 20px 40px rgba(0, 0, 0, 0.4), 
+      0 10px 20px rgba(0, 255, 255, 0.1),
+      inset 0 2px 4px rgba(255, 255, 255, 0.2),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .search-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: 
+      repeating-conic-gradient(from 0deg at 50% 50%, 
+        transparent 0deg, 
+        rgba(0, 255, 255, 0.1) 1deg, 
+        transparent 2deg, 
+        rgba(255, 0, 255, 0.1) 3deg, 
+        transparent 4deg
+      );
+    opacity: 0.3;
+    animation: holographicShift 12s ease-in-out infinite;
+    pointer-events: none;
+    border-radius: 2rem;
+  }
+  
+  .search-glass:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(0, 255, 255, 0.5);
+    box-shadow: 
+      0 0 80px rgba(0, 255, 255, 0.3), 
+      0 0 120px rgba(255, 0, 255, 0.15),
+      0 30px 60px rgba(0, 0, 0, 0.5), 
+      0 15px 30px rgba(0, 255, 255, 0.2),
+      inset 0 3px 6px rgba(255, 255, 255, 0.25),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Premium Input Fields */
+  .input-cyberpunk {
+    background: 
+      linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.08) 0%, 
+        rgba(255, 255, 255, 0.03) 50%, 
+        rgba(255, 255, 255, 0.08) 100%
+      ),
+      linear-gradient(45deg, 
+        hsla(225, 15%, 6%, 0.6) 0%, 
+        hsla(236, 61%, 16%, 0.7) 50%, 
+        hsla(225, 15%, 6%, 0.6) 100%
+      );
+    border: 2px solid rgba(0, 255, 255, 0.3);
+    border-radius: 1rem;
+    backdrop-filter: blur(30px) saturate(150%) brightness(1.05);
+    -webkit-backdrop-filter: blur(30px) saturate(150%) brightness(1.05);
+    box-shadow: 
+      0 0 30px rgba(0, 255, 255, 0.15),
+      inset 0 2px 4px rgba(255, 255, 255, 0.1),
+      inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .input-cyberpunk:focus {
+    outline: none;
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow: 
+      0 0 50px rgba(0, 255, 255, 0.25),
+      0 0 80px rgba(255, 0, 255, 0.1),
+      inset 0 2px 4px rgba(255, 255, 255, 0.15),
+      inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+    transform: scale(1.02);
+  }
+  
+  .input-cyberpunk::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+
   .card-glass {
     background: 
       linear-gradient(135deg, 
@@ -378,5 +593,70 @@
     background: linear-gradient(135deg, hsla(225, 15%, 6%, 0.9) 65%, hsla(236, 61%, 16%, 0.8) 100%);
     backdrop-filter: blur(20px) saturate(120%);
     border: 1px solid hsla(0, 0%, 100%, 0.08);
+  }
+  
+  /* Spectral Text Effects */
+  .text-spectral {
+    background: linear-gradient(90deg, 
+      rgba(0, 255, 255, 1) 0%, 
+      rgba(255, 255, 255, 1) 25%, 
+      rgba(255, 0, 255, 1) 50%, 
+      rgba(0, 255, 147, 1) 75%, 
+      rgba(0, 255, 255, 1) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 100%;
+    animation: textShimmer 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5));
+  }
+  
+  .text-neon {
+    color: rgba(0, 255, 255, 0.95);
+    text-shadow: 
+      0 0 10px rgba(0, 255, 255, 0.8),
+      0 0 20px rgba(0, 255, 255, 0.6),
+      0 0 30px rgba(0, 255, 255, 0.4),
+      0 0 40px rgba(0, 255, 255, 0.2);
+    animation: spectralGlow 6s ease-in-out infinite;
+  }
+  
+  /* Advanced Hover States */
+  .magnetic-hover {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+  }
+  
+  .magnetic-hover:hover {
+    transform: translateY(-8px) scale(1.05);
+    animation: magneticPulse 2s ease-in-out infinite;
+  }
+  
+  /* Iridescent Surface Effects */
+  .iridescent {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .iridescent::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, 
+      rgba(0, 255, 255, 0.2) 0%, 
+      rgba(255, 0, 255, 0.2) 25%, 
+      rgba(0, 255, 147, 0.2) 50%, 
+      rgba(255, 100, 0, 0.2) 75%, 
+      rgba(0, 255, 255, 0.2) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    animation: prismaticShift 8s ease-in-out infinite;
+  }
+  
+  .iridescent:hover::before {
+    opacity: 0.6;
   }
 }

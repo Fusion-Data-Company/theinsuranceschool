@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { Search, Filter, Building, Phone, MapPin, Clock, BookOpen, FileText, AlertTriangle, CheckCircle, Award, ExternalLink, Users, Scale, Link2, Archive, ChevronDown, ChevronUp } from "lucide-react";
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import { Search, Filter, Building, Phone, MapPin, Clock, BookOpen, FileText, AlertTriangle, CheckCircle, Award, ExternalLink, Users, Scale, Link2, Archive, ChevronDown, ChevronUp, Sparkles, Zap, Star, Hexagon } from "lucide-react";
 
 // Complete state data structure for all 28 states
 const statesData = {
@@ -1047,42 +1047,274 @@ const statesData = {
     }
 };
 
+// Floating Particle Component
+const FloatingParticle = ({ delay = 0, size = 4, color = 'cyan', duration = 20 }: { delay?: number; size?: number; color?: string; duration?: number }) => {
+  const particleRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    const particle = particleRef.current;
+    if (!particle) return;
+    
+    const animate = () => {
+      const startX = Math.random() * window.innerWidth;
+      const startY = window.innerHeight + 20;
+      const endX = startX + (Math.random() - 0.5) * 200;
+      const endY = -20;
+      
+      particle.style.left = `${startX}px`;
+      particle.style.top = `${startY}px`;
+      particle.style.opacity = '0';
+      
+      const animation = particle.animate([
+        { 
+          transform: `translate3d(0, 0, 0) scale(0)`, 
+          opacity: '0' 
+        },
+        { 
+          transform: `translate3d(${(endX - startX) * 0.3}px, ${(endY - startY) * 0.3}px, 0) scale(1)`, 
+          opacity: '0.8', 
+          offset: 0.1 
+        },
+        { 
+          transform: `translate3d(${(endX - startX) * 0.7}px, ${(endY - startY) * 0.7}px, 0) scale(0.8)`, 
+          opacity: '0.6', 
+          offset: 0.8 
+        },
+        { 
+          transform: `translate3d(${endX - startX}px, ${endY - startY}px, 0) scale(0)`, 
+          opacity: '0' 
+        }
+      ], {
+        duration: duration * 1000,
+        easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+      });
+      
+      animation.onfinish = () => {
+        setTimeout(animate, Math.random() * 2000);
+      };
+    };
+    
+    setTimeout(animate, delay * 1000);
+  }, [delay, duration]);
+  
+  return (
+    <div
+      ref={particleRef}
+      className="fixed pointer-events-none z-0"
+      style={{
+        width: `${size}px`,
+        height: `${size}px`,
+        background: `radial-gradient(circle, var(--electric-${color}), transparent 70%)`,
+        borderRadius: '50%',
+        filter: `blur(${size * 0.3}px)`,
+        boxShadow: `0 0 ${size * 2}px var(--electric-${color})`
+      }}
+    />
+  );
+};
+
+// Advanced Cursor Trail Effect
+const CursorTrail = () => {
+  const [trails, setTrails] = useState<Array<{id: number, x: number, y: number, timestamp: number}>>([]);
+  const trailRef = useRef<number>(0);
+  
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const newTrail = {
+        id: trailRef.current++,
+        x: e.clientX,
+        y: e.clientY,
+        timestamp: Date.now()
+      };
+      
+      setTrails(prev => [...prev.slice(-8), newTrail]);
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    const cleanup = setInterval(() => {
+      setTrails(prev => prev.filter(trail => Date.now() - trail.timestamp < 1000));
+    }, 100);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      clearInterval(cleanup);
+    };
+  }, []);
+  
+  return (
+    <div className="fixed inset-0 pointer-events-none z-50">
+      {trails.map((trail, index) => {
+        const age = Date.now() - trail.timestamp;
+        const opacity = Math.max(0, 1 - age / 1000);
+        const scale = 1 - index * 0.1;
+        
+        return (
+          <div
+            key={trail.id}
+            className="absolute w-3 h-3 rounded-full"
+            style={{
+              left: trail.x - 6,
+              top: trail.y - 6,
+              background: `radial-gradient(circle, rgba(0, 255, 255, ${opacity}), rgba(255, 0, 255, ${opacity * 0.5}))`,
+              transform: `scale(${scale})`,
+              filter: 'blur(1px)',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
 const StateCard = ({ stateName, stateData }: { stateName: string; stateData: any }) => {
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({});
-
+  const [isHovered, setIsHovered] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const cardRef = useRef<HTMLDivElement>(null);
+  
   const toggleSection = (section: string) => {
     setExpandedSections(prev => ({
       ...prev,
       [section]: !prev[section]
     }));
   };
+  
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!cardRef.current) return;
+    
+    const rect = cardRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    const deltaX = (e.clientX - centerX) / (rect.width / 2);
+    const deltaY = (e.clientY - centerY) / (rect.height / 2);
+    
+    setMousePosition({ x: deltaX, y: deltaY });
+  }, []);
+  
+  useEffect(() => {
+    if (isHovered) {
+      window.addEventListener('mousemove', handleMouseMove);
+    } else {
+      window.removeEventListener('mousemove', handleMouseMove);
+    }
+    
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [isHovered, handleMouseMove]);
 
   return (
     <div 
-      className="glass hover:scale-[1.01] transition-all duration-700 ease-out p-8 group"
+      ref={cardRef}
+      className="relative p-8 group cursor-pointer overflow-hidden"
       style={{
-        background: `linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.15) 0%, 
-          rgba(255, 255, 255, 0.08) 30%, 
-          rgba(255, 255, 255, 0.05) 50%, 
-          rgba(255, 255, 255, 0.08) 70%, 
-          rgba(255, 255, 255, 0.15) 100%
-        ), linear-gradient(45deg, 
-          rgba(180, 100, 255, 0.1) 0%, 
-          rgba(0, 255, 255, 0.1) 100%
-        )`,
-        borderImage: 'linear-gradient(135deg, rgba(0, 255, 255, 0.5), rgba(255, 0, 255, 0.5)) 1',
-        borderWidth: '2px',
-        borderStyle: 'solid',
+        background: `
+          linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.12) 0%, 
+            rgba(255, 255, 255, 0.06) 30%, 
+            rgba(255, 255, 255, 0.03) 50%, 
+            rgba(255, 255, 255, 0.06) 70%, 
+            rgba(255, 255, 255, 0.12) 100%
+          ),
+          linear-gradient(45deg, 
+            hsla(225, 15%, 6%, 0.4) 0%, 
+            hsla(236, 61%, 16%, 0.5) 30%, 
+            hsla(225, 15%, 6%, 0.6) 50%, 
+            hsla(236, 61%, 16%, 0.5) 70%, 
+            hsla(225, 15%, 6%, 0.4) 100%
+          ),
+          radial-gradient(circle at ${50 + mousePosition.x * 20}% ${50 + mousePosition.y * 20}%, 
+            rgba(0, 255, 255, 0.15) 0%, 
+            rgba(255, 0, 255, 0.1) 30%, 
+            transparent 70%
+          )
+        `,
+        borderRadius: '2rem',
+        border: `2px solid rgba(0, 255, 255, ${0.3 + Math.abs(mousePosition.x) * 0.2})`,
+        backdropFilter: 'blur(40px) saturate(200%) brightness(1.08) contrast(1.03)',
+        WebkitBackdropFilter: 'blur(40px) saturate(200%) brightness(1.08) contrast(1.03)',
         boxShadow: `
-          0 0 40px rgba(0, 255, 255, 0.1),
-          0 0 80px rgba(255, 0, 255, 0.05),
-          0 8px 32px rgba(0, 0, 0, 0.4),
-          inset 0 1px 0 rgba(255, 255, 255, 0.2)
-        `
+          0 0 40px rgba(0, 255, 255, ${0.15 + Math.abs(mousePosition.x) * 0.1}),
+          0 0 80px rgba(255, 0, 255, ${0.08 + Math.abs(mousePosition.y) * 0.05}),
+          0 ${20 + mousePosition.y * 10}px ${40 + Math.abs(mousePosition.x) * 20}px rgba(0, 0, 0, 0.4),
+          0 ${10 + mousePosition.y * 5}px ${20 + Math.abs(mousePosition.x) * 10}px rgba(0, 255, 255, 0.1),
+          inset 0 2px 4px rgba(255, 255, 255, 0.15),
+          inset 0 -2px 4px rgba(0, 0, 0, 0.1)
+        `,
+        transform: `
+          perspective(1000px) 
+          rotateX(${mousePosition.y * 5}deg) 
+          rotateY(${mousePosition.x * 5}deg) 
+          translateZ(${isHovered ? 20 : 0}px)
+          scale(${isHovered ? 1.02 : 1})
+        `,
+        transition: isHovered ? 'none' : 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+        transformStyle: 'preserve-3d'
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setMousePosition({ x: 0, y: 0 });
       }}
       data-testid={`state-card-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
     >
+      {/* Holographic Overlay */}
+      <div 
+        className="absolute inset-0 opacity-30 pointer-events-none"
+        style={{
+          background: `
+            repeating-conic-gradient(from ${mousePosition.x * 180}deg at 50% 50%, 
+              transparent 0deg, 
+              rgba(0, 255, 255, 0.1) 1deg, 
+              transparent 2deg, 
+              rgba(255, 0, 255, 0.1) 3deg, 
+              transparent 4deg
+            )
+          `,
+          borderRadius: '2rem',
+          animation: 'holographicShift 8s ease-in-out infinite'
+        }}
+      />
+      
+      {/* Aurora Background Effect */}
+      <div 
+        className="absolute inset-0 opacity-20 pointer-events-none"
+        style={{
+          background: `
+            linear-gradient(${45 + mousePosition.x * 90}deg, 
+              rgba(0, 255, 255, 0.3) 0%, 
+              transparent 20%, 
+              rgba(255, 0, 255, 0.3) 40%, 
+              transparent 60%, 
+              rgba(0, 255, 147, 0.3) 80%, 
+              transparent 100%
+            )
+          `,
+          borderRadius: '2rem',
+          filter: 'blur(20px)',
+          animation: 'auroraFlow 12s ease-in-out infinite'
+        }}
+      />
+      
+      {/* Particle Sparkles */}
+      {isHovered && [
+        { top: '10%', left: '20%', delay: 0 },
+        { top: '30%', right: '15%', delay: 0.3 },
+        { bottom: '25%', left: '30%', delay: 0.6 },
+        { bottom: '15%', right: '25%', delay: 0.9 }
+      ].map((sparkle, i) => (
+        <div 
+          key={i}
+          className="absolute w-2 h-2 rounded-full animate-ping"
+          style={{
+            ...sparkle,
+            background: `radial-gradient(circle, rgba(0, 255, 255, 0.8), transparent 70%)`,
+            animationDelay: `${sparkle.delay}s`,
+            animationDuration: '2s'
+          }}
+        />
+      ))}
       <div 
         className="border-l-4 pl-6 mb-8 relative"
         style={{
@@ -1090,18 +1322,64 @@ const StateCard = ({ stateName, stateData }: { stateName: string; stateData: any
         }}
       >
         <h2 
-          className="text-3xl font-bold mb-3 bg-gradient-to-r from-cyan-300 via-white to-fuchsia-300 bg-clip-text text-transparent group-hover:from-cyan-200 group-hover:to-fuchsia-200 transition-all duration-500"
+          className="text-4xl font-black mb-4 relative group-hover:scale-105 transition-all duration-500"
           style={{
-            textShadow: '0 0 20px rgba(0, 255, 255, 0.3), 0 0 40px rgba(255, 0, 255, 0.2)'
+            background: `
+              linear-gradient(135deg, 
+                rgba(0, 255, 255, 1) 0%, 
+                rgba(255, 255, 255, 1) 30%, 
+                rgba(255, 0, 255, 1) 60%, 
+                rgba(0, 255, 147, 1) 100%
+              )
+            `,
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            textShadow: `
+              0 0 30px rgba(0, 255, 255, 0.5),
+              0 0 60px rgba(255, 0, 255, 0.3),
+              0 0 90px rgba(0, 255, 147, 0.2)
+            `,
+            filter: `
+              drop-shadow(0 0 10px rgba(0, 255, 255, 0.6))
+              drop-shadow(0 0 20px rgba(255, 0, 255, 0.4))
+              drop-shadow(0 0 30px rgba(0, 255, 147, 0.3))
+            `,
+            letterSpacing: '0.05em',
+            fontVariant: 'small-caps',
+            animation: 'textShimmer 4s ease-in-out infinite'
           }}
           data-testid={`state-title-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
         >
           {stateName}
+          <div 
+            className="absolute -inset-1 opacity-50 blur-sm"
+            style={{
+              background: `
+                linear-gradient(135deg, 
+                  rgba(0, 255, 255, 0.3) 0%, 
+                  rgba(255, 0, 255, 0.3) 50%, 
+                  rgba(0, 255, 147, 0.3) 100%
+                )
+              `,
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}
+          >
+            {stateName}
+          </div>
         </h2>
         <div 
-          className="text-cyan-300 font-semibold text-lg mb-2"
+          className="text-xl font-bold mb-3 relative"
           style={{
-            textShadow: '0 0 15px rgba(0, 255, 255, 0.4)'
+            background: `linear-gradient(90deg, rgba(0, 255, 255, 0.9), rgba(255, 255, 255, 0.95), rgba(0, 255, 255, 0.9))`,
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            textShadow: '0 0 20px rgba(0, 255, 255, 0.5)',
+            filter: 'drop-shadow(0 0 8px rgba(0, 255, 255, 0.4))',
+            letterSpacing: '0.025em'
           }}
         >
           {stateData.authority}
@@ -1592,20 +1870,25 @@ export default function RegulationsPage() {
   }, [searchTerm, filterBy]);
 
   return (
-    <div 
-      className="min-h-screen relative overflow-hidden"
-      style={{
-        background: `
-          linear-gradient(135deg, 
-            hsl(236, 61%, 16%) 0%,
-            hsl(225, 15%, 6%) 25%,
-            hsl(236, 61%, 16%) 50%,
-            hsl(180, 100%, 10%) 75%,
-            hsl(310, 100%, 15%) 100%
-          )
-        `
-      }}
-    >
+    <div className="min-h-screen relative overflow-hidden cyberpunk-bg hardware-accelerated">
+      {/* Floating Particle System */}
+      {Array.from({ length: 20 }).map((_, i) => (
+        <FloatingParticle 
+          key={i} 
+          delay={i * 2} 
+          size={Math.random() * 6 + 2} 
+          color={['cyan', 'fuchsia', 'emerald'][Math.floor(Math.random() * 3)]}
+          duration={Math.random() * 10 + 15}
+        />
+      ))}
+      
+      {/* Cursor Trail Effect */}
+      <CursorTrail />
+      
+      {/* Energy Orbs */}
+      <div className="energy-orb" style={{ top: '20%', left: '10%' }} />
+      <div className="energy-orb" style={{ top: '60%', right: '15%' }} />
+      <div className="energy-orb" style={{ bottom: '30%', left: '30%' }} />
       {/* Ambient Background Effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div 
