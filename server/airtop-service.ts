@@ -1,5 +1,5 @@
 // @ts-ignore - airtop-sdk doesn't have types yet
-import { Airtop } from 'airtop-sdk';
+import Airtop from 'airtop-sdk';
 
 interface AirtopConfig {
   apiKey: string;
