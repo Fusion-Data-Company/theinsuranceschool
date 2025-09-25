@@ -1058,105 +1058,215 @@ const StateCard = ({ stateName, stateData }: { stateName: string; stateData: any
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow duration-300">
-      <div className="border-l-4 border-blue-600 pl-4 mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">{stateName}</h2>
-        <div className="text-blue-600 font-medium">{stateData.authority}</div>
+    <div 
+      className="glass hover:scale-[1.01] transition-all duration-700 ease-out p-8 group"
+      style={{
+        background: `linear-gradient(135deg, 
+          rgba(255, 255, 255, 0.15) 0%, 
+          rgba(255, 255, 255, 0.08) 30%, 
+          rgba(255, 255, 255, 0.05) 50%, 
+          rgba(255, 255, 255, 0.08) 70%, 
+          rgba(255, 255, 255, 0.15) 100%
+        ), linear-gradient(45deg, 
+          rgba(180, 100, 255, 0.1) 0%, 
+          rgba(0, 255, 255, 0.1) 100%
+        )`,
+        borderImage: 'linear-gradient(135deg, rgba(0, 255, 255, 0.5), rgba(255, 0, 255, 0.5)) 1',
+        borderWidth: '2px',
+        borderStyle: 'solid',
+        boxShadow: `
+          0 0 40px rgba(0, 255, 255, 0.1),
+          0 0 80px rgba(255, 0, 255, 0.05),
+          0 8px 32px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2)
+        `
+      }}
+      data-testid={`state-card-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
+    >
+      <div 
+        className="border-l-4 pl-6 mb-8 relative"
+        style={{
+          borderImage: 'linear-gradient(180deg, rgba(0, 255, 255, 0.8), rgba(255, 0, 255, 0.8)) 1'
+        }}
+      >
+        <h2 
+          className="text-3xl font-bold mb-3 bg-gradient-to-r from-cyan-300 via-white to-fuchsia-300 bg-clip-text text-transparent group-hover:from-cyan-200 group-hover:to-fuchsia-200 transition-all duration-500"
+          style={{
+            textShadow: '0 0 20px rgba(0, 255, 255, 0.3), 0 0 40px rgba(255, 0, 255, 0.2)'
+          }}
+          data-testid={`state-title-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
+        >
+          {stateName}
+        </h2>
+        <div 
+          className="text-cyan-300 font-semibold text-lg mb-2"
+          style={{
+            textShadow: '0 0 15px rgba(0, 255, 255, 0.4)'
+          }}
+        >
+          {stateData.authority}
+        </div>
         {stateData.website && (
-          <a href={stateData.website} target="_blank" rel="noopener noreferrer" 
-             className="inline-flex items-center gap-1 text-sm text-blue-500 hover:text-blue-700 mt-1">
-            <ExternalLink className="w-3 h-3" />
+          <a 
+            href={stateData.website} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="btn-glass-secondary inline-flex items-center gap-2 text-sm px-4 py-2 mt-3 hover:scale-105 transition-all duration-300"
+            data-testid={`state-website-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
+          >
+            <ExternalLink className="w-4 h-4" />
             Official Website
           </a>
         )}
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         {/* Contact Information */}
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-800 mb-3">
-            <Building className="w-5 h-5 text-blue-600" />
+        <div 
+          className="glass p-6 transition-all duration-500 hover:scale-[1.02]"
+          style={{
+            background: 'linear-gradient(135deg, rgba(0, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)',
+            boxShadow: '0 0 20px rgba(0, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+          }}
+        >
+          <h3 
+            className="flex items-center gap-3 text-xl font-bold mb-4 text-cyan-300"
+            style={{
+              textShadow: '0 0 15px rgba(0, 255, 255, 0.5)'
+            }}
+          >
+            <Building className="w-6 h-6" style={{ filter: 'drop-shadow(0 0 5px rgba(0, 255, 255, 0.7))' }} />
             Contact Information
           </h3>
-          <div className="space-y-2 text-sm text-gray-700">
-            <div className="flex items-start gap-2">
-              <MapPin className="w-4 h-4 text-gray-500 mt-0.5" />
-              <span className="text-gray-700">{stateData.address}</span>
+          <div className="space-y-4 text-sm">
+            <div className="flex items-start gap-3">
+              <MapPin className="w-5 h-5 text-cyan-400 mt-1" style={{ filter: 'drop-shadow(0 0 3px rgba(0, 255, 255, 0.6))' }} />
+              <span className="text-gray-200 leading-relaxed">{stateData.address}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Phone className="w-4 h-4 text-gray-500" />
-              <span className="text-gray-700">{stateData.phone}</span>
+            <div className="flex items-center gap-3">
+              <Phone className="w-5 h-5 text-cyan-400" style={{ filter: 'drop-shadow(0 0 3px rgba(0, 255, 255, 0.6))' }} />
+              <span className="text-gray-200">{stateData.phone}</span>
             </div>
-            <div className="text-gray-700"><strong>Director:</strong> {stateData.director}</div>
+            <div className="text-gray-200">
+              <strong className="text-fuchsia-300">Director:</strong> {stateData.director}
+            </div>
             {stateData.divisions && (
-              <div className="text-gray-700"><strong>Divisions:</strong> {stateData.divisions}</div>
+              <div className="text-gray-200">
+                <strong className="text-fuchsia-300">Divisions:</strong> {stateData.divisions}
+              </div>
             )}
           </div>
         </div>
 
         {/* Official Links Section */}
         {(stateData.website || stateData.licensingUrl || stateData.applicationPortal) && (
-          <div>
+          <div className="overflow-hidden">
             <button
               onClick={() => toggleSection('officialLinks')}
-              className="flex items-center justify-between w-full text-lg font-semibold text-gray-800 mb-3 hover:text-blue-600 transition-colors"
+              className="btn-glass-primary flex items-center justify-between w-full text-lg font-bold mb-4 p-4 hover:scale-[1.02] transition-all duration-500 group"
+              style={{
+                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                textShadow: '0 0 15px rgba(16, 185, 129, 0.5)'
+              }}
+              data-testid={`toggle-official-links-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <div className="flex items-center gap-2">
-                <Link2 className="w-5 h-5 text-emerald-600" />
-                Official Links & Resources
+              <div className="flex items-center gap-3">
+                <Link2 className="w-6 h-6 text-emerald-400 group-hover:text-emerald-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 8px rgba(16, 185, 129, 0.6))' }} />
+                <span className="text-emerald-300 group-hover:text-emerald-200">Official Links & Resources</span>
               </div>
-              {expandedSections.officialLinks ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              {expandedSections.officialLinks ? 
+                <ChevronUp className="w-5 h-5 text-emerald-400 group-hover:rotate-180 transition-all duration-300" /> : 
+                <ChevronDown className="w-5 h-5 text-emerald-400 group-hover:rotate-180 transition-all duration-300" />
+              }
             </button>
-            {expandedSections.officialLinks && (
-              <div className="bg-emerald-50 p-4 rounded-lg space-y-2">
+            <div 
+              className={`transition-all duration-700 ease-out overflow-hidden ${
+                expandedSections.officialLinks ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+              }`}
+            >
+              <div 
+                className="glass p-6 space-y-4"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%)',
+                  boxShadow: '0 0 25px rgba(16, 185, 129, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}
+              >
                 {stateData.licensingUrl && (
                   <div>
-                    <a href={stateData.licensingUrl} target="_blank" rel="noopener noreferrer" 
-                       className="inline-flex items-center gap-1 text-sm text-emerald-700 hover:text-emerald-900 font-medium">
-                      <ExternalLink className="w-3 h-3" />
+                    <a 
+                      href={stateData.licensingUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="btn-glass-secondary inline-flex items-center gap-2 text-sm px-4 py-2 hover:scale-105 transition-all duration-300"
+                      data-testid={`licensing-url-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      <ExternalLink className="w-4 h-4" />
                       Producer Licensing Information
                     </a>
                   </div>
                 )}
                 {stateData.applicationPortal && (
-                  <div className="text-sm text-gray-700">
-                    <strong>Application Portal:</strong> {stateData.applicationPortal}
+                  <div className="text-sm text-gray-200">
+                    <strong className="text-emerald-300">Application Portal:</strong> {stateData.applicationPortal}
                   </div>
                 )}
                 {stateData.examInfo && (
-                  <div className="text-sm text-gray-700">
-                    <strong>Exam Details:</strong> {stateData.examInfo}
+                  <div className="text-sm text-gray-200">
+                    <strong className="text-emerald-300">Exam Details:</strong> {stateData.examInfo}
                   </div>
                 )}
                 {stateData.guarantyUrl && (
                   <div>
-                    <a href={stateData.guarantyUrl} target="_blank" rel="noopener noreferrer" 
-                       className="inline-flex items-center gap-1 text-sm text-emerald-700 hover:text-emerald-900">
-                      <ExternalLink className="w-3 h-3" />
+                    <a 
+                      href={stateData.guarantyUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="btn-glass-secondary inline-flex items-center gap-2 text-sm px-4 py-2 hover:scale-105 transition-all duration-300"
+                      data-testid={`guaranty-url-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      <ExternalLink className="w-4 h-4" />
                       Guaranty Fund Information
                     </a>
                   </div>
                 )}
               </div>
-            )}
+            </div>
           </div>
         )}
 
         {/* Leadership & Contact Section */}
         {(stateData.director || stateData.leadershipUrl || stateData.aboutUrl) && (
-          <div>
+          <div className="overflow-hidden">
             <button
               onClick={() => toggleSection('leadership')}
-              className="flex items-center justify-between w-full text-lg font-semibold text-gray-800 mb-3 hover:text-blue-600 transition-colors"
+              className="btn-glass-primary flex items-center justify-between w-full text-lg font-bold mb-4 p-4 hover:scale-[1.02] transition-all duration-500 group"
+              style={{
+                background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                textShadow: '0 0 15px rgba(147, 51, 234, 0.5)'
+              }}
+              data-testid={`toggle-leadership-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-purple-600" />
-                Leadership & Contact
+              <div className="flex items-center gap-3">
+                <Users className="w-6 h-6 text-purple-400 group-hover:text-purple-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 8px rgba(147, 51, 234, 0.6))' }} />
+                <span className="text-purple-300 group-hover:text-purple-200">Leadership & Contact</span>
               </div>
-              {expandedSections.leadership ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              {expandedSections.leadership ? 
+                <ChevronUp className="w-5 h-5 text-purple-400 group-hover:rotate-180 transition-all duration-300" /> : 
+                <ChevronDown className="w-5 h-5 text-purple-400 group-hover:rotate-180 transition-all duration-300" />
+              }
             </button>
-            {expandedSections.leadership && (
-              <div className="bg-purple-50 p-4 rounded-lg space-y-2">
+            <div 
+              className={`transition-all duration-700 ease-out overflow-hidden ${
+                expandedSections.leadership ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+              }`}
+            >
+              <div 
+                className="glass p-6 space-y-4"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%)',
+                  boxShadow: '0 0 25px rgba(147, 51, 234, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}
+              >
                 <div className="text-sm text-gray-700">
                   <strong>Current Leadership:</strong> {stateData.director}
                 </div>
@@ -1179,128 +1289,243 @@ const StateCard = ({ stateName, stateData }: { stateName: string; stateData: any
                   </div>
                 )}
               </div>
-            )}
+            </div>
           </div>
         )}
 
         {/* Statutes & Legal References Section */}
         {(stateData.statuteUrl || stateData.statuteReferences) && (
-          <div>
+          <div className="overflow-hidden">
             <button
               onClick={() => toggleSection('statutes')}
-              className="flex items-center justify-between w-full text-lg font-semibold text-gray-800 mb-3 hover:text-blue-600 transition-colors"
+              className="btn-glass-primary flex items-center justify-between w-full text-lg font-bold mb-4 p-4 hover:scale-[1.02] transition-all duration-500 group"
+              style={{
+                background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                textShadow: '0 0 15px rgba(79, 70, 229, 0.5)'
+              }}
+              data-testid={`toggle-statutes-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <div className="flex items-center gap-2">
-                <Scale className="w-5 h-5 text-indigo-600" />
-                Statutes & Legal References
+              <div className="flex items-center gap-3">
+                <Scale className="w-6 h-6 text-indigo-400 group-hover:text-indigo-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 8px rgba(79, 70, 229, 0.6))' }} />
+                <span className="text-indigo-300 group-hover:text-indigo-200">Statutes & Legal References</span>
               </div>
-              {expandedSections.statutes ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              {expandedSections.statutes ? 
+                <ChevronUp className="w-5 h-5 text-indigo-400 group-hover:rotate-180 transition-all duration-300" /> : 
+                <ChevronDown className="w-5 h-5 text-indigo-400 group-hover:rotate-180 transition-all duration-300" />
+              }
             </button>
-            {expandedSections.statutes && (
-              <div className="bg-indigo-50 p-4 rounded-lg space-y-3">
+            <div 
+              className={`transition-all duration-700 ease-out overflow-hidden ${
+                expandedSections.statutes ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+              }`}
+            >
+              <div 
+                className="glass p-6 space-y-4"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%)',
+                  boxShadow: '0 0 25px rgba(79, 70, 229, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}
+              >
                 {stateData.statuteUrl && (
                   <div>
-                    <a href={stateData.statuteUrl} target="_blank" rel="noopener noreferrer" 
-                       className="inline-flex items-center gap-1 text-sm text-indigo-700 hover:text-indigo-900 font-medium">
-                      <ExternalLink className="w-3 h-3" />
+                    <a 
+                      href={stateData.statuteUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="btn-glass-secondary inline-flex items-center gap-2 text-sm px-4 py-2 hover:scale-105 transition-all duration-300"
+                      data-testid={`statute-url-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      <ExternalLink className="w-4 h-4" />
                       Official State Insurance Statutes
                     </a>
                   </div>
                 )}
                 {stateData.statuteReferences && (
-                  <div className="space-y-1">
+                  <div className="space-y-3">
                     {Object.entries(stateData.statuteReferences).map(([key, value]) => (
-                      <div key={key} className="text-sm text-gray-700">
-                        <strong className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</strong> {value}
+                      <div key={key} className="text-sm text-gray-200">
+                        <strong className="capitalize text-indigo-300">{key.replace(/([A-Z])/g, ' $1').trim()}:</strong> {value}
                       </div>
                     ))}
                   </div>
                 )}
-                <div className="text-sm text-gray-700 pt-2 border-t border-indigo-200">
-                  <strong>Summary:</strong> {stateData.keyStatutes}
+                <div className="text-sm text-gray-200 pt-4 border-t border-indigo-400/20">
+                  <strong className="text-indigo-300">Summary:</strong> {stateData.keyStatutes}
                 </div>
               </div>
-            )}
+            </div>
           </div>
         )}
 
         {/* Requirements */}
-        <div>
-          <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-800 mb-3">
-            <CheckCircle className="w-5 h-5 text-green-600" />
+        <div 
+          className="glass p-6 transition-all duration-500 hover:scale-[1.02]"
+          style={{
+            background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)',
+            boxShadow: '0 0 20px rgba(34, 197, 94, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+          }}
+        >
+          <h3 
+            className="flex items-center gap-3 text-xl font-bold mb-6 text-green-300"
+            style={{
+              textShadow: '0 0 15px rgba(34, 197, 94, 0.5)'
+            }}
+          >
+            <CheckCircle className="w-6 h-6" style={{ filter: 'drop-shadow(0 0 5px rgba(34, 197, 94, 0.7))' }} />
             Licensing Requirements
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-700">
-            <div className="text-gray-700"><strong>Age:</strong> {stateData.ageRequirement}</div>
-            <div className="text-gray-700"><strong>Residency:</strong> {stateData.residency}</div>
-            <div className="text-gray-700"><strong>Pre-licensing:</strong> {stateData.preLicensing}</div>
-            <div className="text-gray-700"><strong>Exam Vendor:</strong> {stateData.examVendor}</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div className="text-gray-200">
+              <strong className="text-green-300">Age:</strong> {stateData.ageRequirement}
+            </div>
+            <div className="text-gray-200">
+              <strong className="text-green-300">Residency:</strong> {stateData.residency}
+            </div>
+            <div className="text-gray-200">
+              <strong className="text-green-300">Pre-licensing:</strong> {stateData.preLicensing}
+            </div>
+            <div className="text-gray-200">
+              <strong className="text-green-300">Exam Vendor:</strong> {stateData.examVendor}
+            </div>
           </div>
         </div>
 
         {/* Application Process */}
-        <div>
-          <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-800 mb-3">
-            <FileText className="w-5 h-5 text-purple-600" />
+        <div 
+          className="glass p-6 transition-all duration-500 hover:scale-[1.02]"
+          style={{
+            background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)',
+            boxShadow: '0 0 20px rgba(168, 85, 247, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+          }}
+        >
+          <h3 
+            className="flex items-center gap-3 text-xl font-bold mb-6 text-purple-300"
+            style={{
+              textShadow: '0 0 15px rgba(168, 85, 247, 0.5)'
+            }}
+          >
+            <FileText className="w-6 h-6" style={{ filter: 'drop-shadow(0 0 5px rgba(168, 85, 247, 0.7))' }} />
             Application & Appointments
           </h3>
-          <div className="text-sm space-y-2 text-gray-700">
-            <div className="text-gray-700"><strong>Application:</strong> {stateData.application}</div>
-            <div className="text-gray-700"><strong>Appointments:</strong> {stateData.appointments}</div>
+          <div className="text-sm space-y-4">
+            <div className="text-gray-200">
+              <strong className="text-purple-300">Application:</strong> {stateData.application}
+            </div>
+            <div className="text-gray-200">
+              <strong className="text-purple-300">Appointments:</strong> {stateData.appointments}
+            </div>
           </div>
         </div>
 
         {/* CE Requirements */}
-        <div>
-          <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-800 mb-3">
-            <Clock className="w-5 h-5 text-orange-600" />
+        <div 
+          className="glass p-6 transition-all duration-500 hover:scale-[1.02]"
+          style={{
+            background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)',
+            boxShadow: '0 0 20px rgba(251, 146, 60, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+          }}
+        >
+          <h3 
+            className="flex items-center gap-3 text-xl font-bold mb-6 text-orange-300"
+            style={{
+              textShadow: '0 0 15px rgba(251, 146, 60, 0.5)'
+            }}
+          >
+            <Clock className="w-6 h-6" style={{ filter: 'drop-shadow(0 0 5px rgba(251, 146, 60, 0.7))' }} />
             Continuing Education
           </h3>
-          <div className="bg-orange-50 p-3 rounded-lg">
-            <div className="text-sm font-medium text-orange-800">{stateData.ceHours}</div>
+          <div 
+            className="glass p-4 rounded-xl"
+            style={{
+              background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%)',
+              boxShadow: '0 0 15px rgba(251, 146, 60, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+            }}
+          >
+            <div className="text-lg font-bold text-orange-200" style={{ textShadow: '0 0 10px rgba(251, 146, 60, 0.4)' }}>
+              {stateData.ceHours}
+            </div>
           </div>
         </div>
 
         {/* Unique Features */}
-        <div>
-          <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-800 mb-3">
-            <Award className="w-5 h-5 text-yellow-600" />
+        <div 
+          className="glass p-6 transition-all duration-500 hover:scale-[1.02]"
+          style={{
+            background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)',
+            boxShadow: '0 0 20px rgba(245, 158, 11, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+          }}
+        >
+          <h3 
+            className="flex items-center gap-3 text-xl font-bold mb-6 text-yellow-300"
+            style={{
+              textShadow: '0 0 15px rgba(245, 158, 11, 0.5)'
+            }}
+          >
+            <Award className="w-6 h-6" style={{ filter: 'drop-shadow(0 0 5px rgba(245, 158, 11, 0.7))' }} />
             Unique Features
           </h3>
-          <div className="text-sm text-gray-700 bg-yellow-50 p-3 rounded-lg">
+          <div 
+            className="text-sm text-gray-200 leading-relaxed"
+            style={{
+              textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+            }}
+          >
             {stateData.uniqueFeatures}
           </div>
         </div>
 
         {/* Source Citations Section */}
         {stateData.officialSources && (
-          <div>
+          <div className="overflow-hidden">
             <button
               onClick={() => toggleSection('sources')}
-              className="flex items-center justify-between w-full text-lg font-semibold text-gray-800 mb-3 hover:text-blue-600 transition-colors"
+              className="btn-glass-primary flex items-center justify-between w-full text-lg font-bold mb-4 p-4 hover:scale-[1.02] transition-all duration-500 group"
+              style={{
+                background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                textShadow: '0 0 15px rgba(6, 182, 212, 0.5)'
+              }}
+              data-testid={`toggle-sources-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <div className="flex items-center gap-2">
-                <Archive className="w-5 h-5 text-cyan-600" />
-                Official Source Citations
+              <div className="flex items-center gap-3">
+                <Archive className="w-6 h-6 text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300" style={{ filter: 'drop-shadow(0 0 8px rgba(6, 182, 212, 0.6))' }} />
+                <span className="text-cyan-300 group-hover:text-cyan-200">Official Source Citations</span>
               </div>
-              {expandedSections.sources ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              {expandedSections.sources ? 
+                <ChevronUp className="w-5 h-5 text-cyan-400 group-hover:rotate-180 transition-all duration-300" /> : 
+                <ChevronDown className="w-5 h-5 text-cyan-400 group-hover:rotate-180 transition-all duration-300" />
+              }
             </button>
-            {expandedSections.sources && (
-              <div className="bg-cyan-50 p-4 rounded-lg space-y-2">
+            <div 
+              className={`transition-all duration-700 ease-out overflow-hidden ${
+                expandedSections.sources ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+              }`}
+            >
+              <div 
+                className="glass p-6 space-y-4"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%)',
+                  boxShadow: '0 0 25px rgba(6, 182, 212, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}
+              >
                 {stateData.officialSources.map((source: any, index: number) => (
                   <div key={index}>
-                    <a href={source.url} target="_blank" rel="noopener noreferrer" 
-                       className="inline-flex items-center gap-1 text-sm text-cyan-700 hover:text-cyan-900">
-                      <ExternalLink className="w-3 h-3" />
+                    <a 
+                      href={source.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="btn-glass-secondary inline-flex items-center gap-2 text-sm px-4 py-2 hover:scale-105 transition-all duration-300 mb-2"
+                      data-testid={`source-link-${index}-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      <ExternalLink className="w-4 h-4" />
                       {source.title}
                     </a>
                   </div>
                 ))}
-                <div className="text-xs text-gray-500 pt-2 border-t border-cyan-200">
-                  <strong>Legacy Sources:</strong> {stateData.sources}
+                <div className="text-xs text-gray-400 pt-4 border-t border-cyan-400/20">
+                  <strong className="text-cyan-300">Legacy Sources:</strong> {stateData.sources}
                 </div>
               </div>
-            )}
+            </div>
           </div>
         )}
       </div>
@@ -1367,53 +1592,202 @@ export default function RegulationsPage() {
   }, [searchTerm, filterBy]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div 
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        background: `
+          linear-gradient(135deg, 
+            hsl(236, 61%, 16%) 0%,
+            hsl(225, 15%, 6%) 25%,
+            hsl(236, 61%, 16%) 50%,
+            hsl(180, 100%, 10%) 75%,
+            hsl(310, 100%, 15%) 100%
+          )
+        `
+      }}
+    >
+      {/* Ambient Background Effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div 
+          className="absolute top-20 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl"
+          style={{
+            background: 'radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, transparent 70%)'
+          }}
+        />
+        <div 
+          className="absolute bottom-32 right-10 w-80 h-80 rounded-full opacity-15 blur-3xl"
+          style={{
+            background: 'radial-gradient(circle, rgba(255, 0, 255, 0.3) 0%, transparent 70%)'
+          }}
+        />
+      </div>
+      
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-16">
-        <div className="max-w-7xl mx-auto px-6">
+      <div 
+        className="relative py-20 overflow-hidden"
+        style={{
+          background: `
+            linear-gradient(135deg, 
+              rgba(0, 255, 255, 0.15) 0%, 
+              rgba(255, 0, 255, 0.15) 50%,
+              rgba(0, 255, 255, 0.15) 100%
+            ),
+            linear-gradient(45deg, 
+              rgba(15, 23, 42, 0.8) 0%, 
+              rgba(30, 41, 59, 0.9) 50%, 
+              rgba(15, 23, 42, 0.8) 100%
+            )
+          `,
+          backdropFilter: 'blur(40px)',
+          borderBottom: '1px solid rgba(0, 255, 255, 0.2)',
+          boxShadow: `
+            0 8px 32px rgba(0, 0, 0, 0.4),
+            0 0 100px rgba(0, 255, 255, 0.1),
+            0 0 200px rgba(255, 0, 255, 0.05)
+          `
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center">
-            <h1 className="text-4xl font-bold mb-4">Insurance Regulations Guide</h1>
-            <p className="text-xl opacity-90 mb-8">28 U.S. States • 2025 Edition • Enterprise-Grade Reference</p>
+            <h1 
+              className="text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-300 via-white to-fuchsia-300 bg-clip-text text-transparent"
+              style={{
+                textShadow: `
+                  0 0 30px rgba(0, 255, 255, 0.5),
+                  0 0 60px rgba(255, 0, 255, 0.3),
+                  0 0 90px rgba(0, 255, 255, 0.2)
+                `,
+                fontFamily: 'system-ui, -apple-system, sans-serif',
+                letterSpacing: '0.05em'
+              }}
+              data-testid="page-title"
+            >
+              Insurance Regulations Guide
+            </h1>
+            <p 
+              className="text-2xl mb-12 text-cyan-200"
+              style={{
+                textShadow: '0 0 20px rgba(0, 255, 255, 0.4)'
+              }}
+            >
+              28 U.S. States • 2025 Edition • Enterprise-Grade Reference
+            </p>
             
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
-                <div className="text-3xl font-bold">28</div>
-                <div className="text-sm opacity-80">States Covered</div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mt-16">
+              <div 
+                className="glass p-6 text-center group hover:scale-105 transition-all duration-500"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                  boxShadow: '0 0 30px rgba(0, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                }}
+                data-testid="stat-states"
+              >
+                <div 
+                  className="text-4xl font-bold text-cyan-300 mb-2 group-hover:text-cyan-200 transition-colors duration-300"
+                  style={{ textShadow: '0 0 20px rgba(0, 255, 255, 0.6)' }}
+                >
+                  28
+                </div>
+                <div className="text-sm text-gray-300 font-medium">States Covered</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
-                <div className="text-3xl font-bold">500+</div>
-                <div className="text-sm opacity-80">Statutes Referenced</div>
+              <div 
+                className="glass p-6 text-center group hover:scale-105 transition-all duration-500"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255, 0, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                  boxShadow: '0 0 30px rgba(255, 0, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                }}
+                data-testid="stat-statutes"
+              >
+                <div 
+                  className="text-4xl font-bold text-fuchsia-300 mb-2 group-hover:text-fuchsia-200 transition-colors duration-300"
+                  style={{ textShadow: '0 0 20px rgba(255, 0, 255, 0.6)' }}
+                >
+                  500+
+                </div>
+                <div className="text-sm text-gray-300 font-medium">Statutes Referenced</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
-                <div className="text-3xl font-bold">100%</div>
-                <div className="text-sm opacity-80">Up-to-Date 2025</div>
+              <div 
+                className="glass p-6 text-center group hover:scale-105 transition-all duration-500"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                  boxShadow: '0 0 30px rgba(34, 197, 94, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                }}
+                data-testid="stat-updated"
+              >
+                <div 
+                  className="text-4xl font-bold text-green-300 mb-2 group-hover:text-green-200 transition-colors duration-300"
+                  style={{ textShadow: '0 0 20px rgba(34, 197, 94, 0.6)' }}
+                >
+                  100%
+                </div>
+                <div className="text-sm text-gray-300 font-medium">Up-to-Date 2025</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
-                <div className="text-3xl font-bold">24/7</div>
-                <div className="text-sm opacity-80">Access Available</div>
+              <div 
+                className="glass p-6 text-center group hover:scale-105 transition-all duration-500"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                  boxShadow: '0 0 30px rgba(251, 146, 60, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                }}
+                data-testid="stat-access"
+              >
+                <div 
+                  className="text-4xl font-bold text-orange-300 mb-2 group-hover:text-orange-200 transition-colors duration-300"
+                  style={{ textShadow: '0 0 20px rgba(251, 146, 60, 0.6)' }}
+                >
+                  24/7
+                </div>
+                <div className="text-sm text-gray-300 font-medium">Access Available</div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
         {/* Navigation Tabs */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-8">
-          <div className="flex flex-wrap justify-center gap-2 p-4">
+        <div 
+          className="glass mb-12 p-6"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+            boxShadow: '0 0 40px rgba(0, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+          }}
+        >
+          <div className="flex flex-wrap justify-center gap-4">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setSelectedTab(tab.id)}
-                className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+                className={`btn-glass px-8 py-4 font-bold text-lg transition-all duration-500 group ${
                   selectedTab === tab.id
-                    ? "bg-blue-600 text-white shadow-md"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    ? "scale-105 shadow-lg"
+                    : "hover:scale-105"
                 }`}
+                style={{
+                  background: selectedTab === tab.id 
+                    ? 'linear-gradient(135deg, rgba(0, 255, 255, 0.2) 0%, rgba(255, 0, 255, 0.2) 100%)'
+                    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                  boxShadow: selectedTab === tab.id 
+                    ? '0 0 30px rgba(0, 255, 255, 0.3), 0 0 60px rgba(255, 0, 255, 0.2)'
+                    : '0 0 20px rgba(255, 255, 255, 0.1)',
+                  textShadow: selectedTab === tab.id 
+                    ? '0 0 15px rgba(0, 255, 255, 0.8)'
+                    : '0 0 10px rgba(255, 255, 255, 0.5)'
+                }}
+                data-testid={`tab-${tab.id}`}
               >
-                {tab.label}
+                <span className={selectedTab === tab.id ? 'text-cyan-200' : 'text-gray-200 group-hover:text-white'}>
+                  {tab.label}
+                </span>
                 {tab.count > 0 && (
-                  <span className="ml-2 px-2 py-1 text-xs bg-white/20 rounded-full">
+                  <span 
+                    className="ml-3 px-3 py-1 text-xs rounded-full font-bold"
+                    style={{
+                      background: selectedTab === tab.id 
+                        ? 'rgba(0, 255, 255, 0.3)'
+                        : 'rgba(255, 255, 255, 0.2)',
+                      color: selectedTab === tab.id ? '#67e8f9' : '#e5e7eb'
+                    }}
+                  >
                     {tab.count}
                   </span>
                 )}
@@ -1423,55 +1797,110 @@ export default function RegulationsPage() {
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-          <div className="space-y-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <div 
+          className="glass p-8 mb-12"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%)',
+            boxShadow: '0 0 40px rgba(0, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+          }}
+        >
+          <div className="space-y-6">
+            <div className="relative group">
+              <Search 
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-cyan-400 z-10" 
+                style={{ filter: 'drop-shadow(0 0 5px rgba(0, 255, 255, 0.6))' }}
+              />
               <input
                 type="text"
                 placeholder="Search states, authorities, directors, or unique features..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-14 pr-6 py-4 text-lg text-white placeholder-gray-400 bg-transparent border-2 border-cyan-400/30 rounded-2xl transition-all duration-500 group-hover:border-cyan-400/50 focus:border-cyan-400 focus:outline-none focus:ring-0"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)',
+                  backdropFilter: 'blur(20px)',
+                  boxShadow: `
+                    0 0 20px rgba(0, 255, 255, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                    0 8px 32px rgba(0, 0, 0, 0.2)
+                  `,
+                  textShadow: '0 0 10px rgba(255, 255, 255, 0.5)'
+                }}
+                data-testid="search-input"
               />
             </div>
             
-            <div className="flex flex-wrap gap-2">
-              <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4 text-gray-500" />
-                <span className="text-sm font-medium text-gray-700">Filter by:</span>
-              </div>
-              {filterOptions.map((option) => (
-                <button
-                  key={option.id}
-                  onClick={() => setFilterBy(option.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    filterBy === option.id
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
+            <div className="flex flex-wrap items-center gap-4">
+              <div className="flex items-center gap-3">
+                <Filter 
+                  className="w-6 h-6 text-fuchsia-400" 
+                  style={{ filter: 'drop-shadow(0 0 5px rgba(255, 0, 255, 0.6))' }}
+                />
+                <span 
+                  className="text-lg font-bold text-fuchsia-300"
+                  style={{ textShadow: '0 0 10px rgba(255, 0, 255, 0.5)' }}
                 >
-                  {option.label}
-                </button>
-              ))}
+                  Filter by:
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {filterOptions.map((option) => (
+                  <button
+                    key={option.id}
+                    onClick={() => setFilterBy(option.id)}
+                    className={`btn-glass px-6 py-3 text-sm font-bold transition-all duration-500 hover:scale-105 ${
+                      filterBy === option.id
+                        ? "scale-105"
+                        : ""
+                    }`}
+                    style={{
+                      background: filterBy === option.id 
+                        ? 'linear-gradient(135deg, rgba(255, 0, 255, 0.2) 0%, rgba(0, 255, 255, 0.2) 100%)'
+                        : 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                      boxShadow: filterBy === option.id 
+                        ? '0 0 25px rgba(255, 0, 255, 0.3), 0 0 50px rgba(0, 255, 255, 0.2)'
+                        : '0 0 15px rgba(255, 255, 255, 0.1)',
+                      textShadow: filterBy === option.id 
+                        ? '0 0 10px rgba(255, 0, 255, 0.8)'
+                        : '0 0 5px rgba(255, 255, 255, 0.5)',
+                      color: filterBy === option.id ? '#f0abfc' : '#e5e7eb'
+                    }}
+                    data-testid={`filter-${option.id}`}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
         {/* Results Summary */}
-        <div className="mb-6">
-          <p className="text-gray-600">
-            Showing <span className="font-medium">{filteredStates.length}</span> of{" "}
-            <span className="font-medium">{Object.keys(statesData).length}</span> states
-            {searchTerm && (
-              <span> matching "<span className="font-medium">{searchTerm}</span>"</span>
-            )}
-          </p>
+        <div className="mb-8">
+          <div 
+            className="glass p-4 inline-block"
+            style={{
+              background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+              boxShadow: '0 0 20px rgba(34, 197, 94, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+            }}
+          >
+            <p 
+              className="text-green-300 text-lg font-medium"
+              style={{ textShadow: '0 0 10px rgba(34, 197, 94, 0.5)' }}
+              data-testid="results-summary"
+            >
+              Showing <span className="font-bold text-cyan-300">{filteredStates.length}</span> of{" "}
+              <span className="font-bold text-cyan-300">{Object.keys(statesData).length}</span> states
+              {searchTerm && (
+                <span> matching "<span className="font-bold text-fuchsia-300">{searchTerm}</span>"</span>
+              )}
+            </p>
+          </div>
         </div>
 
         {/* State Cards Grid */}
         {selectedTab === "all" || selectedTab === "search" ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12" data-testid="state-cards-grid">
             {filteredStates.map(([stateName, stateData]) => (
               <StateCard
                 key={stateName}
