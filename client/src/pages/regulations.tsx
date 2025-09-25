@@ -500,16 +500,16 @@ const StateCard = ({ stateName, stateData }: { stateName: string; stateData: any
             <Building className="w-5 h-5 text-blue-600" />
             Contact Information
           </h3>
-          <div className="space-y-2 text-sm">
+          <div className="space-y-2 text-sm text-gray-700">
             <div className="flex items-start gap-2">
               <MapPin className="w-4 h-4 text-gray-500 mt-0.5" />
-              <span>{stateData.address}</span>
+              <span className="text-gray-700">{stateData.address}</span>
             </div>
             <div className="flex items-center gap-2">
               <Phone className="w-4 h-4 text-gray-500" />
-              <span>{stateData.phone}</span>
+              <span className="text-gray-700">{stateData.phone}</span>
             </div>
-            <div><strong>Director:</strong> {stateData.director}</div>
+            <div className="text-gray-700"><strong>Director:</strong> {stateData.director}</div>
           </div>
         </div>
 
@@ -519,11 +519,11 @@ const StateCard = ({ stateName, stateData }: { stateName: string; stateData: any
             <CheckCircle className="w-5 h-5 text-green-600" />
             Licensing Requirements
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-            <div><strong>Age:</strong> {stateData.ageRequirement}</div>
-            <div><strong>Residency:</strong> {stateData.residency}</div>
-            <div><strong>Pre-licensing:</strong> {stateData.preLicensing}</div>
-            <div><strong>Exam Vendor:</strong> {stateData.examVendor}</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-700">
+            <div className="text-gray-700"><strong>Age:</strong> {stateData.ageRequirement}</div>
+            <div className="text-gray-700"><strong>Residency:</strong> {stateData.residency}</div>
+            <div className="text-gray-700"><strong>Pre-licensing:</strong> {stateData.preLicensing}</div>
+            <div className="text-gray-700"><strong>Exam Vendor:</strong> {stateData.examVendor}</div>
           </div>
         </div>
 
@@ -533,9 +533,9 @@ const StateCard = ({ stateName, stateData }: { stateName: string; stateData: any
             <FileText className="w-5 h-5 text-purple-600" />
             Application & Appointments
           </h3>
-          <div className="text-sm space-y-2">
-            <div><strong>Application:</strong> {stateData.application}</div>
-            <div><strong>Appointments:</strong> {stateData.appointments}</div>
+          <div className="text-sm space-y-2 text-gray-700">
+            <div className="text-gray-700"><strong>Application:</strong> {stateData.application}</div>
+            <div className="text-gray-700"><strong>Appointments:</strong> {stateData.appointments}</div>
           </div>
         </div>
 
