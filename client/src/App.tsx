@@ -9,6 +9,7 @@ import Home from "@/pages/home";
 import Leads from "@/pages/leads";
 import CalendarPage from "@/pages/calendar";
 import EnrollmentPage from "@/pages/enrollment";
+import RegulationsPage from "@/pages/regulations";
 import Settings from "@/pages/settings";
 import PublicBooking from "@/pages/public-booking";
 import MCPDemo from "@/pages/mcp-demo";
@@ -35,6 +36,7 @@ function Router() {
         <Route path="/leads" component={Leads} />
         <Route path="/calendar" component={CalendarPage} />
         <Route path="/enrollment" component={EnrollmentPage} />
+        <Route path="/regulations" component={RegulationsPage} />
         <Route path="/settings" component={Settings} />
         <Route path="/book" component={PublicBooking} />
         <Route path="/mcp-demo" component={MCPDemo} />

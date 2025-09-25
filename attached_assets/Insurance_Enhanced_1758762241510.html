@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consolidated Insurance Law Guide for 28 U.S. States (2025) | Fusion Data Co.</title>
+    <style>
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #3b82f6;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-color: #1f2937;
+            --light-color: #f8fafc;
+            --border-color: #e5e7eb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .nav-tabs {
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1rem 0;
+        }
+
+        .nav-tab {
+            background: var(--light-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .nav-tab:hover,
+        .nav-tab.active {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .main-content {
+            padding: 3rem 0;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .state-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .state-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .state-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .state-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .state-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .state-flag {
+            width: 24px;
+            height: 16px;
+            border-radius: 2px;
+            object-fit: cover;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin: 1.5rem 0 0.75rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-content {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #fef3c7 0%, #fde68a 100%);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .contact-info {
+            background: var(--light-color);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .requirements-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .requirements-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .requirements-list li:last-child {
+            border-bottom: none;
+        }
+
+        .requirement-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--success-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .search-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--light-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .table-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table th {
+            background: var(--light-color);
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .table tr:hover {
+            background: var(--light-color);
+        }
+
+        .ce-hours {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .ethics-hours {
+            background: var(--success-color);
+        }
+
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .footer p {
+            opacity: 0.8;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .state-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1>Consolidated Insurance Law Guide</h1>
+                <p class="subtitle">28 U.S. States • 2025 Edition • Enterprise-Grade Reference</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">28</span>
+                        <span class="stat-label">States Covered</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Statutes Referenced</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Up-to-Date 2025</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Reference Access</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-tabs">
+        <div class="container">
+            <div class="nav-container">
+                <div class="nav-tab active" data-section="overview">Overview</div>
+                <div class="nav-tab" data-section="states">State Directory</div>
+                <div class="nav-tab" data-section="comparison">Comparison Tables</div>
+                <div class="nav-tab" data-section="charts">Data Visualizations</div>
+                <div class="nav-tab" data-section="resources">Resources</div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Overview Section -->
+            <section id="overview" class="section active">
+                <div class="search-container">
+                    <h2 style="margin-bottom: 1rem; color: var(--primary-color);">Quick Search & Filter</h2>
+                    <input type="text" class="search-box" placeholder="Search states, requirements, or statutes..." id="searchInput">
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All States</button>
+                        <button class="filter-btn" data-filter="no-ple">No Pre-Licensing</button>
+                        <button class="filter-btn" data-filter="high-ce">High CE Hours</button>
+                        <button class="filter-btn" data-filter="bonds">Bond Requirements</button>
+                        <button class="filter-btn" data-filter="fingerprints">Fingerprint Required</button>
+                    </div>
+                </div>
+
+                <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+                    <h2 style="color: var(--primary-color); margin-bottom: 1.5rem;">Executive Summary</h2>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 2rem;">
+                        This comprehensive guide provides a single, consolidated entry for each of 28 U.S. states, distilling the most important and nuanced elements of insurance law (I‑law). Each entry follows a consistent structure inspired by Florida's regulatory template, allowing you to adapt content from Florida to any other state by swapping in the equivalent statutes and licensing rules.
+                    </p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                        <div style="background: var(--light-color); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary-color);">
+                            <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Governing Authority & Contacts</h3>
+                            <p style="color: var(--text-secondary);">State insurance regulators, key leadership, and contact information for each jurisdiction.</p>
+                        </div>
+                        
+                        <div style="background: var(--light-color); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--success-color);">
+                            <h3 style="color: var(--success-color); margin-bottom: 1rem;">Licensing Requirements</h3>
+                            <p style="color: var(--text-secondary);">Age, residency, pre-licensing education, examination vendors, and application procedures.</p>
+                        </div>
+                        
+                        <div style="background: var(--light-color); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--accent-color);">
+                            <h3 style="color: var(--accent-color); margin-bottom: 1rem;">Key Statutes & Regulations</h3>
+                            <p style="color: var(--text-secondary);">Definitions, producer licensing, unfair practices, guaranty funds, and rate approvals.</p>
+                        </div>
+                        
+                        <div style="background: var(--light-color); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--warning-color);">
+                            <h3 style="color: var(--warning-color); margin-bottom: 1rem;">Unique Regulatory Features</h3>
+                            <p style="color: var(--text-secondary);">Special obligations, bond requirements, and notable state-specific rules.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- States Section -->
+            <section id="states" class="section">
+                <div class="loading" id="statesLoading">
+                    <div class="spinner"></div>
+                    Loading state information...
+                </div>
+                <div id="statesContent" style="display: none;">
+                    <h2 style="color: var(--primary-color); margin-bottom: 2rem;">State Directory</h2>
+                    <div class="state-grid" id="stateGrid">
+                        <!-- States will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Comparison Section -->
+            <section id="comparison" class="section">
+                <h2 style="color: var(--primary-color); margin-bottom: 2rem;">State Comparison Tables</h2>
+                
+                <div class="comparison-table" style="margin-bottom: 2rem;">
+                    <div class="table-header">
+                        <h3>Continuing Education Requirements by State</h3>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>State</th>
+                                <th>CE Hours</th>
+                                <th>Ethics Hours</th>
+                                <th>Renewal Cycle</th>
+                                <th>Special Requirements</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ceTableBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="comparison-table">
+                    <div class="table-header">
+                        <h3>Pre-Licensing Education Requirements</h3>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>State</th>
+                                <th>Required</th>
+                                <th>Hours</th>
+                                <th>Classroom %</th>
+                                <th>Exam Vendor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pleTableBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section id="charts" class="section">
+                <h2 style="color: var(--primary-color); margin-bottom: 2rem;">Data Visualizations</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+                    <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">CE Hours Distribution</h3>
+                        <div id="ceChart" style="height: 300px; display: flex; align-items: center; justify-content: center; background: var(--light-color); border-radius: 8px;">
+                            <p style="color: var(--text-secondary);">Chart will be rendered here</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Pre-Licensing Requirements</h3>
+                        <div id="pleChart" style="height: 300px; display: flex; align-items: center; justify-content: center; background: var(--light-color); border-radius: 8px;">
+                            <p style="color: var(--text-secondary);">Chart will be rendered here</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section id="resources" class="section">
+                <h2 style="color: var(--primary-color); margin-bottom: 2rem;">Additional Resources</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Quick Reference</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
+                                <strong>NAIC Model Laws:</strong> National Association of Insurance Commissioners
+                            </li>
+                            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
+                                <strong>NIPR:</strong> National Insurance Producer Registry
+                            </li>
+                            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
+                                <strong>Sircon:</strong> State insurance regulatory system
+                            </li>
+                            <li style="padding: 0.5rem 0;">
+                                <strong>Pearson VUE:</strong> Primary exam vendor
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Contact Information</h3>
+                        <div class="contact-info">
+                            <strong>Fusion Data Co.</strong><br>
+                            Enterprise Insurance Solutions<br>
+                            <a href="mailto:info@fusiondata.co" style="color: var(--primary-color);">info@fusiondata.co</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <h3>Fusion Data Co. | Enterprise Insurance Solutions</h3>
+                <p>This comprehensive guide is maintained by our team of insurance law experts and updated regularly to ensure accuracy and compliance with current regulations across all 28 states.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="states-data.js"></script>
+    <script>
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeNavigation();
+            initializeSearch();
+            initializeFilters();
+            loadStatesData();
+            loadComparisonTables();
+            createCharts();
+        });
+
+        function initializeNavigation() {
+            const tabs = document.querySelectorAll('.nav-tab');
+            const sections = document.querySelectorAll('.section');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and sections
+                    tabs.forEach(t => t.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+
+                    // Add active class to clicked tab and corresponding section
+                    tab.classList.add('active');
+                    const sectionId = tab.getAttribute('data-section');
+                    document.getElementById(sectionId).classList.add('active');
+                });
+            });
+        }
+
+        function initializeSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const stateCards = document.querySelectorAll('.state-card');
+                
+                stateCards.forEach(card => {
+                    const stateName = card.querySelector('.state-name').textContent.toLowerCase();
+                    const content = card.textContent.toLowerCase();
+                    
+                    if (stateName.includes(searchTerm) || content.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        function initializeFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    const filter = button.getAttribute('data-filter');
+                    filterStates(filter);
+                });
+            });
+        }
+
+        function filterStates(filter) {
+            const stateCards = document.querySelectorAll('.state-card');
+            
+            stateCards.forEach(card => {
+                const content = card.textContent.toLowerCase();
+                let show = true;
+                
+                switch(filter) {
+                    case 'no-ple':
+                        show = content.includes('not required') || content.includes('no pre-licensing');
+                        break;
+                    case 'high-ce':
+                        show = content.includes('36 hours') || content.includes('48 hours');
+                        break;
+                    case 'bonds':
+                        show = content.includes('bond') || content.includes('surety');
+                        break;
+                    case 'fingerprints':
+                        show = content.includes('fingerprint');
+                        break;
+                    default:
+                        show = true;
+                }
+                
+                card.style.display = show ? 'block' : 'none';
+            });
+        }
+
+        function loadStatesData() {
+            const statesContent = document.getElementById('statesContent');
+            const statesLoading = document.getElementById('statesLoading');
+            const stateGrid = document.getElementById('stateGrid');
+            
+            // Simulate loading
+            setTimeout(() => {
+                statesLoading.style.display = 'none';
+                statesContent.style.display = 'block';
+                
+                // Populate states
+                Object.keys(statesData).forEach(stateName => {
+                    const state = statesData[stateName];
+                    const stateCard = createStateCard(stateName, state);
+                    stateGrid.appendChild(stateCard);
+                });
+            }, 1000);
+        }
+
+        function createStateCard(stateName, state) {
+            const card = document.createElement('div');
+            card.className = 'state-card';
+            
+            card.innerHTML = `
+                <div class="state-name">
+                    <img src="https://flagcdn.com/w40/us-${stateName.toLowerCase().replace(' ', '-')}.png" 
+                         alt="${stateName} flag" class="state-flag" onerror="this.style.display='none'">
+                    ${stateName}
+                </div>
+                
+                <div class="section-title">
+                    <span>🏛️</span> Governing Authority
+                </div>
+                <div class="section-content">
+                    <div class="contact-info">
+                        <strong>${state.authority}</strong><br>
+                        ${state.address}<br>
+                        Phone: ${state.phone}<br>
+                        Director: ${state.director}
+                    </div>
+                </div>
+                
+                <div class="section-title">
+                    <span>📋</span> Licensing Requirements
+                </div>
+                <div class="section-content">
+                    <ul class="requirements-list">
+                        <li><span class="requirement-icon">✓</span><strong>Age:</strong> ${state.ageRequirement}</li>
+                        <li><span class="requirement-icon">✓</span><strong>Pre-Licensing:</strong> ${state.preLicensing}</li>
+                        <li><span class="requirement-icon">✓</span><strong>Exam Vendor:</strong> ${state.examVendor}</li>
+                        <li><span class="requirement-icon">✓</span><strong>Application:</strong> ${state.application}</li>
+                        <li><span class="requirement-icon">✓</span><strong>Appointments:</strong> ${state.appointments}</li>
+                        <li><span class="requirement-icon">✓</span><strong>CE Hours:</strong> <span class="ce-hours">${state.ceHours}</span></li>
+                    </ul>
+                </div>
+                
+                <div class="section-title">
+                    <span>⚖️</span> Key Statutes
+                </div>
+                <div class="section-content">
+                    ${state.keyStatutes}
+                </div>
+                
+                <div class="section-title">
+                    <span>⭐</span> Unique Features
+                </div>
+                <div class="section-content">
+                    ${state.uniqueFeatures}
+                </div>
+                
+                <div class="section-title">
+                    <span>📚</span> Sources
+                </div>
+                <div class="section-content">
+                    ${state.sources}
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function loadComparisonTables() {
+            // Load CE requirements table
+            const ceTableBody = document.getElementById('ceTableBody');
+            
+            Object.keys(statesData).forEach(stateName => {
+                const state = statesData[stateName];
+                const ceMatch = state.ceHours.match(/(\d+)\s*hours.*?(\d+)\s*hours?\s*ethics/i);
+                const hours = ceMatch ? ceMatch[1] : 'N/A';
+                const ethics = ceMatch ? ceMatch[2] : 'N/A';
+                
+                let cycle = '2 years';
+                if (state.ceHours.includes('4 years')) cycle = '4 years';
+                if (state.ceHours.includes('3 years')) cycle = '3 years';
+                
+                let special = 'Standard';
+                if (state.ceHours.includes('LTC')) special += ', LTC training';
+                if (state.ceHours.includes('annuity')) special += ', Annuity training';
+                if (state.ceHours.includes('flood')) special += ', Flood course';
+                if (special === 'Standard') special = 'None';
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${stateName}</strong></td>
+                    <td><span class="ce-hours">${hours} hours</span></td>
+                    <td><span class="ce-hours ethics-hours">${ethics} hours</span></td>
+                    <td>${cycle}</td>
+                    <td>${special.replace('Standard, ', '')}</td>
+                `;
+                ceTableBody.appendChild(tr);
+            });
+            
+            // Load PLE requirements table
+            const pleTableBody = document.getElementById('pleTableBody');
+            
+            Object.keys(statesData).forEach(stateName => {
+                const state = statesData[stateName];
+                
+                let required = 'Yes';
+                let hours = 'Varies';
+                
+                if (state.preLicensing.toLowerCase().includes('not required')) {
+                    required = 'No';
+                    hours = 'N/A';
+                } else if (state.preLicensing.includes('hours')) {
+                    const hourMatch = state.preLicensing.match(/(\d+[-–]\d+|\d+)\s*hours?/i);
+                    if (hourMatch) hours = hourMatch[1] + ' hours';
+                }
+                
+                let classroom = 'Not specified';
+                if (state.preLicensing.includes('classroom')) {
+                    const classMatch = state.preLicensing.match(/(\d+\.?\d*)\s*classroom/i);
+                    if (classMatch) classroom = classMatch[1] + ' hours min';
+                }
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${stateName}</strong></td>
+                    <td>${required}</td>
+                    <td>${hours}</td>
+                    <td>${classroom}</td>
+                    <td>${state.examVendor}</td>
+                `;
+                pleTableBody.appendChild(tr);
+            });
+        }
+        
+        function createCharts() {
+            // Create CE Hours Distribution Chart
+            const ceChart = document.getElementById('ceChart');
+            const ceDistribution = {};
+            
+            Object.keys(statesData).forEach(stateName => {
+                const state = statesData[stateName];
+                const ceMatch = state.ceHours.match(/(\d+)\s*hours/i);
+                const hours = ceMatch ? parseInt(ceMatch[1]) : 0;
+                
+                const range = hours <= 16 ? '≤16' : hours <= 24 ? '17-24' : hours <= 36 ? '25-36' : '37+';
+                ceDistribution[range] = (ceDistribution[range] || 0) + 1;
+            });
+            
+            const ceChartHTML = `
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    ${Object.keys(ceDistribution).map(range => `
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="min-width: 60px; font-weight: 600;">${range} hrs</span>
+                            <div style="background: var(--primary-color); height: 30px; width: ${(ceDistribution[range] / 28) * 300}px; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
+                                ${ceDistribution[range]}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            ceChart.innerHTML = ceChartHTML;
+            
+            // Create Pre-Licensing Requirements Chart
+            const pleChart = document.getElementById('pleChart');
+            let required = 0, notRequired = 0;
+            
+            Object.keys(statesData).forEach(stateName => {
+                const state = statesData[stateName];
+                if (state.preLicensing.toLowerCase().includes('not required')) {
+                    notRequired++;
+                } else {
+                    required++;
+                }
+            });
+            
+            const pleChartHTML = `
+                <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center;">
+                    <div style="position: relative; width: 200px; height: 200px;">
+                        <svg width="200" height="200" viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r="80" fill="none" stroke="var(--border-color)" stroke-width="20"/>
+                            <circle cx="100" cy="100" r="80" fill="none" stroke="var(--primary-color)" stroke-width="20" 
+                                stroke-dasharray="${(required/28) * 502.4} 502.4" stroke-dashoffset="125.6" transform="rotate(-90 100 100)"/>
+                            <circle cx="100" cy="100" r="80" fill="none" stroke="var(--accent-color)" stroke-width="20" 
+                                stroke-dasharray="${(notRequired/28) * 502.4} 502.4" 
+                                stroke-dashoffset="${125.6 - (required/28) * 502.4}" transform="rotate(-90 100 100)"/>
+                        </svg>
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">28</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">States</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 2rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <div style="width: 20px; height: 20px; background: var(--primary-color); border-radius: 4px;"></div>
+                            <span>Required (${required})</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <div style="width: 20px; height: 20px; background: var(--accent-color); border-radius: 4px;"></div>
+                            <span>Not Required (${notRequired})</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            pleChart.innerHTML = pleChartHTML;
+        }
+    </script>
+</body>
+</html>
