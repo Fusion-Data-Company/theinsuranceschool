@@ -1,5 +1,5 @@
-import { useState, useMemo, useEffect, useRef, useCallback } from "react";
-import { Search, Filter, Building, Phone, MapPin, Clock, BookOpen, FileText, AlertTriangle, CheckCircle, Award, ExternalLink, Users, Scale, Link2, Archive, ChevronDown, ChevronUp, Sparkles, Zap, Star, Hexagon } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Search, Filter, Building, Phone, MapPin, Clock, BookOpen, FileText, AlertTriangle, CheckCircle, Award, ExternalLink, Users, Scale, Link2, Archive, ChevronDown, ChevronUp } from "lucide-react";
 
 // Complete state data structure for all 28 states
 const statesData = {
@@ -1047,12 +1047,9 @@ const statesData = {
     }
 };
 
-// Professional minimal components - particles and cursor trails removed for clean interface
-
 const StateCard = ({ stateName, stateData }: { stateName: string; stateData: any }) => {
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({});
-  const cardRef = useRef<HTMLDivElement>(null);
-  
+
   const toggleSection = (section: string) => {
     setExpandedSections(prev => ({
       ...prev,
@@ -1062,8 +1059,28 @@ const StateCard = ({ stateName, stateData }: { stateName: string; stateData: any
 
   return (
     <div 
-      ref={cardRef}
-      className="card-glass p-8 group cursor-pointer professional-hover"
+      className="glass hover:scale-[1.01] transition-all duration-700 ease-out p-8 group"
+      style={{
+        background: `linear-gradient(135deg, 
+          rgba(255, 255, 255, 0.15) 0%, 
+          rgba(255, 255, 255, 0.08) 30%, 
+          rgba(255, 255, 255, 0.05) 50%, 
+          rgba(255, 255, 255, 0.08) 70%, 
+          rgba(255, 255, 255, 0.15) 100%
+        ), linear-gradient(45deg, 
+          rgba(180, 100, 255, 0.1) 0%, 
+          rgba(0, 255, 255, 0.1) 100%
+        )`,
+        borderImage: 'linear-gradient(135deg, rgba(0, 255, 255, 0.5), rgba(255, 0, 255, 0.5)) 1',
+        borderWidth: '2px',
+        borderStyle: 'solid',
+        boxShadow: `
+          0 0 40px rgba(0, 255, 255, 0.1),
+          0 0 80px rgba(255, 0, 255, 0.05),
+          0 8px 32px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2)
+        `
+      }}
       data-testid={`state-card-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
     >
       <div 
@@ -1073,12 +1090,20 @@ const StateCard = ({ stateName, stateData }: { stateName: string; stateData: any
         }}
       >
         <h2 
-          className="text-4xl font-bold mb-4 text-gradient group-hover:scale-[1.01] transition-all duration-200"
+          className="text-3xl font-bold mb-3 bg-gradient-to-r from-cyan-300 via-white to-fuchsia-300 bg-clip-text text-transparent group-hover:from-cyan-200 group-hover:to-fuchsia-200 transition-all duration-500"
+          style={{
+            textShadow: '0 0 20px rgba(0, 255, 255, 0.3), 0 0 40px rgba(255, 0, 255, 0.2)'
+          }}
           data-testid={`state-title-${stateName.toLowerCase().replace(/\s+/g, '-')}`}
         >
           {stateName}
         </h2>
-        <div className="text-xl font-semibold mb-3 text-professional">
+        <div 
+          className="text-cyan-300 font-semibold text-lg mb-2"
+          style={{
+            textShadow: '0 0 15px rgba(0, 255, 255, 0.4)'
+          }}
+        >
           {stateData.authority}
         </div>
         {stateData.website && (
@@ -1567,66 +1592,115 @@ export default function RegulationsPage() {
   }, [searchTerm, filterBy]);
 
   return (
-    <div className="min-h-screen relative overflow-hidden professional-bg">
-      {/* Professional minimal design - particles removed for clean interface */}
-      
-      {/* Professional subtle background elements */}
+    <div 
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        background: `
+          linear-gradient(135deg, 
+            hsl(236, 61%, 16%) 0%,
+            hsl(225, 15%, 6%) 25%,
+            hsl(236, 61%, 16%) 50%,
+            hsl(180, 100%, 10%) 75%,
+            hsl(310, 100%, 15%) 100%
+          )
+        `
+      }}
+    >
+      {/* Ambient Background Effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div 
-          className="absolute top-20 left-10 w-96 h-96 rounded-full opacity-5 blur-3xl"
+          className="absolute top-20 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl"
           style={{
-            background: 'radial-gradient(circle, hsl(217, 91%, 60%, 0.1) 0%, transparent 70%)'
+            background: 'radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, transparent 70%)'
           }}
         />
         <div 
-          className="absolute bottom-32 right-10 w-80 h-80 rounded-full opacity-5 blur-3xl"
+          className="absolute bottom-32 right-10 w-80 h-80 rounded-full opacity-15 blur-3xl"
           style={{
-            background: 'radial-gradient(circle, hsl(220, 9%, 46%, 0.1) 0%, transparent 70%)'
+            background: 'radial-gradient(circle, rgba(255, 0, 255, 0.3) 0%, transparent 70%)'
           }}
         />
       </div>
       
       {/* Header */}
       <div 
-        className="glass relative py-20 overflow-hidden"
+        className="relative py-20 overflow-hidden"
         style={{
-          background: 'linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(220, 14%, 96%) 100%)',
-          borderBottom: '1px solid hsl(220, 13%, 91%)',
-          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.05)'
+          background: `
+            linear-gradient(135deg, 
+              rgba(0, 255, 255, 0.15) 0%, 
+              rgba(255, 0, 255, 0.15) 50%,
+              rgba(0, 255, 255, 0.15) 100%
+            ),
+            linear-gradient(45deg, 
+              rgba(15, 23, 42, 0.8) 0%, 
+              rgba(30, 41, 59, 0.9) 50%, 
+              rgba(15, 23, 42, 0.8) 100%
+            )
+          `,
+          backdropFilter: 'blur(40px)',
+          borderBottom: '1px solid rgba(0, 255, 255, 0.2)',
+          boxShadow: `
+            0 8px 32px rgba(0, 0, 0, 0.4),
+            0 0 100px rgba(0, 255, 255, 0.1),
+            0 0 200px rgba(255, 0, 255, 0.05)
+          `
         }}
       >
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center">
             <h1 
-              className="text-6xl md:text-8xl lg:text-9xl font-bold mb-8 text-gradient"
+              className="text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-300 via-white to-fuchsia-300 bg-clip-text text-transparent"
+              style={{
+                textShadow: `
+                  0 0 30px rgba(0, 255, 255, 0.5),
+                  0 0 60px rgba(255, 0, 255, 0.3),
+                  0 0 90px rgba(0, 255, 255, 0.2)
+                `,
+                fontFamily: 'system-ui, -apple-system, sans-serif',
+                letterSpacing: '0.05em'
+              }}
               data-testid="page-title"
             >
               Insurance Regulations Guide
             </h1>
             <p 
-              className="text-2xl md:text-3xl font-semibold text-professional-gray mb-8 max-w-4xl mx-auto leading-relaxed"
+              className="text-2xl mb-12 text-cyan-200"
+              style={{
+                textShadow: '0 0 20px rgba(0, 255, 255, 0.4)'
+              }}
             >
               28 U.S. States • 2025 Edition • Enterprise-Grade Reference
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mt-16">
               <div 
-                className="glass p-6 text-center group professional-hover"
+                className="glass p-6 text-center group hover:scale-105 transition-all duration-500"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                  boxShadow: '0 0 30px rgba(0, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                }}
                 data-testid="stat-states"
               >
                 <div 
-                  className="text-4xl font-bold text-professional-blue mb-2 transition-colors duration-200"
+                  className="text-4xl font-bold text-cyan-300 mb-2 group-hover:text-cyan-200 transition-colors duration-300"
+                  style={{ textShadow: '0 0 20px rgba(0, 255, 255, 0.6)' }}
                 >
                   28
                 </div>
-                <div className="text-sm text-professional-dark font-medium">States Covered</div>
+                <div className="text-sm text-gray-300 font-medium">States Covered</div>
               </div>
               <div 
-                className="glass p-6 text-center group professional-hover"
+                className="glass p-6 text-center group hover:scale-105 transition-all duration-500"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255, 0, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                  boxShadow: '0 0 30px rgba(255, 0, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                }}
                 data-testid="stat-statutes"
               >
                 <div 
-                  className="text-4xl font-bold text-professional-blue mb-2 transition-colors duration-200"
+                  className="text-4xl font-bold text-fuchsia-300 mb-2 group-hover:text-fuchsia-200 transition-colors duration-300"
+                  style={{ textShadow: '0 0 20px rgba(255, 0, 255, 0.6)' }}
                 >
                   500+
                 </div>
@@ -1641,22 +1715,28 @@ export default function RegulationsPage() {
                 data-testid="stat-updated"
               >
                 <div 
-                  className="text-4xl font-bold text-professional-blue mb-2 transition-colors duration-200"
+                  className="text-4xl font-bold text-green-300 mb-2 group-hover:text-green-200 transition-colors duration-300"
+                  style={{ textShadow: '0 0 20px rgba(34, 197, 94, 0.6)' }}
                 >
                   100%
                 </div>
-                <div className="text-sm text-professional-dark font-medium">Up-to-Date 2025</div>
+                <div className="text-sm text-gray-300 font-medium">Up-to-Date 2025</div>
               </div>
               <div 
-                className="glass p-6 text-center group professional-hover"
+                className="glass p-6 text-center group hover:scale-105 transition-all duration-500"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                  boxShadow: '0 0 30px rgba(251, 146, 60, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                }}
                 data-testid="stat-access"
               >
                 <div 
-                  className="text-4xl font-bold text-professional-blue mb-2 transition-colors duration-200"
+                  className="text-4xl font-bold text-orange-300 mb-2 group-hover:text-orange-200 transition-colors duration-300"
+                  style={{ textShadow: '0 0 20px rgba(251, 146, 60, 0.6)' }}
                 >
                   24/7
                 </div>
-                <div className="text-sm text-professional-dark font-medium">Access Available</div>
+                <div className="text-sm text-gray-300 font-medium">Access Available</div>
               </div>
             </div>
           </div>
@@ -1667,29 +1747,46 @@ export default function RegulationsPage() {
         {/* Navigation Tabs */}
         <div 
           className="glass mb-12 p-6"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+            boxShadow: '0 0 40px rgba(0, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+          }}
         >
           <div className="flex flex-wrap justify-center gap-4">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setSelectedTab(tab.id)}
-                className={`btn-glass px-8 py-4 font-bold text-lg transition-all duration-200 group ${
+                className={`btn-glass px-8 py-4 font-bold text-lg transition-all duration-500 group ${
                   selectedTab === tab.id
-                    ? "professional-button-active"
-                    : "professional-hover"
+                    ? "scale-105 shadow-lg"
+                    : "hover:scale-105"
                 }`}
+                style={{
+                  background: selectedTab === tab.id 
+                    ? 'linear-gradient(135deg, rgba(0, 255, 255, 0.2) 0%, rgba(255, 0, 255, 0.2) 100%)'
+                    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                  boxShadow: selectedTab === tab.id 
+                    ? '0 0 30px rgba(0, 255, 255, 0.3), 0 0 60px rgba(255, 0, 255, 0.2)'
+                    : '0 0 20px rgba(255, 255, 255, 0.1)',
+                  textShadow: selectedTab === tab.id 
+                    ? '0 0 15px rgba(0, 255, 255, 0.8)'
+                    : '0 0 10px rgba(255, 255, 255, 0.5)'
+                }}
                 data-testid={`tab-${tab.id}`}
               >
-                <span className={selectedTab === tab.id ? 'text-professional-blue' : 'text-professional-dark group-hover:text-professional-blue'}>
+                <span className={selectedTab === tab.id ? 'text-cyan-200' : 'text-gray-200 group-hover:text-white'}>
                   {tab.label}
                 </span>
                 {tab.count > 0 && (
                   <span 
-                    className={`ml-3 px-3 py-1 text-xs rounded-full font-bold ${
-                      selectedTab === tab.id 
-                        ? 'bg-professional-blue text-white'
-                        : 'bg-professional-light text-professional-dark'
-                    }`}
+                    className="ml-3 px-3 py-1 text-xs rounded-full font-bold"
+                    style={{
+                      background: selectedTab === tab.id 
+                        ? 'rgba(0, 255, 255, 0.3)'
+                        : 'rgba(255, 255, 255, 0.2)',
+                      color: selectedTab === tab.id ? '#67e8f9' : '#e5e7eb'
+                    }}
                   >
                     {tab.count}
                   </span>
